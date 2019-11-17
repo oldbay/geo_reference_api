@@ -17,52 +17,70 @@ else:
 DeclarativeBase = declarative_base()
 
 
-class User(DeclarativeBase):
+class Users(DeclarativeBase):
 
     """ user """
 
-    __tablename__ = 'user'
+    __tablename__ = 'users'
     
     id = Column(
         Integer, 
         primary_key=True, 
-        autoincrement=True, 
-        supports_dict=True, 
+        supports_json=True, 
     )
     name = Column(
         Unicode(256), 
         nullable=False, 
         unique=True, 
-        supports_dict=True, 
+        supports_json=True, 
     )
     key = Column(
         Unicode(512), 
-        supports_dict=True, 
+        supports_json=True, 
     )
     group_id = Column(
         Integer, 
-        ForeignKey('group.id'), 
+        ForeignKey('groups.id'), 
         #nullable=False, 
-        supports_dict=True, 
+        supports_json=True, 
+    )
+    group = relationship(
+        'Groups',
+        back_populates='users', 
+        supports_json=True, 
     )
 
 
-class Group(DeclarativeBase):
+class Groups(DeclarativeBase):
 
     """ group """
 
-    __tablename__ = 'group'
+    __tablename__ = 'groups'
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(Unicode(256), nullable=False, unique=True)
-    users = relationship('User')
+    id = Column(
+        Integer,
+        primary_key=True, 
+        supports_json=True, 
+    )
+    name = Column(
+        Unicode(256),
+        nullable=False,
+        unique=True, 
+        supports_json=True, 
+    )
+    users = relationship(
+        'Users',
+        back_populates='group', 
+        #backref='group', 
+        supports_json=True, 
+    )
 
 
-class Module(DeclarativeBase):
+class Modules(DeclarativeBase):
 
     """ group """
 
-    __tablename__ = 'module'
+    __tablename__ = 'modules'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(Unicode(256), nullable=False, unique=True)
