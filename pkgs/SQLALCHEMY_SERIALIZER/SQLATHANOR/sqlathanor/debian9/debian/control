@@ -1,0 +1,26 @@
+Source: python-sqlathanor
+Section: python
+Priority: optional
+Maintainer: Baev Aleksandr <old_bay@mail.ru>
+Build-Depends: debhelper,
+                dh-python,
+                python3-all,
+                python3-setuptools,
+                python3-setuptools-scm,
+                python3-sqlalchemy,
+                python3-validation-collection,
+                python3-simplejson,
+                python3-yaml
+Standards-Version: 3.9.5.0
+Homepage: https://github.com/insightindustry/sqlathanor
+X-Python3-Version: >= 3.5
+
+Package: python3-sqlathanor
+Architecture: all
+Section: python
+Depends: ${misc:Depends},
+            python3-sqlalchemy,
+            python3-validation-collection,
+            python3-simplejson,
+            python3-yaml
+Description: insightindustry sqlathanor

@@ -1,0 +1,328 @@
+W: /root/.pbuilderrc does not exist
+I: Building the build Environment
+I: extracting base tarball [/var/cache/pbuilder/base.debian9.tgz]
+I: copying local configuration
+W: No local /etc/hostname to copy, relying on /var/cache/pbuilder/build/11014/etc/hostname to be correct
+W: No local /etc/mailname to copy, relying on /var/cache/pbuilder/build/11014/etc/mailname to be correct
+I: mounting /proc filesystem
+I: mounting /run/shm filesystem
+I: mounting /dev/pts filesystem
+I: Mounting /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9
+I: Mounting /var/cache/pbuilder/tmprepo/
+I: policy-rc.d already exists
+I: user script /var/cache/pbuilder/build/11014/tmp/hooks/H10PreStart starting
+sed: -e expression #1, char 37: expected newer version of sed
+Get:1 ftp://repo/debian stretch-updates InRelease [91.0 kB]
+Get:2 ftp://repo/vega/repo_debian9 stretch InRelease
+Ign:2 ftp://repo/vega/repo_debian9 stretch InRelease
+Get:3 ftp://repo/vega/repo_debian9 stretch_bin InRelease
+Ign:3 ftp://repo/vega/repo_debian9 stretch_bin InRelease
+Get:4 ftp://repo/vega/repo_debian9 stretch_gis InRelease
+Ign:4 ftp://repo/vega/repo_debian9 stretch_gis InRelease
+Get:5 ftp://repo/debian stretch InRelease
+Ign:5 ftp://repo/debian stretch InRelease
+Get:6 ftp://repo/vega/repo_debian9 stretch Release [8085 B]
+Get:7 ftp://repo/vega/repo_debian9 stretch_bin Release [8011 B]
+Get:8 ftp://repo/vega/repo_debian9 stretch_gis Release [8008 B]
+Get:9 ftp://repo/debian stretch Release [118 kB]
+Get:10 ftp://repo/vega/repo_debian9 stretch Release.gpg
+Ign:10 ftp://repo/vega/repo_debian9 stretch Release.gpg
+Get:11 ftp://repo/vega/repo_debian9 stretch_bin Release.gpg
+Ign:11 ftp://repo/vega/repo_debian9 stretch_bin Release.gpg
+Get:12 ftp://repo/vega/repo_debian9 stretch_gis Release.gpg
+Ign:12 ftp://repo/vega/repo_debian9 stretch_gis Release.gpg
+Get:13 ftp://repo/debian stretch Release.gpg [2365 B]
+Get:14 ftp://repo/vega/repo_debian9 stretch/main amd64 Packages [59.1 kB]
+Get:15 ftp://repo/vega/repo_debian9 stretch/vega amd64 Packages [22.6 kB]
+Get:16 ftp://repo/debian stretch-updates/main amd64 Packages.diff/Index [12.5 kB]
+Get:17 ftp://repo/vega/repo_debian9 stretch_bin/vega amd64 Packages [1066 B]
+Get:18 ftp://repo/vega/repo_debian9 stretch_bin/non-free amd64 Packages [852 B]
+Get:19 ftp://repo/vega/repo_debian9 stretch_gis/main amd64 Packages [11.9 kB]
+Get:20 ftp://repo/debian stretch-updates/main amd64 Packages [27.9 kB]
+Get:21 ftp://repo/debian stretch/contrib amd64 Packages [50.9 kB]
+Get:22 ftp://repo/debian stretch/main amd64 Packages [7086 kB]
+Get:23 ftp://repo/debian stretch/non-free amd64 Packages [78.3 kB]
+Fetched 7587 kB in 2s (3667 kB/s)
+Reading package lists...
+W: The repository 'ftp://repo/vega/repo_debian9 stretch Release' is not signed.
+W: The repository 'ftp://repo/vega/repo_debian9 stretch_bin Release' is not signed.
+W: The repository 'ftp://repo/vega/repo_debian9 stretch_gis Release' is not signed.
+Start Console mode
+SVN REPOSIRORY NOT FOUND
+rm: cannot remove '../python-marshmallow-sqlalchemy_0.17.0.orig.tar.gz': No such file or directory
+rm: cannot remove '../python-marshmallow-sqlalchemy_0.17.0.orig.tar.bz2': No such file or directory
+I: user script /var/cache/pbuilder/build/11014/tmp/hooks/H10PreStart finished
+I: Obtaining the cached apt archive contents
+W: no hooks of type F found -- ignoring
+Reading package lists...
+Building dependency tree...
+Reading state information...
+pbuilder is already the newest version (0.228.7).
+passwd is already the newest version (1:4.4-4.1).
+0 upgraded, 0 newly installed, 0 to remove and 41 not upgraded.
+I: Setting DEBBUILDOPTS=
+I: Setting DEBBUILDOPTS=
+ -> Attempting to satisfy build-dependencies
+ -> Creating pbuilder-satisfydepends-dummy package
+Package: pbuilder-satisfydepends-dummy
+Version: 0.invalid.0
+Architecture: amd64
+Maintainer: Debian Pbuilder Team <pbuilder-maint@lists.alioth.debian.org>
+Description: Dummy package to satisfy dependencies with aptitude - created by pbuilder
+ This package was created automatically by pbuilder to satisfy the
+ build-dependencies of the package being currently built.
+Depends: debhelper, dh-python, python3-all, python3-marshmallow, python3-pytest, python3-setuptools, python3-setuptools-scm, python3-sqlalchemy
+dpkg-deb: building package 'pbuilder-satisfydepends-dummy' in '/tmp/satisfydepends-aptitude/pbuilder-satisfydepends-dummy.deb'.
+Selecting previously unselected package pbuilder-satisfydepends-dummy.
+(Reading database ... 16965 files and directories currently installed.)
+Preparing to unpack .../pbuilder-satisfydepends-dummy.deb ...
+Unpacking pbuilder-satisfydepends-dummy (0.invalid.0) ...
+dpkg: pbuilder-satisfydepends-dummy: dependency problems, but configuring anyway as you requested:
+ pbuilder-satisfydepends-dummy depends on python3-all; however:
+  Package python3-all is not installed.
+ pbuilder-satisfydepends-dummy depends on python3-marshmallow; however:
+  Package python3-marshmallow is not installed.
+ pbuilder-satisfydepends-dummy depends on python3-pytest; however:
+  Package python3-pytest is not installed.
+ pbuilder-satisfydepends-dummy depends on python3-setuptools; however:
+  Package python3-setuptools is not installed.
+ pbuilder-satisfydepends-dummy depends on python3-setuptools-scm; however:
+  Package python3-setuptools-scm is not installed.
+ pbuilder-satisfydepends-dummy depends on python3-sqlalchemy; however:
+  Package python3-sqlalchemy is not installed.
+
+Setting up pbuilder-satisfydepends-dummy (0.invalid.0) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Initializing package states...
+Writing extended state information...
+Building tag database...
+pbuilder-satisfydepends-dummy is already installed at the requested version (0.invalid.0)
+pbuilder-satisfydepends-dummy is already installed at the requested version (0.invalid.0)
+The following NEW packages will be installed:
+  python3-all{a} python3-marshmallow{a} python3-pkg-resources{a} python3-py{a} python3-pytest{a} python3-setuptools{a} python3-setuptools-scm{a} python3-sqlalchemy{a} 
+0 packages upgraded, 8 newly installed, 0 to remove and 41 not upgraded.
+Need to get 0 B/1316 kB of archives. After unpacking 6561 kB will be used.
+WARNING: untrusted versions of the following packages will be installed!
+
+Untrusted packages could compromise your system's security.
+You should only proceed with the installation if you are certain that
+this is what you want to do.
+
+  python3-marshmallow ftp://repo/vega/repo_debian9/pool/main/p/python-marshmallow/python3-marshmallow_3.2.2-1_all.deb
+
+Do you want to ignore this warning and proceed anyway?
+To continue, enter "yes"; to abort, enter "no": Writing extended state information...
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package python3-all.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 16965 files and directories currently installed.)
+Preparing to unpack .../0-python3-all_3.5.3-1_amd64.deb ...
+Unpacking python3-all (3.5.3-1) ...
+Selecting previously unselected package python3-marshmallow.
+Preparing to unpack .../1-python3-marshmallow_3.2.2-1_all.deb ...
+Unpacking python3-marshmallow (3.2.2-1) ...
+Selecting previously unselected package python3-pkg-resources.
+Preparing to unpack .../2-python3-pkg-resources_33.1.1-1_all.deb ...
+Unpacking python3-pkg-resources (33.1.1-1) ...
+Selecting previously unselected package python3-py.
+Preparing to unpack .../3-python3-py_1.4.32-3_all.deb ...
+Unpacking python3-py (1.4.32-3) ...
+Selecting previously unselected package python3-pytest.
+Preparing to unpack .../4-python3-pytest_3.0.6-1_all.deb ...
+Unpacking python3-pytest (3.0.6-1) ...
+Selecting previously unselected package python3-setuptools.
+Preparing to unpack .../5-python3-setuptools_33.1.1-1_all.deb ...
+Unpacking python3-setuptools (33.1.1-1) ...
+Selecting previously unselected package python3-setuptools-scm.
+Preparing to unpack .../6-python3-setuptools-scm_1.15.0-1_all.deb ...
+Unpacking python3-setuptools-scm (1.15.0-1) ...
+Selecting previously unselected package python3-sqlalchemy.
+Preparing to unpack .../7-python3-sqlalchemy_1.0.15+ds1-1_all.deb ...
+Unpacking python3-sqlalchemy (1.0.15+ds1-1) ...
+Setting up python3-sqlalchemy (1.0.15+ds1-1) ...
+Setting up python3-setuptools-scm (1.15.0-1) ...
+Setting up python3-pkg-resources (33.1.1-1) ...
+Setting up python3-marshmallow (3.2.2-1) ...
+Setting up python3-all (3.5.3-1) ...
+Processing triggers for man-db (2.7.6.1-2) ...
+Setting up python3-setuptools (33.1.1-1) ...
+Setting up python3-py (1.4.32-3) ...
+Setting up python3-pytest (3.0.6-1) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Reading extended state information...
+Initializing package states...
+Writing extended state information...
+Building tag database...
+ -> Finished parsing the build-deps
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  libfakeroot
+The following NEW packages will be installed:
+  fakeroot libfakeroot
+debconf: delaying package configuration, since apt-utils is not installed
+0 upgraded, 2 newly installed, 0 to remove and 41 not upgraded.
+Need to get 0 B/131 kB of archives.
+After this operation, 374 kB of additional disk space will be used.
+Selecting previously unselected package libfakeroot:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 17427 files and directories currently installed.)
+Preparing to unpack .../libfakeroot_1.21-3.1_amd64.deb ...
+Unpacking libfakeroot:amd64 (1.21-3.1) ...
+Selecting previously unselected package fakeroot.
+Preparing to unpack .../fakeroot_1.21-3.1_amd64.deb ...
+Unpacking fakeroot (1.21-3.1) ...
+Processing triggers for libc-bin (2.24-11+deb9u3) ...
+Setting up libfakeroot:amd64 (1.21-3.1) ...
+Processing triggers for man-db (2.7.6.1-2) ...
+Setting up fakeroot (1.21-3.1) ...
+update-alternatives: using /usr/bin/fakeroot-sysv to provide /usr/bin/fakeroot (fakeroot) in auto mode
+Processing triggers for libc-bin (2.24-11+deb9u3) ...
+I: Running env PATH=/usr/sbin:/usr/bin:/sbin:/bin /usr/bin/dpkg-buildpackage -rfakeroot -us -uc ${DEBBUILDOPTS}
+dpkg-buildpackage: warning: using a gain-root-command while being root
+dpkg-buildpackage: info: source package python-marshmallow-sqlalchemy
+dpkg-buildpackage: info: source version 0.17.0-2
+dpkg-buildpackage: info: source distribution unstable
+dpkg-buildpackage: info: source changed by Utkarsh Gupta <guptautkarsh2102@gmail.com>
+ dpkg-source --before-build marshmallow-sqlalchemy-0.17.2
+dpkg-buildpackage: info: host architecture amd64
+dpkg-source: warning: unknown information field 'Rules-Requires-Root' in input data in general section of control info file
+ fakeroot debian/rules clean
+dh clean --with python3 --buildsystem=pybuild
+   dh_testdir -O--buildsystem=pybuild
+   dh_auto_clean -O--buildsystem=pybuild
+I: pybuild base:184: python3.5 setup.py clean 
+running clean
+removing '/home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/.pybuild/pythonX.Y_3.5/build' (and everything under it)
+/usr/lib/python3.5/distutils/dist.py:261: UserWarning: Unknown distribution option: 'project_urls'
+  warnings.warn(msg)
+'build/bdist.linux-amd64' does not exist -- can't clean it
+'build/scripts-3.5' does not exist -- can't clean it
+   dh_clean -O--buildsystem=pybuild
+ dpkg-source -b marshmallow-sqlalchemy-0.17.2
+dpkg-source: warning: unknown information field 'Rules-Requires-Root' in input data in general section of control info file
+dpkg-source: info: using source format '3.0 (quilt)'
+dpkg-source: info: building python-marshmallow-sqlalchemy using existing ./python-marshmallow-sqlalchemy_0.17.0.orig.tar.xz
+dpkg-source: info: building python-marshmallow-sqlalchemy in python-marshmallow-sqlalchemy_0.17.0-2.debian.tar.xz
+dpkg-source: info: building python-marshmallow-sqlalchemy in python-marshmallow-sqlalchemy_0.17.0-2.dsc
+ debian/rules build
+dh build --with python3 --buildsystem=pybuild
+   dh_testdir -O--buildsystem=pybuild
+   dh_update_autotools_config -O--buildsystem=pybuild
+   dh_auto_configure -O--buildsystem=pybuild
+I: pybuild base:184: python3.5 setup.py config 
+running config
+/usr/lib/python3.5/distutils/dist.py:261: UserWarning: Unknown distribution option: 'project_urls'
+  warnings.warn(msg)
+   dh_auto_build -O--buildsystem=pybuild
+I: pybuild base:184: /usr/bin/python3 setup.py build 
+running build
+running build_py
+creating /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/.pybuild/pythonX.Y_3.5/build/marshmallow_sqlalchemy
+copying src/marshmallow_sqlalchemy/__init__.py -> /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/.pybuild/pythonX.Y_3.5/build/marshmallow_sqlalchemy
+copying src/marshmallow_sqlalchemy/fields.py -> /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/.pybuild/pythonX.Y_3.5/build/marshmallow_sqlalchemy
+copying src/marshmallow_sqlalchemy/exceptions.py -> /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/.pybuild/pythonX.Y_3.5/build/marshmallow_sqlalchemy
+copying src/marshmallow_sqlalchemy/compat.py -> /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/.pybuild/pythonX.Y_3.5/build/marshmallow_sqlalchemy
+copying src/marshmallow_sqlalchemy/schema.py -> /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/.pybuild/pythonX.Y_3.5/build/marshmallow_sqlalchemy
+copying src/marshmallow_sqlalchemy/convert.py -> /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/.pybuild/pythonX.Y_3.5/build/marshmallow_sqlalchemy
+running egg_info
+creating src/marshmallow_sqlalchemy.egg-info
+writing dependency_links to src/marshmallow_sqlalchemy.egg-info/dependency_links.txt
+writing src/marshmallow_sqlalchemy.egg-info/PKG-INFO
+writing requirements to src/marshmallow_sqlalchemy.egg-info/requires.txt
+writing top-level names to src/marshmallow_sqlalchemy.egg-info/top_level.txt
+writing manifest file 'src/marshmallow_sqlalchemy.egg-info/SOURCES.txt'
+reading manifest file 'src/marshmallow_sqlalchemy.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+/usr/lib/python3.5/distutils/dist.py:261: UserWarning: Unknown distribution option: 'project_urls'
+  warnings.warn(msg)
+warning: no previously-included files matching '*.pyc' found under directory 'docs'
+warning: no previously-included files matching '*.pyo' found under directory 'docs'
+warning: no previously-included files matching '*.pyc' found under directory 'tests'
+warning: no previously-included files matching '*.pyo' found under directory 'tests'
+no previously-included directories found matching 'docs/_build'
+writing manifest file 'src/marshmallow_sqlalchemy.egg-info/SOURCES.txt'
+   create-stamp debian/debhelper-build-stamp
+ fakeroot debian/rules binary
+dh binary --with python3 --buildsystem=pybuild
+   create-stamp debian/debhelper-build-stamp
+   dh_testroot -O--buildsystem=pybuild
+   dh_prep -O--buildsystem=pybuild
+   dh_auto_install -O--buildsystem=pybuild
+I: pybuild base:184: /usr/bin/python3 setup.py install --root /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy 
+running install
+running build
+running build_py
+running egg_info
+writing dependency_links to src/marshmallow_sqlalchemy.egg-info/dependency_links.txt
+writing requirements to src/marshmallow_sqlalchemy.egg-info/requires.txt
+writing src/marshmallow_sqlalchemy.egg-info/PKG-INFO
+writing top-level names to src/marshmallow_sqlalchemy.egg-info/top_level.txt
+reading manifest file 'src/marshmallow_sqlalchemy.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+/usr/lib/python3.5/distutils/dist.py:261: UserWarning: Unknown distribution option: 'project_urls'
+  warnings.warn(msg)
+warning: no previously-included files matching '*.pyc' found under directory 'docs'
+warning: no previously-included files matching '*.pyo' found under directory 'docs'
+warning: no previously-included files matching '*.pyc' found under directory 'tests'
+warning: no previously-included files matching '*.pyo' found under directory 'tests'
+no previously-included directories found matching 'docs/_build'
+writing manifest file 'src/marshmallow_sqlalchemy.egg-info/SOURCES.txt'
+running install_lib
+creating /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy/usr
+creating /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy/usr/lib
+creating /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy/usr/lib/python3.5
+creating /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy/usr/lib/python3.5/dist-packages
+creating /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy/usr/lib/python3.5/dist-packages/marshmallow_sqlalchemy
+copying /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/.pybuild/pythonX.Y_3.5/build/marshmallow_sqlalchemy/__init__.py -> /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy/usr/lib/python3.5/dist-packages/marshmallow_sqlalchemy
+copying /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/.pybuild/pythonX.Y_3.5/build/marshmallow_sqlalchemy/fields.py -> /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy/usr/lib/python3.5/dist-packages/marshmallow_sqlalchemy
+copying /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/.pybuild/pythonX.Y_3.5/build/marshmallow_sqlalchemy/exceptions.py -> /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy/usr/lib/python3.5/dist-packages/marshmallow_sqlalchemy
+copying /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/.pybuild/pythonX.Y_3.5/build/marshmallow_sqlalchemy/compat.py -> /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy/usr/lib/python3.5/dist-packages/marshmallow_sqlalchemy
+copying /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/.pybuild/pythonX.Y_3.5/build/marshmallow_sqlalchemy/schema.py -> /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy/usr/lib/python3.5/dist-packages/marshmallow_sqlalchemy
+copying /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/.pybuild/pythonX.Y_3.5/build/marshmallow_sqlalchemy/convert.py -> /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy/usr/lib/python3.5/dist-packages/marshmallow_sqlalchemy
+byte-compiling /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy/usr/lib/python3.5/dist-packages/marshmallow_sqlalchemy/__init__.py to __init__.cpython-35.pyc
+byte-compiling /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy/usr/lib/python3.5/dist-packages/marshmallow_sqlalchemy/fields.py to fields.cpython-35.pyc
+byte-compiling /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy/usr/lib/python3.5/dist-packages/marshmallow_sqlalchemy/exceptions.py to exceptions.cpython-35.pyc
+byte-compiling /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy/usr/lib/python3.5/dist-packages/marshmallow_sqlalchemy/compat.py to compat.cpython-35.pyc
+byte-compiling /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy/usr/lib/python3.5/dist-packages/marshmallow_sqlalchemy/schema.py to schema.cpython-35.pyc
+byte-compiling /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy/usr/lib/python3.5/dist-packages/marshmallow_sqlalchemy/convert.py to convert.cpython-35.pyc
+running install_egg_info
+Copying src/marshmallow_sqlalchemy.egg-info to /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9/marshmallow-sqlalchemy-0.17.2/debian/python3-marshmallow-sqlalchemy/usr/lib/python3.5/dist-packages/marshmallow_sqlalchemy-0.17.1.egg-info
+Skipping SOURCES.txt
+running install_scripts
+   dh_installdocs -O--buildsystem=pybuild
+   dh_installchangelogs -O--buildsystem=pybuild
+   dh_python3 -O--buildsystem=pybuild
+   dh_perl -O--buildsystem=pybuild
+   dh_link -O--buildsystem=pybuild
+   dh_strip_nondeterminism -O--buildsystem=pybuild
+   dh_compress -O--buildsystem=pybuild
+   dh_fixperms -O--buildsystem=pybuild
+   dh_installdeb -O--buildsystem=pybuild
+   dh_gencontrol -O--buildsystem=pybuild
+dpkg-gencontrol: warning: unknown information field 'Rules-Requires-Root' in input data in general section of control info file
+dpkg-gencontrol: warning: package python3-marshmallow-sqlalchemy: unused substitution variable ${python3:Depends}
+   dh_md5sums -O--buildsystem=pybuild
+   dh_builddeb -O--buildsystem=pybuild
+dpkg-deb: building package 'python3-marshmallow-sqlalchemy' in '../python3-marshmallow-sqlalchemy_0.17.0-2_all.deb'.
+ dpkg-genbuildinfo
+ dpkg-genchanges  >../python-marshmallow-sqlalchemy_0.17.0-2_amd64.changes
+dpkg-genchanges: warning: unknown information field 'Rules-Requires-Root' in input data in general section of control info file
+dpkg-genchanges: info: not including original source code in upload
+ dpkg-source --after-build marshmallow-sqlalchemy-0.17.2
+dpkg-source: warning: unknown information field 'Rules-Requires-Root' in input data in general section of control info file
+dpkg-buildpackage: info: binary and diff upload (original source NOT included)
+[0mI: user script //tmp/hooks/B10CreateRepo starting[0m
+ls: cannot access '/build/*.changes': No such file or directory
+[0mI: user script //tmp/hooks/B10CreateRepo finished[0m
+I: Copying back the cached apt archive contents
+I: unmounting /var/cache/pbuilder/tmprepo/ filesystem
+I: unmounting /home/user/BUILD/PROJECTS/MY/SQLALCHEMY_SERIALIZER/MARSHMALLOW/python-marshmallow-sqlalchemy-0.17.2/debian9 filesystem
+I: unmounting dev/pts filesystem
+I: unmounting run/shm filesystem
+I: unmounting proc filesystem
+I: cleaning the build env 
+I: removing directory /var/cache/pbuilder/build/11014 and its subdirectories

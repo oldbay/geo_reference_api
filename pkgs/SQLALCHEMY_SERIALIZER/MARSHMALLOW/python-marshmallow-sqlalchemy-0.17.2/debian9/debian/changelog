@@ -1,0 +1,13 @@
+python-marshmallow-sqlalchemy (0.17.0-2) unstable; urgency=medium
+
+  * Reupload to unstable
+  * Run wrap-and-sort
+  * Bump Standards-Version to 4.4.1
+
+ -- Utkarsh Gupta <guptautkarsh2102@gmail.com>  Thu, 17 Oct 2019 22:40:31 +0530
+
+python-marshmallow-sqlalchemy (0.17.0-1) experimental; urgency=medium
+
+  * Initial release (Closes: #934312)
+
+ -- Utkarsh Gupta <guptautkarsh2102@gmail.com>  Fri, 09 Aug 2019 16:54:46 +0530

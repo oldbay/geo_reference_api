@@ -1,0 +1,518 @@
+W: /root/.pbuilderrc does not exist
+I: Building the build Environment
+I: extracting base tarball [/var/cache/pbuilder/base.debian9.tgz]
+I: copying local configuration
+W: No local /etc/hostname to copy, relying on /var/cache/pbuilder/build/6755/etc/hostname to be correct
+W: No local /etc/mailname to copy, relying on /var/cache/pbuilder/build/6755/etc/mailname to be correct
+I: mounting /proc filesystem
+I: mounting /run/shm filesystem
+I: mounting /dev/pts filesystem
+I: Mounting /home/user/BUILD/python-flask-restless/debian9
+I: Mounting /var/cache/pbuilder/tmprepo/
+I: policy-rc.d already exists
+I: user script /var/cache/pbuilder/build/6755/tmp/hooks/H10PreStart starting
+sed: -e expression #1, char 37: expected newer version of sed
+Get:1 ftp://repo/debian stretch-updates InRelease [91.0 kB]
+Get:2 ftp://repo/vega/repo_debian9 stretch InRelease
+Ign:2 ftp://repo/vega/repo_debian9 stretch InRelease
+Get:3 ftp://repo/vega/repo_debian9 stretch_bin InRelease
+Ign:3 ftp://repo/vega/repo_debian9 stretch_bin InRelease
+Get:4 ftp://repo/vega/repo_debian9 stretch_gis InRelease
+Ign:4 ftp://repo/vega/repo_debian9 stretch_gis InRelease
+Get:5 ftp://repo/debian stretch InRelease
+Ign:5 ftp://repo/debian stretch InRelease
+Get:6 ftp://repo/vega/repo_debian9 stretch Release [8082 B]
+Get:7 ftp://repo/vega/repo_debian9 stretch_bin Release [8011 B]
+Get:8 ftp://repo/vega/repo_debian9 stretch_gis Release [8008 B]
+Get:9 ftp://repo/debian stretch Release [118 kB]
+Get:10 ftp://repo/vega/repo_debian9 stretch Release.gpg
+Ign:10 ftp://repo/vega/repo_debian9 stretch Release.gpg
+Get:11 ftp://repo/debian stretch-updates/main amd64 Packages.diff/Index [12.1 kB]
+Get:12 ftp://repo/vega/repo_debian9 stretch_bin Release.gpg
+Ign:12 ftp://repo/vega/repo_debian9 stretch_bin Release.gpg
+Get:13 ftp://repo/vega/repo_debian9 stretch_gis Release.gpg
+Ign:13 ftp://repo/vega/repo_debian9 stretch_gis Release.gpg
+Get:14 ftp://repo/debian stretch Release.gpg [2365 B]
+Get:15 ftp://repo/vega/repo_debian9 stretch/main amd64 Packages [58.0 kB]
+Get:16 ftp://repo/vega/repo_debian9 stretch/vega amd64 Packages [21.9 kB]
+Get:17 ftp://repo/debian stretch-updates/main amd64 Packages [27.4 kB]
+Get:18 ftp://repo/vega/repo_debian9 stretch_bin/vega amd64 Packages [1066 B]
+Get:19 ftp://repo/vega/repo_debian9 stretch_bin/non-free amd64 Packages [852 B]
+Get:20 ftp://repo/vega/repo_debian9 stretch_gis/main amd64 Packages [11.9 kB]
+Get:21 ftp://repo/debian stretch/non-free amd64 Packages [78.3 kB]
+Get:22 ftp://repo/debian stretch/contrib amd64 Packages [50.9 kB]
+Get:23 ftp://repo/debian stretch/main amd64 Packages [7086 kB]
+Fetched 7584 kB in 1s (4178 kB/s)
+Reading package lists...
+W: The repository 'ftp://repo/vega/repo_debian9 stretch Release' is not signed.
+W: The repository 'ftp://repo/vega/repo_debian9 stretch_bin Release' is not signed.
+W: The repository 'ftp://repo/vega/repo_debian9 stretch_gis Release' is not signed.
+Start Console mode
+SVN REPOSIRORY NOT FOUND
+rm: cannot remove '../python-flask-restless_0.16.0.orig.tar.xz': No such file or directory
+rm: cannot remove '../python-flask-restless_0.16.0.orig.tar.gz': No such file or directory
+rm: cannot remove '../python-flask-restless_0.16.0.orig.tar.bz2': No such file or directory
+I: user script /var/cache/pbuilder/build/6755/tmp/hooks/H10PreStart finished
+I: Obtaining the cached apt archive contents
+W: no hooks of type F found -- ignoring
+Reading package lists...
+Building dependency tree...
+Reading state information...
+pbuilder is already the newest version (0.228.7).
+passwd is already the newest version (1:4.4-4.1).
+0 upgraded, 0 newly installed, 0 to remove and 41 not upgraded.
+I: Setting DEBBUILDOPTS=
+I: Setting DEBBUILDOPTS=
+ -> Attempting to satisfy build-dependencies
+ -> Creating pbuilder-satisfydepends-dummy package
+Package: pbuilder-satisfydepends-dummy
+Version: 0.invalid.0
+Architecture: amd64
+Maintainer: Debian Pbuilder Team <pbuilder-maint@lists.alioth.debian.org>
+Description: Dummy package to satisfy dependencies with aptitude - created by pbuilder
+ This package was created automatically by pbuilder to satisfy the
+ build-dependencies of the package being currently built.
+Depends: debhelper, dh-python, python-all, python-setuptools, python-flask, python-sqlalchemy, python-dateutil, python-mimerender, python3-all, python3-setuptools, python3-flask, python3-sqlalchemy, python3-dateutil, python3-mimerender
+dpkg-deb: building package 'pbuilder-satisfydepends-dummy' in '/tmp/satisfydepends-aptitude/pbuilder-satisfydepends-dummy.deb'.
+Selecting previously unselected package pbuilder-satisfydepends-dummy.
+(Reading database ... 16965 files and directories currently installed.)
+Preparing to unpack .../pbuilder-satisfydepends-dummy.deb ...
+Unpacking pbuilder-satisfydepends-dummy (0.invalid.0) ...
+dpkg: pbuilder-satisfydepends-dummy: dependency problems, but configuring anyway as you requested:
+ pbuilder-satisfydepends-dummy depends on python-all; however:
+  Package python-all is not installed.
+ pbuilder-satisfydepends-dummy depends on python-setuptools; however:
+  Package python-setuptools is not installed.
+ pbuilder-satisfydepends-dummy depends on python-flask; however:
+  Package python-flask is not installed.
+ pbuilder-satisfydepends-dummy depends on python-sqlalchemy; however:
+  Package python-sqlalchemy is not installed.
+ pbuilder-satisfydepends-dummy depends on python-dateutil; however:
+  Package python-dateutil is not installed.
+ pbuilder-satisfydepends-dummy depends on python-mimerender; however:
+  Package python-mimerender is not installed.
+ pbuilder-satisfydepends-dummy depends on python3-all; however:
+  Package python3-all is not installed.
+ pbuilder-satisfydepends-dummy depends on python3-setuptools; however:
+  Package python3-setuptools is not installed.
+ pbuilder-satisfydepends-dummy depends on python3-flask; however:
+  Package python3-flask is not installed.
+ pbuilder-satisfydepends-dummy depends on python3-sqlalchemy; however:
+  Package python3-sqlalchemy is not installed.
+ pbuilder-satisfydepends-dummy depends on python3-dateutil; however:
+  Package python3-dateutil is not installed.
+ pbuilder-satisfydepends-dummy depends on python3-mimerender; however:
+  Package python3-mimerender is not installed.
+
+Setting up pbuilder-satisfydepends-dummy (0.invalid.0) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Initializing package states...
+Writing extended state information...
+Building tag database...
+pbuilder-satisfydepends-dummy is already installed at the requested version (0.invalid.0)
+pbuilder-satisfydepends-dummy is already installed at the requested version (0.invalid.0)
+The following NEW packages will be installed:
+  libjs-jquery{a} libpython-stdlib{a} libpython2.7-minimal{a} libpython2.7-stdlib{a} python{a} python-all{a} python-click{a} python-colorama{a} python-dateutil{a} python-flask{a} python-itsdangerous{a} python-jinja2{a} python-markupsafe{a} python-mimeparse{a} python-mimerender{a} python-minimal{a} python-pkg-resources{a} python-setuptools{a} python-six{a} python-sqlalchemy{a} python-werkzeug{a} python2.7{a} python2.7-minimal{a} python3-all{a} python3-click{a} python3-colorama{a} python3-dateutil{a} python3-flask{a} python3-itsdangerous{a} python3-jinja2{a} python3-markupsafe{a} python3-mimeparse{a} python3-mimerender{a} python3-pkg-resources{a} python3-setuptools{a} python3-six{a} python3-sqlalchemy{a} python3-werkzeug{a} 
+The following packages are RECOMMENDED but will NOT be installed:
+  javascript-common python-blinker python-openssl python-pyinotify python-simplejson python-sqlalchemy-ext python3-blinker python3-openssl python3-pyinotify python3-simplejson 
+0 packages upgraded, 38 newly installed, 0 to remove and 41 not upgraded.
+Need to get 1945 kB/7481 kB of archives. After unpacking 33.5 MB will be used.
+Writing extended state information...
+Get: 1 ftp://repo/debian stretch/main amd64 python-click all 6.6-1 [56.1 kB]
+Get: 2 ftp://repo/debian stretch/main amd64 python-itsdangerous all 0.24+dfsg1-2 [13.0 kB]
+Get: 3 ftp://repo/debian stretch/main amd64 python-werkzeug all 0.11.15+dfsg1-1 [173 kB]
+Get: 4 ftp://repo/debian stretch/main amd64 python-flask all 0.12.1-1 [62.2 kB]
+Get: 5 ftp://repo/debian stretch/main amd64 python-mimeparse all 0.1.4-3.1~deb9u1 [6110 B]
+Get: 6 ftp://repo/debian stretch/main amd64 python-mimerender all 0.6.0-1 [7210 B]
+Get: 7 ftp://repo/debian stretch/main amd64 python-sqlalchemy all 1.0.15+ds1-1 [646 kB]
+Get: 8 ftp://repo/debian stretch/main amd64 python3-colorama all 0.3.7-1 [18.1 kB]
+Get: 9 ftp://repo/debian stretch/main amd64 python3-click all 6.6-1 [56.2 kB]
+Get: 10 ftp://repo/debian stretch/main amd64 python3-itsdangerous all 0.24+dfsg1-2 [13.0 kB]
+Get: 11 ftp://repo/debian stretch/main amd64 python3-werkzeug all 0.11.15+dfsg1-1 [173 kB]
+Get: 12 ftp://repo/debian stretch/main amd64 python3-flask all 0.12.1-1 [62.4 kB]
+Get: 13 ftp://repo/debian stretch/main amd64 python3-mimeparse all 0.1.4-3.1~deb9u1 [6186 B]
+Get: 14 ftp://repo/debian stretch/main amd64 python3-mimerender all 0.6.0-1 [7284 B]
+Get: 15 ftp://repo/debian stretch/main amd64 python3-sqlalchemy all 1.0.15+ds1-1 [645 kB]
+Fetched 1945 kB in 0s (2901 kB/s)
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package libpython2.7-minimal:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 16965 files and directories currently installed.)
+Preparing to unpack .../0-libpython2.7-minimal_2.7.13-2+deb9u3_amd64.deb ...
+Unpacking libpython2.7-minimal:amd64 (2.7.13-2+deb9u3) ...
+Selecting previously unselected package python2.7-minimal.
+Preparing to unpack .../1-python2.7-minimal_2.7.13-2+deb9u3_amd64.deb ...
+Unpacking python2.7-minimal (2.7.13-2+deb9u3) ...
+Selecting previously unselected package python-minimal.
+Preparing to unpack .../2-python-minimal_2.7.13-2_amd64.deb ...
+Unpacking python-minimal (2.7.13-2) ...
+Selecting previously unselected package libpython2.7-stdlib:amd64.
+Preparing to unpack .../3-libpython2.7-stdlib_2.7.13-2+deb9u3_amd64.deb ...
+Unpacking libpython2.7-stdlib:amd64 (2.7.13-2+deb9u3) ...
+Selecting previously unselected package python2.7.
+Preparing to unpack .../4-python2.7_2.7.13-2+deb9u3_amd64.deb ...
+Unpacking python2.7 (2.7.13-2+deb9u3) ...
+Selecting previously unselected package libpython-stdlib:amd64.
+Preparing to unpack .../5-libpython-stdlib_2.7.13-2_amd64.deb ...
+Unpacking libpython-stdlib:amd64 (2.7.13-2) ...
+Setting up libpython2.7-minimal:amd64 (2.7.13-2+deb9u3) ...
+Setting up python2.7-minimal (2.7.13-2+deb9u3) ...
+Setting up python-minimal (2.7.13-2) ...
+Selecting previously unselected package python.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 17711 files and directories currently installed.)
+Preparing to unpack .../00-python_2.7.13-2_amd64.deb ...
+Unpacking python (2.7.13-2) ...
+Selecting previously unselected package libjs-jquery.
+Preparing to unpack .../01-libjs-jquery_3.1.1-2+deb9u1_all.deb ...
+Unpacking libjs-jquery (3.1.1-2+deb9u1) ...
+Selecting previously unselected package python-all.
+Preparing to unpack .../02-python-all_2.7.13-2_amd64.deb ...
+Unpacking python-all (2.7.13-2) ...
+Selecting previously unselected package python-colorama.
+Preparing to unpack .../03-python-colorama_0.3.7-1_all.deb ...
+Unpacking python-colorama (0.3.7-1) ...
+Selecting previously unselected package python-click.
+Preparing to unpack .../04-python-click_6.6-1_all.deb ...
+Unpacking python-click (6.6-1) ...
+Selecting previously unselected package python-six.
+Preparing to unpack .../05-python-six_1.10.0-3_all.deb ...
+Unpacking python-six (1.10.0-3) ...
+Selecting previously unselected package python-dateutil.
+Preparing to unpack .../06-python-dateutil_2.5.3-2_all.deb ...
+Unpacking python-dateutil (2.5.3-2) ...
+Selecting previously unselected package python-itsdangerous.
+Preparing to unpack .../07-python-itsdangerous_0.24+dfsg1-2_all.deb ...
+Unpacking python-itsdangerous (0.24+dfsg1-2) ...
+Selecting previously unselected package python-markupsafe.
+Preparing to unpack .../08-python-markupsafe_0.23-3_amd64.deb ...
+Unpacking python-markupsafe (0.23-3) ...
+Selecting previously unselected package python-jinja2.
+Preparing to unpack .../09-python-jinja2_2.8-1_all.deb ...
+Unpacking python-jinja2 (2.8-1) ...
+Selecting previously unselected package python-werkzeug.
+Preparing to unpack .../10-python-werkzeug_0.11.15+dfsg1-1_all.deb ...
+Unpacking python-werkzeug (0.11.15+dfsg1-1) ...
+Selecting previously unselected package python-flask.
+Preparing to unpack .../11-python-flask_0.12.1-1_all.deb ...
+Unpacking python-flask (0.12.1-1) ...
+Selecting previously unselected package python-mimeparse.
+Preparing to unpack .../12-python-mimeparse_0.1.4-3.1~deb9u1_all.deb ...
+Unpacking python-mimeparse (0.1.4-3.1~deb9u1) ...
+Selecting previously unselected package python-mimerender.
+Preparing to unpack .../13-python-mimerender_0.6.0-1_all.deb ...
+Unpacking python-mimerender (0.6.0-1) ...
+Selecting previously unselected package python-pkg-resources.
+Preparing to unpack .../14-python-pkg-resources_33.1.1-1_all.deb ...
+Unpacking python-pkg-resources (33.1.1-1) ...
+Selecting previously unselected package python-setuptools.
+Preparing to unpack .../15-python-setuptools_33.1.1-1_all.deb ...
+Unpacking python-setuptools (33.1.1-1) ...
+Selecting previously unselected package python-sqlalchemy.
+Preparing to unpack .../16-python-sqlalchemy_1.0.15+ds1-1_all.deb ...
+Unpacking python-sqlalchemy (1.0.15+ds1-1) ...
+Selecting previously unselected package python3-all.
+Preparing to unpack .../17-python3-all_3.5.3-1_amd64.deb ...
+Unpacking python3-all (3.5.3-1) ...
+Selecting previously unselected package python3-colorama.
+Preparing to unpack .../18-python3-colorama_0.3.7-1_all.deb ...
+Unpacking python3-colorama (0.3.7-1) ...
+Selecting previously unselected package python3-click.
+Preparing to unpack .../19-python3-click_6.6-1_all.deb ...
+Unpacking python3-click (6.6-1) ...
+Selecting previously unselected package python3-six.
+Preparing to unpack .../20-python3-six_1.10.0-3_all.deb ...
+Unpacking python3-six (1.10.0-3) ...
+Selecting previously unselected package python3-dateutil.
+Preparing to unpack .../21-python3-dateutil_2.5.3-2_all.deb ...
+Unpacking python3-dateutil (2.5.3-2) ...
+Selecting previously unselected package python3-itsdangerous.
+Preparing to unpack .../22-python3-itsdangerous_0.24+dfsg1-2_all.deb ...
+Unpacking python3-itsdangerous (0.24+dfsg1-2) ...
+Selecting previously unselected package python3-markupsafe.
+Preparing to unpack .../23-python3-markupsafe_0.23-3_amd64.deb ...
+Unpacking python3-markupsafe (0.23-3) ...
+Selecting previously unselected package python3-jinja2.
+Preparing to unpack .../24-python3-jinja2_2.8-1_all.deb ...
+Unpacking python3-jinja2 (2.8-1) ...
+Selecting previously unselected package python3-werkzeug.
+Preparing to unpack .../25-python3-werkzeug_0.11.15+dfsg1-1_all.deb ...
+Unpacking python3-werkzeug (0.11.15+dfsg1-1) ...
+Selecting previously unselected package python3-flask.
+Preparing to unpack .../26-python3-flask_0.12.1-1_all.deb ...
+Unpacking python3-flask (0.12.1-1) ...
+Selecting previously unselected package python3-mimeparse.
+Preparing to unpack .../27-python3-mimeparse_0.1.4-3.1~deb9u1_all.deb ...
+Unpacking python3-mimeparse (0.1.4-3.1~deb9u1) ...
+Selecting previously unselected package python3-mimerender.
+Preparing to unpack .../28-python3-mimerender_0.6.0-1_all.deb ...
+Unpacking python3-mimerender (0.6.0-1) ...
+Selecting previously unselected package python3-pkg-resources.
+Preparing to unpack .../29-python3-pkg-resources_33.1.1-1_all.deb ...
+Unpacking python3-pkg-resources (33.1.1-1) ...
+Selecting previously unselected package python3-setuptools.
+Preparing to unpack .../30-python3-setuptools_33.1.1-1_all.deb ...
+Unpacking python3-setuptools (33.1.1-1) ...
+Selecting previously unselected package python3-sqlalchemy.
+Preparing to unpack .../31-python3-sqlalchemy_1.0.15+ds1-1_all.deb ...
+Unpacking python3-sqlalchemy (1.0.15+ds1-1) ...
+Setting up libjs-jquery (3.1.1-2+deb9u1) ...
+Setting up python3-werkzeug (0.11.15+dfsg1-1) ...
+Setting up python3-sqlalchemy (1.0.15+ds1-1) ...
+Processing triggers for mime-support (3.60) ...
+Setting up python3-six (1.10.0-3) ...
+Setting up python3-colorama (0.3.7-1) ...
+Setting up python3-pkg-resources (33.1.1-1) ...
+Setting up python3-markupsafe (0.23-3) ...
+Setting up python3-all (3.5.3-1) ...
+Setting up python3-jinja2 (2.8-1) ...
+Processing triggers for man-db (2.7.6.1-2) ...
+Setting up python3-mimeparse (0.1.4-3.1~deb9u1) ...
+Setting up python3-setuptools (33.1.1-1) ...
+Setting up python3-itsdangerous (0.24+dfsg1-2) ...
+Setting up libpython2.7-stdlib:amd64 (2.7.13-2+deb9u3) ...
+Setting up python3-dateutil (2.5.3-2) ...
+Setting up python3-mimerender (0.6.0-1) ...
+Setting up python3-click (6.6-1) ...
+Setting up python2.7 (2.7.13-2+deb9u3) ...
+Setting up libpython-stdlib:amd64 (2.7.13-2) ...
+Setting up python (2.7.13-2) ...
+Setting up python-sqlalchemy (1.0.15+ds1-1) ...
+Setting up python3-flask (0.12.1-1) ...
+Setting up python-mimeparse (0.1.4-3.1~deb9u1) ...
+Setting up python-mimerender (0.6.0-1) ...
+Setting up python-colorama (0.3.7-1) ...
+Setting up python-pkg-resources (33.1.1-1) ...
+Setting up python-markupsafe (0.23-3) ...
+Setting up python-werkzeug (0.11.15+dfsg1-1) ...
+Setting up python-six (1.10.0-3) ...
+Setting up python-itsdangerous (0.24+dfsg1-2) ...
+Setting up python-all (2.7.13-2) ...
+Setting up python-setuptools (33.1.1-1) ...
+Setting up python-jinja2 (2.8-1) ...
+Setting up python-click (6.6-1) ...
+Setting up python-dateutil (2.5.3-2) ...
+Setting up python-flask (0.12.1-1) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Reading extended state information...
+Initializing package states...
+Writing extended state information...
+Building tag database...
+ -> Finished parsing the build-deps
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  libfakeroot
+The following NEW packages will be installed:
+  fakeroot libfakeroot
+debconf: delaying package configuration, since apt-utils is not installed
+0 upgraded, 2 newly installed, 0 to remove and 41 not upgraded.
+Need to get 0 B/131 kB of archives.
+After this operation, 374 kB of additional disk space will be used.
+Selecting previously unselected package libfakeroot:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 18920 files and directories currently installed.)
+Preparing to unpack .../libfakeroot_1.21-3.1_amd64.deb ...
+Unpacking libfakeroot:amd64 (1.21-3.1) ...
+Selecting previously unselected package fakeroot.
+Preparing to unpack .../fakeroot_1.21-3.1_amd64.deb ...
+Unpacking fakeroot (1.21-3.1) ...
+Processing triggers for libc-bin (2.24-11+deb9u3) ...
+Setting up libfakeroot:amd64 (1.21-3.1) ...
+Processing triggers for man-db (2.7.6.1-2) ...
+Setting up fakeroot (1.21-3.1) ...
+update-alternatives: using /usr/bin/fakeroot-sysv to provide /usr/bin/fakeroot (fakeroot) in auto mode
+Processing triggers for libc-bin (2.24-11+deb9u3) ...
+I: Running env PATH=/usr/sbin:/usr/bin:/sbin:/bin /usr/bin/dpkg-buildpackage -rfakeroot -us -uc ${DEBBUILDOPTS}
+dpkg-buildpackage: warning: using a gain-root-command while being root
+dpkg-buildpackage: info: source package python-flask-restless
+dpkg-buildpackage: info: source version 0.16.0-1
+dpkg-buildpackage: info: source distribution unstable
+dpkg-buildpackage: info: source changed by Baev Aleksandr <old_bay@mail.ru>
+ dpkg-source --before-build flask-restless-0.16.0
+dpkg-buildpackage: info: host architecture amd64
+ fakeroot debian/rules clean
+dh clean --with python2,python3 --buildsystem=pybuild
+   dh_testdir -O--buildsystem=pybuild
+   dh_auto_clean -O--buildsystem=pybuild
+I: pybuild base:184: python2.7 setup.py clean 
+running clean
+removing '/home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_2.7/build' (and everything under it)
+'build/bdist.linux-amd64' does not exist -- can't clean it
+'build/scripts-2.7' does not exist -- can't clean it
+I: pybuild base:184: python3.5 setup.py clean 
+running clean
+removing '/home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_3.5/build' (and everything under it)
+'build/bdist.linux-amd64' does not exist -- can't clean it
+'build/scripts-3.5' does not exist -- can't clean it
+   dh_clean -O--buildsystem=pybuild
+ dpkg-source -b flask-restless-0.16.0
+dpkg-source: info: using source format '3.0 (quilt)'
+dpkg-source: info: building python-flask-restless using existing ./python-flask-restless_0.16.0.orig.tar.xz
+dpkg-source: info: building python-flask-restless in python-flask-restless_0.16.0-1.debian.tar.xz
+dpkg-source: info: building python-flask-restless in python-flask-restless_0.16.0-1.dsc
+ debian/rules build
+dh build --with python2,python3 --buildsystem=pybuild
+   dh_testdir -O--buildsystem=pybuild
+   dh_update_autotools_config -O--buildsystem=pybuild
+   dh_auto_configure -O--buildsystem=pybuild
+I: pybuild base:184: python2.7 setup.py config 
+running config
+I: pybuild base:184: python3.5 setup.py config 
+running config
+   dh_auto_build -O--buildsystem=pybuild
+I: pybuild base:184: /usr/bin/python setup.py build 
+running build
+running build_py
+creating /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_2.7/build/flask_restless
+copying flask_restless/__init__.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_2.7/build/flask_restless
+copying flask_restless/views.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_2.7/build/flask_restless
+copying flask_restless/manager.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_2.7/build/flask_restless
+copying flask_restless/search.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_2.7/build/flask_restless
+copying flask_restless/helpers.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_2.7/build/flask_restless
+running egg_info
+creating Flask_Restless.egg-info
+writing requirements to Flask_Restless.egg-info/requires.txt
+writing Flask_Restless.egg-info/PKG-INFO
+writing top-level names to Flask_Restless.egg-info/top_level.txt
+writing dependency_links to Flask_Restless.egg-info/dependency_links.txt
+writing manifest file 'Flask_Restless.egg-info/SOURCES.txt'
+reading manifest file 'Flask_Restless.egg-info/SOURCES.txt'
+writing manifest file 'Flask_Restless.egg-info/SOURCES.txt'
+I: pybuild base:184: /usr/bin/python3 setup.py build 
+running build
+running build_py
+creating /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_3.5/build/flask_restless
+copying flask_restless/__init__.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_3.5/build/flask_restless
+copying flask_restless/views.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_3.5/build/flask_restless
+copying flask_restless/manager.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_3.5/build/flask_restless
+copying flask_restless/search.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_3.5/build/flask_restless
+copying flask_restless/helpers.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_3.5/build/flask_restless
+running egg_info
+writing dependency_links to Flask_Restless.egg-info/dependency_links.txt
+writing top-level names to Flask_Restless.egg-info/top_level.txt
+writing Flask_Restless.egg-info/PKG-INFO
+writing requirements to Flask_Restless.egg-info/requires.txt
+reading manifest file 'Flask_Restless.egg-info/SOURCES.txt'
+writing manifest file 'Flask_Restless.egg-info/SOURCES.txt'
+   create-stamp debian/debhelper-build-stamp
+ fakeroot debian/rules binary
+dh binary --with python2,python3 --buildsystem=pybuild
+   create-stamp debian/debhelper-build-stamp
+   dh_testroot -O--buildsystem=pybuild
+   dh_prep -O--buildsystem=pybuild
+   dh_auto_install -O--buildsystem=pybuild
+I: pybuild base:184: /usr/bin/python setup.py install --root /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python-flask-restless 
+running install
+running build
+running build_py
+running egg_info
+writing requirements to Flask_Restless.egg-info/requires.txt
+writing Flask_Restless.egg-info/PKG-INFO
+writing top-level names to Flask_Restless.egg-info/top_level.txt
+writing dependency_links to Flask_Restless.egg-info/dependency_links.txt
+reading manifest file 'Flask_Restless.egg-info/SOURCES.txt'
+writing manifest file 'Flask_Restless.egg-info/SOURCES.txt'
+running install_lib
+creating /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python-flask-restless/usr
+creating /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python-flask-restless/usr/lib
+creating /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python-flask-restless/usr/lib/python2.7
+creating /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python-flask-restless/usr/lib/python2.7/dist-packages
+creating /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python-flask-restless/usr/lib/python2.7/dist-packages/flask_restless
+copying /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_2.7/build/flask_restless/__init__.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python-flask-restless/usr/lib/python2.7/dist-packages/flask_restless
+copying /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_2.7/build/flask_restless/views.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python-flask-restless/usr/lib/python2.7/dist-packages/flask_restless
+copying /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_2.7/build/flask_restless/manager.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python-flask-restless/usr/lib/python2.7/dist-packages/flask_restless
+copying /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_2.7/build/flask_restless/search.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python-flask-restless/usr/lib/python2.7/dist-packages/flask_restless
+copying /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_2.7/build/flask_restless/helpers.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python-flask-restless/usr/lib/python2.7/dist-packages/flask_restless
+byte-compiling /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python-flask-restless/usr/lib/python2.7/dist-packages/flask_restless/__init__.py to __init__.pyc
+byte-compiling /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python-flask-restless/usr/lib/python2.7/dist-packages/flask_restless/views.py to views.pyc
+byte-compiling /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python-flask-restless/usr/lib/python2.7/dist-packages/flask_restless/manager.py to manager.pyc
+byte-compiling /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python-flask-restless/usr/lib/python2.7/dist-packages/flask_restless/search.py to search.pyc
+byte-compiling /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python-flask-restless/usr/lib/python2.7/dist-packages/flask_restless/helpers.py to helpers.pyc
+running install_egg_info
+Copying Flask_Restless.egg-info to /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python-flask-restless/usr/lib/python2.7/dist-packages/Flask_Restless-0.16.0.egg-info
+Skipping SOURCES.txt
+running install_scripts
+I: pybuild base:184: /usr/bin/python3 setup.py install --root /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python3-flask-restless 
+running install
+running build
+running build_py
+running egg_info
+writing dependency_links to Flask_Restless.egg-info/dependency_links.txt
+writing top-level names to Flask_Restless.egg-info/top_level.txt
+writing Flask_Restless.egg-info/PKG-INFO
+writing requirements to Flask_Restless.egg-info/requires.txt
+reading manifest file 'Flask_Restless.egg-info/SOURCES.txt'
+writing manifest file 'Flask_Restless.egg-info/SOURCES.txt'
+running install_lib
+creating /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python3-flask-restless/usr
+creating /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python3-flask-restless/usr/lib
+creating /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python3-flask-restless/usr/lib/python3.5
+creating /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python3-flask-restless/usr/lib/python3.5/dist-packages
+creating /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python3-flask-restless/usr/lib/python3.5/dist-packages/flask_restless
+copying /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_3.5/build/flask_restless/__init__.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python3-flask-restless/usr/lib/python3.5/dist-packages/flask_restless
+copying /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_3.5/build/flask_restless/views.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python3-flask-restless/usr/lib/python3.5/dist-packages/flask_restless
+copying /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_3.5/build/flask_restless/manager.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python3-flask-restless/usr/lib/python3.5/dist-packages/flask_restless
+copying /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_3.5/build/flask_restless/search.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python3-flask-restless/usr/lib/python3.5/dist-packages/flask_restless
+copying /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/.pybuild/pythonX.Y_3.5/build/flask_restless/helpers.py -> /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python3-flask-restless/usr/lib/python3.5/dist-packages/flask_restless
+byte-compiling /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python3-flask-restless/usr/lib/python3.5/dist-packages/flask_restless/__init__.py to __init__.cpython-35.pyc
+byte-compiling /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python3-flask-restless/usr/lib/python3.5/dist-packages/flask_restless/views.py to views.cpython-35.pyc
+byte-compiling /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python3-flask-restless/usr/lib/python3.5/dist-packages/flask_restless/manager.py to manager.cpython-35.pyc
+byte-compiling /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python3-flask-restless/usr/lib/python3.5/dist-packages/flask_restless/search.py to search.cpython-35.pyc
+byte-compiling /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python3-flask-restless/usr/lib/python3.5/dist-packages/flask_restless/helpers.py to helpers.cpython-35.pyc
+running install_egg_info
+Copying Flask_Restless.egg-info to /home/user/BUILD/python-flask-restless/debian9/flask-restless-0.16.0/debian/python3-flask-restless/usr/lib/python3.5/dist-packages/Flask_Restless-0.16.0.egg-info
+Skipping SOURCES.txt
+running install_scripts
+   dh_installdocs -O--buildsystem=pybuild
+   dh_installchangelogs -O--buildsystem=pybuild
+   dh_python2 -O--buildsystem=pybuild
+   dh_python3 -O--buildsystem=pybuild
+   dh_perl -O--buildsystem=pybuild
+   dh_link -O--buildsystem=pybuild
+   dh_strip_nondeterminism -O--buildsystem=pybuild
+   dh_compress -O--buildsystem=pybuild
+   dh_fixperms -O--buildsystem=pybuild
+   dh_installdeb -O--buildsystem=pybuild
+   dh_gencontrol -O--buildsystem=pybuild
+dpkg-gencontrol: warning: package python-flask-restless: unused substitution variable ${python:Provides}
+dpkg-gencontrol: warning: package python-flask-restless: unused substitution variable ${python:Depends}
+dpkg-gencontrol: warning: package python-flask-restless: unused substitution variable ${python:Versions}
+dpkg-gencontrol: warning: package python3-flask-restless: unused substitution variable ${python3:Depends}
+   dh_md5sums -O--buildsystem=pybuild
+   dh_builddeb -O--buildsystem=pybuild
+dpkg-deb: building package 'python3-flask-restless' in '../python3-flask-restless_0.16.0-1_all.deb'.
+dpkg-deb: building package 'python-flask-restless' in '../python-flask-restless_0.16.0-1_all.deb'.
+ dpkg-genbuildinfo
+ dpkg-genchanges  >../python-flask-restless_0.16.0-1_amd64.changes
+dpkg-genchanges: info: including full source code in upload
+ dpkg-source --after-build flask-restless-0.16.0
+dpkg-buildpackage: info: full upload (original source is included)
+[0mI: user script //tmp/hooks/B10CreateRepo starting[0m
+ls: cannot access '/build/*.changes': No such file or directory
+[0mI: user script //tmp/hooks/B10CreateRepo finished[0m
+I: Copying back the cached apt archive contents
+I: new cache content 'python-click_6.6-1_all.deb' added
+I: new cache content 'python-itsdangerous_0.24+dfsg1-2_all.deb' added
+I: new cache content 'python-werkzeug_0.11.15+dfsg1-1_all.deb' added
+I: new cache content 'python-flask_0.12.1-1_all.deb' added
+I: new cache content 'python-mimeparse_0.1.4-3.1~deb9u1_all.deb' added
+I: new cache content 'python-mimerender_0.6.0-1_all.deb' added
+I: new cache content 'python-sqlalchemy_1.0.15+ds1-1_all.deb' added
+I: new cache content 'python3-colorama_0.3.7-1_all.deb' added
+I: new cache content 'python3-click_6.6-1_all.deb' added
+I: new cache content 'python3-itsdangerous_0.24+dfsg1-2_all.deb' added
+I: new cache content 'python3-werkzeug_0.11.15+dfsg1-1_all.deb' added
+I: new cache content 'python3-flask_0.12.1-1_all.deb' added
+I: new cache content 'python3-mimeparse_0.1.4-3.1~deb9u1_all.deb' added
+I: new cache content 'python3-mimerender_0.6.0-1_all.deb' added
+I: new cache content 'python3-sqlalchemy_1.0.15+ds1-1_all.deb' added
+I: unmounting /var/cache/pbuilder/tmprepo/ filesystem
+I: unmounting /home/user/BUILD/python-flask-restless/debian9 filesystem
+I: unmounting dev/pts filesystem
+I: unmounting run/shm filesystem
+I: unmounting proc filesystem
+I: cleaning the build env 
+I: removing directory /var/cache/pbuilder/build/6755 and its subdirectories

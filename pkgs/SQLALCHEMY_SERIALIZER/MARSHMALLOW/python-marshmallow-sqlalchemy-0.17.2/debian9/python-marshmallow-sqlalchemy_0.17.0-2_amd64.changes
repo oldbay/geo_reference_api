@@ -1,0 +1,33 @@
+Format: 1.8
+Date: Thu, 17 Oct 2019 22:40:31 +0530
+Source: python-marshmallow-sqlalchemy
+Binary: python3-marshmallow-sqlalchemy
+Architecture: source all
+Version: 0.17.0-2
+Distribution: unstable
+Urgency: medium
+Maintainer: Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>
+Changed-By: Utkarsh Gupta <guptautkarsh2102@gmail.com>
+Description:
+ python3-marshmallow-sqlalchemy - SQLAlchemy integration with marshmallow
+Changes:
+ python-marshmallow-sqlalchemy (0.17.0-2) unstable; urgency=medium
+ .
+   * Reupload to unstable
+   * Run wrap-and-sort
+   * Bump Standards-Version to 4.4.1
+Checksums-Sha1:
+ 05f9fbba25284a395e1eab7a15533bbd5b330ad7 1463 python-marshmallow-sqlalchemy_0.17.0-2.dsc
+ 7425ed8209b1992b0c64430a2f9e569007685c9a 1812 python-marshmallow-sqlalchemy_0.17.0-2.debian.tar.xz
+ 47beacbe5b4492ee915c54a0b1430abe850efe71 5655 python-marshmallow-sqlalchemy_0.17.0-2_amd64.buildinfo
+ 8800a4d60fc741afbf5b13df354028368ccf6cd7 11170 python3-marshmallow-sqlalchemy_0.17.0-2_all.deb
+Checksums-Sha256:
+ 891af107317884b52f2eb8ec9583f03846a1bd832ef3fa381b5bd7b0d5724256 1463 python-marshmallow-sqlalchemy_0.17.0-2.dsc
+ 29fb6b420b30e61d934b5e5b8d756682641b5dccd5c14de7737aae2e8d8ceb4e 1812 python-marshmallow-sqlalchemy_0.17.0-2.debian.tar.xz
+ bc783f8cff65d28850259cf647e201de37dcf0c2ba7c77ab15b39013c1f597d1 5655 python-marshmallow-sqlalchemy_0.17.0-2_amd64.buildinfo
+ c1f951cce84f52d4beab6cd07fe223980f6056bdb3b074efb3ef21a3ab3edf78 11170 python3-marshmallow-sqlalchemy_0.17.0-2_all.deb
+Files:
+ 1ba4243cabc36465ddd2add934906236 1463 python optional python-marshmallow-sqlalchemy_0.17.0-2.dsc
+ 81aa6fee4055f968ac03cab75c3ab820 1812 python optional python-marshmallow-sqlalchemy_0.17.0-2.debian.tar.xz
+ b03a96db6247d31b03afd9f28c940866 5655 python optional python-marshmallow-sqlalchemy_0.17.0-2_amd64.buildinfo
+ 611fda52b74c3c42fcfce57ade731d2f 11170 python optional python3-marshmallow-sqlalchemy_0.17.0-2_all.deb

@@ -1,0 +1,42 @@
+Source: python-flask-restless
+Section: python
+Priority: optional
+Maintainer: Baev Aleksandr <old_bay@mail.ru>
+Build-Depends: debhelper,
+                dh-python,
+                python-all,
+                python-setuptools,
+                python-flask,
+                python-sqlalchemy,
+                python-dateutil,
+                python-mimerender,
+                python3-all,
+                python3-setuptools,
+                python3-flask,
+                python3-sqlalchemy,
+                python3-dateutil,
+                python3-mimerender
+Standards-Version: 3.9.5.0
+Homepage: http://spb.vega.su
+X-Python-Version: >= 2.7
+X-Python3-Version: >= 3.2
+
+Package: python-flask-restless
+Architecture: all
+Section: python
+Depends: ${misc:Depends},
+        python-flask,
+        python-sqlalchemy,
+        python-dateutil,
+        python-mimerender
+Description: Python 2 Flask Restless.
+
+Package: python3-flask-restless
+Architecture: all
+Section: python
+Depends: ${misc:Depends},
+        python3-flask,
+        python3-sqlalchemy,
+        python3-dateutil,
+        python3-mimerender
+Description: Python 3 Flask Restless.

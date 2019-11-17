@@ -1,0 +1,19 @@
+Source: python-marshmallow
+Section: python
+Priority: optional
+Maintainer: Baev Aleksandr <old_bay@mail.ru>
+Build-Depends: debhelper,
+                dh-python,
+                python3-all,
+                python3-setuptools,
+                python3-setuptools-scm
+Standards-Version: 3.9.5.0
+Homepage: https://github.com/marshmallow-code/marshmallow
+X-Python3-Version: >= 3.5
+
+Package: python3-marshmallow
+Architecture: all
+Section: python
+Depends: ${misc:Depends},
+            python3
+Description: Python marshmallow

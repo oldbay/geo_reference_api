@@ -1,0 +1,34 @@
+Format: 1.8
+Date: Fri, 30 Sep 2016 15:23:00 +0000
+Source: python-marshmallow
+Binary: python3-marshmallow
+Architecture: source all
+Version: 3.2.2-1
+Distribution: unstable
+Urgency: medium
+Maintainer: Baev Aleksandr <old_bay@mail.ru>
+Changed-By: Baev Aleksandr <old_bay@mail.ru>
+Description:
+ python3-marshmallow - Python marshmallow
+Changes:
+ python-marshmallow (3.2.2-1) unstable; urgency=medium
+ .
+   * Deb
+Checksums-Sha1:
+ 64c51ecbb87d6f6b00925baf5e7d55e872edd1b9 989 python-marshmallow_3.2.2-1.dsc
+ 534c09a2f115b977137f9371097c189c63f00eb0 138540 python-marshmallow_3.2.2.orig.tar.xz
+ 65aa0776e9910a0f57c51be7870fa0b72b6d2086 752 python-marshmallow_3.2.2-1.debian.tar.xz
+ 45dc44bf90b7ed0f378fc20abcb0355dc0ba64cd 5430 python-marshmallow_3.2.2-1_amd64.buildinfo
+ 276f23623e2461f75f003b4e263891d61da6a1d6 36122 python3-marshmallow_3.2.2-1_all.deb
+Checksums-Sha256:
+ 19e1f0e6f65f34417f11703c9610286df16d3ee9f710d87cf6caff8242699781 989 python-marshmallow_3.2.2-1.dsc
+ ffa6ff61329b58f06af6169f8dc814cefd8be91b888ed68b7abb19de99c6ccd1 138540 python-marshmallow_3.2.2.orig.tar.xz
+ c159adca82caf68a714aec0ffd598baebe649cca4327413e8de897a4ededa9d3 752 python-marshmallow_3.2.2-1.debian.tar.xz
+ aec55cefec5a7b0e51e404cdf47d44d3db0f1501fba1b35e9fd298cde0a920aa 5430 python-marshmallow_3.2.2-1_amd64.buildinfo
+ 283be3554c33abce2f98b0772680474482bb517b3c3789ebb7dd4c5e7a8b0fe4 36122 python3-marshmallow_3.2.2-1_all.deb
+Files:
+ 0fbb1e185aca44e1368d65262603e51e 989 python optional python-marshmallow_3.2.2-1.dsc
+ 3f3082230b4a5f3643c6b939a58bd220 138540 python optional python-marshmallow_3.2.2.orig.tar.xz
+ 98ae3d8f7496c17acebee34ed8f94241 752 python optional python-marshmallow_3.2.2-1.debian.tar.xz
+ 29e139cf0e58cbd6222007e91bb2f4ed 5430 python optional python-marshmallow_3.2.2-1_amd64.buildinfo
+ 079b2a63fc09280007eff7d0f126b2c8 36122 python optional python3-marshmallow_3.2.2-1_all.deb

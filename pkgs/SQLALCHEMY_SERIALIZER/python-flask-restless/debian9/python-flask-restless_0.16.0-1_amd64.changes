@@ -1,0 +1,38 @@
+Format: 1.8
+Date: Fri, 30 Sep 2016 15:23:00 +0000
+Source: python-flask-restless
+Binary: python-flask-restless python3-flask-restless
+Architecture: source all
+Version: 0.16.0-1
+Distribution: unstable
+Urgency: medium
+Maintainer: Baev Aleksandr <old_bay@mail.ru>
+Changed-By: Baev Aleksandr <old_bay@mail.ru>
+Description:
+ python-flask-restless - Python 2 Flask Restless.
+ python3-flask-restless - Python 3 Flask Restless.
+Changes:
+ python-flask-restless (0.16.0-1) unstable; urgency=medium
+ .
+   * Deb
+Checksums-Sha1:
+ 3dedbaf9432caa84bd4ca1aec399b2a445c70fce 1218 python-flask-restless_0.16.0-1.dsc
+ 6e062dbb20bba3f1169b3479454020abefc8921e 439360 python-flask-restless_0.16.0.orig.tar.xz
+ e6d1ee2e041c88c48876742f86315fa337138929 836 python-flask-restless_0.16.0-1.debian.tar.xz
+ f8e59894d2931cb9d6fac2cef53bf5bab0e5b124 31258 python-flask-restless_0.16.0-1_all.deb
+ 704b74c8be64ed9e3e4c77929005efa6bc03dc0a 6899 python-flask-restless_0.16.0-1_amd64.buildinfo
+ 9f9d142b2704cbe0c0753978a8337bafba20704d 31350 python3-flask-restless_0.16.0-1_all.deb
+Checksums-Sha256:
+ fbab0aa6021b4a606316ec6d3eb1773fd287d48e2451a3b824a6b1aed475cae4 1218 python-flask-restless_0.16.0-1.dsc
+ 4189b889ea542d0c12b84b28466b3264a1f61579c45b910f370274e32f85b453 439360 python-flask-restless_0.16.0.orig.tar.xz
+ b4eef93c3d4afd4202b5178108733d1a0c5d13d1ef143e0cb42569d45fa802d9 836 python-flask-restless_0.16.0-1.debian.tar.xz
+ fef21ced9309921f2413497739b83a4bde3845b56e38c8aec0e201c074411e97 31258 python-flask-restless_0.16.0-1_all.deb
+ 230cc566c2baf7c35116d807a6f9db27bd5567ffbdee22c868b112ffa4da556f 6899 python-flask-restless_0.16.0-1_amd64.buildinfo
+ 1265461c9f4025a1db3561dd7fe7200f5b4286efa3043eaf55a1fa03b0b51025 31350 python3-flask-restless_0.16.0-1_all.deb
+Files:
+ 6d7c708a8ad7dc2567a2831797d7a843 1218 python optional python-flask-restless_0.16.0-1.dsc
+ 5150d2ffb5af80e9fb857189a5437658 439360 python optional python-flask-restless_0.16.0.orig.tar.xz
+ ac2ed8c8fa3878fa9a0961035d71cd33 836 python optional python-flask-restless_0.16.0-1.debian.tar.xz
+ b41ab16ed8ecd96b8c3bbfc70d8b4b1b 31258 python optional python-flask-restless_0.16.0-1_all.deb
+ 21e69a58c7e9e0103a478cfbc94ebb62 6899 python optional python-flask-restless_0.16.0-1_amd64.buildinfo
+ 7752ce58c8c27424bb45e95097306f75 31350 python optional python3-flask-restless_0.16.0-1_all.deb

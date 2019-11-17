@@ -1,0 +1,34 @@
+Format: 1.8
+Date: Fri, 30 Sep 2016 15:23:00 +0000
+Source: python-sqlathanor
+Binary: python3-sqlathanor
+Architecture: source all
+Version: 0.5.0-1
+Distribution: unstable
+Urgency: medium
+Maintainer: Baev Aleksandr <old_bay@mail.ru>
+Changed-By: Baev Aleksandr <old_bay@mail.ru>
+Description:
+ python3-sqlathanor - insightindustry sqlathanor
+Changes:
+ python-sqlathanor (0.5.0-1) unstable; urgency=medium
+ .
+   * Deb
+Checksums-Sha1:
+ 5c680f49909fe017821139910fa8207e1645064e 1063 python-sqlathanor_0.5.0-1.dsc
+ 972d88b52b55dc4043cd431e69e8df72d5ae010d 504268 python-sqlathanor_0.5.0.orig.tar.xz
+ 27a8b44f6dd52640ab96c9daf53cfe6de1413c0d 800 python-sqlathanor_0.5.0-1.debian.tar.xz
+ 548f0533ef7aab9809702ef901d62ec8db6b0073 5626 python-sqlathanor_0.5.0-1_amd64.buildinfo
+ 7d364e596b255ea57caaed5a2c0378574cafc829 38210 python3-sqlathanor_0.5.0-1_all.deb
+Checksums-Sha256:
+ 6ce607d3ace6da7488eaa18674c53d0d2b3a833001eb4fa4b7e04ecd119f7203 1063 python-sqlathanor_0.5.0-1.dsc
+ 6c80543a2f5cf13ec80283f4b02f78c103dd6ab0cc187e947ebeee4b3008df66 504268 python-sqlathanor_0.5.0.orig.tar.xz
+ 2c2e7fbf6da3f429f4e5b197dceb1260d02322edd22529881aa097da7063d03e 800 python-sqlathanor_0.5.0-1.debian.tar.xz
+ 0ddab7975a7e6c7a8cd0a5160dee7f6ef8482073098efbbd149ca0366c91d836 5626 python-sqlathanor_0.5.0-1_amd64.buildinfo
+ 1c00d4ad2d61badc2454de6b7e62a20a931e3468107e88a961823f6ef15f3d60 38210 python3-sqlathanor_0.5.0-1_all.deb
+Files:
+ fe54f0ba572ce07c7726fd9a2fd957ac 1063 python optional python-sqlathanor_0.5.0-1.dsc
+ f6093d0f126f651e9a4949d7b66230c2 504268 python optional python-sqlathanor_0.5.0.orig.tar.xz
+ d6dfdd9dc979d1c0cdb54985ffefd4e9 800 python optional python-sqlathanor_0.5.0-1.debian.tar.xz
+ 333af2f74dcbd8dbe493703bc5842e76 5626 python optional python-sqlathanor_0.5.0-1_amd64.buildinfo
+ 293cc16ff88e737495ad973a20c2a6c9 38210 python optional python3-sqlathanor_0.5.0-1_all.deb

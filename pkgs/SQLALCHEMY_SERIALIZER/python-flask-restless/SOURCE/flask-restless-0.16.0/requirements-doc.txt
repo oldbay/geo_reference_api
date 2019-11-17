@@ -1,0 +1,4 @@
+-r requirements.txt
+sphinx
+sphinxcontrib-httpdomain>=1.1.7
+sphinxcontrib-issuetracker>=0.11

@@ -1,0 +1,24 @@
+Source: python-flask-marshmallow
+Section: python
+Priority: optional
+Maintainer: Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>
+Uploaders: Utkarsh Gupta <guptautkarsh2102@gmail.com>
+Build-Depends: debhelper,
+               dh-python,
+               python3-all,
+               python3-setuptools,
+               python3-setuptools-scm,
+               python3-six,
+               python3-marshmallow-sqlalchemy,
+               python3-flask-sqlalchemy
+Standards-Version: 4.4.1
+Testsuite: autopkgtest-pkg-python
+Rules-Requires-Root: no
+
+Package: python3-flask-marshmallow
+Architecture: all
+Depends: ${misc:Depends},
+               python3-six,
+               python3-marshmallow-sqlalchemy,
+               python3-flask-sqlalchemy
+Description: Flask Marshmallow

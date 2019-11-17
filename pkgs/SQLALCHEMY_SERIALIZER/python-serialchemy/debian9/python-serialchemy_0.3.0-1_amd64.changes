@@ -1,0 +1,34 @@
+Format: 1.8
+Date: Fri, 30 Sep 2016 15:23:00 +0000
+Source: python-serialchemy
+Binary: python3-serialchemy
+Architecture: source all
+Version: 0.3.0-1
+Distribution: unstable
+Urgency: medium
+Maintainer: Baev Aleksandr <old_bay@mail.ru>
+Changed-By: Baev Aleksandr <old_bay@mail.ru>
+Description:
+ python3-serialchemy - Serializator for SqlAlchemy.
+Changes:
+ python-serialchemy (0.3.0-1) unstable; urgency=medium
+ .
+   * Deb
+Checksums-Sha1:
+ 30d266492a06d2a7069b8b96b99b7cc3be1b559b 993 python-serialchemy_0.3.0-1.dsc
+ e99d78ba5415a087eced074d95cd7a64e4fb4395 17948 python-serialchemy_0.3.0.orig.tar.xz
+ 35ee567d16abe3ce313a4dcd4e6a947039f421ec 772 python-serialchemy_0.3.0-1.debian.tar.xz
+ 53bd338f5175a609172aa6ffaa0fd34f5dad1558 5523 python-serialchemy_0.3.0-1_amd64.buildinfo
+ ed2bb4b56b3240d5b41eed68eee516f07653564f 14120 python3-serialchemy_0.3.0-1_all.deb
+Checksums-Sha256:
+ 5c509923904fe8c4cb6fb66b79768947b0ecae30ef8968f712daf5a62a23a3b4 993 python-serialchemy_0.3.0-1.dsc
+ 1fd45d61aea9afece1475c0231bda4613039ee9384538cf126b85badc200e1de 17948 python-serialchemy_0.3.0.orig.tar.xz
+ 6e3988b59a07641a23a4b8207d6633057c8c6c5ea1b8909755bc5a2b0d585fc1 772 python-serialchemy_0.3.0-1.debian.tar.xz
+ 0f6dabf0541096945266287a0e206bb7caf7660d05e57464d0192076dbce9cd7 5523 python-serialchemy_0.3.0-1_amd64.buildinfo
+ e792624732d7771ac30f5d3b8c9dc8a54f756b13241b39db1942d1f7b24e26ad 14120 python3-serialchemy_0.3.0-1_all.deb
+Files:
+ bd2ec22384b8840d22df7e02fbcca96a 993 python optional python-serialchemy_0.3.0-1.dsc
+ 01e18d13e31c566111023d09d1a4c3fe 17948 python optional python-serialchemy_0.3.0.orig.tar.xz
+ 9fdc4a6cd1ace4aa4e52196f14de69d5 772 python optional python-serialchemy_0.3.0-1.debian.tar.xz
+ 70a397a765e3be18508a1aad103c024f 5523 python optional python-serialchemy_0.3.0-1_amd64.buildinfo
+ 2f68b8fb3d2ca6ccabe2f69093158e46 14120 python optional python3-serialchemy_0.3.0-1_all.deb
