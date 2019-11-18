@@ -3,14 +3,10 @@ from sqlalchemy.orm import sessionmaker
 import json
 
 from model import engine
-from model import (
-    Users, 
-    Groups, 
-    Modules, 
-    ModulesPermissions
-)
+from model import Users, Groups
 
 def_nesting = 0
+
 
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -42,7 +38,6 @@ def qrun(queries):
         print (
             q["opt"](q["tab"], q["que"])
         )
-        print ("")
 
 if __name__ == "__main__":
     queries = [
@@ -58,56 +53,6 @@ if __name__ == "__main__":
             "tab": Groups,
             "que": {
                 "name": "Группа2", 
-            } 
-        }, 
-        {
-            "opt": post,
-            "tab": Modules,
-            "que": {
-                "name": "Модуль1", 
-            } 
-        }, 
-        {
-            "opt": post,
-            "tab": Modules,
-            "que": {
-                "name": "Модуль2", 
-            } 
-        }, 
-        {
-            "opt": post,
-            "tab": ModulesPermissions,
-            "que": {
-                "permission_level": 1,
-                "group_id": 1,
-                "module_id": 1,
-            } 
-        }, 
-        {
-            "opt": post,
-            "tab": ModulesPermissions,
-            "que": {
-                "permission_level": 0,
-                "group_id": 1,
-                "module_id": 2,
-            } 
-        }, 
-        {
-            "opt": post,
-            "tab": ModulesPermissions,
-            "que": {
-                "permission_level": 2,
-                "group_id": 2,
-                "module_id": 1,
-            } 
-        }, 
-        {
-            "opt": post,
-            "tab": ModulesPermissions,
-            "que": {
-                "permission_level": 0,
-                "group_id": 2,
-                "module_id": 2,
             } 
         }, 
         {
@@ -134,36 +79,6 @@ if __name__ == "__main__":
                 "group_id": 2,
             } 
         }, 
-        {
-            "opt": get,
-            "tab": Groups,
-            "que": {
-                "max_nesting": 2,
-            }
-        }, 
-        {
-            "opt": get,
-            "tab": Modules,
-            "que": {
-                "max_nesting": 2,
-            }
-        }, 
-        {
-            "opt": get,
-            "tab": ModulesPermissions,
-            "que": {
-                "max_nesting": 2,
-            }
-        }, 
-        {
-            "opt": get,
-            "tab": ModulesPermissions,
-            "que": {
-                "group": "Группа1",
-                "module": "Модуль2",
-                "max_nesting": 2,
-            }
-        }, 
         #{
             #"opt": get,
             #"tab": Users,
@@ -183,6 +98,13 @@ if __name__ == "__main__":
             "tab": Users,
             "que": {
                 "max_nesting": 1,
+            }
+        }, 
+        {
+            "opt": get,
+            "tab": Groups,
+            "que": {
+                "max_nesting": 2,
             }
         }, 
     ]
