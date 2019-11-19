@@ -1,8 +1,12 @@
-
-from sqlalchemy.orm import sessionmaker
+import os
+import imp
 import json
 
-from model import engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
+
+import constant
+from model import DeclarativeBase
 from model import (
     Users, 
     Groups, 
@@ -11,6 +15,14 @@ from model import (
 )
 
 def_nesting = 0
+
+conf = imp.load_source("conf", os.path.dirname(constant.__file__)+"/service.conf")
+if conf.DBPath:
+    DBPath = conf.DBPath
+else:
+    DBPath = 'sqlite:///:memory:'
+engine = create_engine(DBPath, echo=conf.DBEcho)
+DeclarativeBase.metadata.create_all(engine)
 
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -55,13 +67,6 @@ if __name__ == "__main__":
         }, 
         {
             "opt": post,
-            "tab": Groups,
-            "que": {
-                "name": "Группа2", 
-            } 
-        }, 
-        {
-            "opt": post,
             "tab": Modules,
             "que": {
                 "name": "Модуль1", 
@@ -76,40 +81,47 @@ if __name__ == "__main__":
         }, 
         {
             "opt": post,
-            "tab": ModulesPermissions,
+            "tab": Groups,
             "que": {
-                "permission_level": 1,
-                "group_id": 1,
-                "module_id": 1,
+                "name": "Группа2", 
             } 
         }, 
-        {
-            "opt": post,
-            "tab": ModulesPermissions,
-            "que": {
-                "permission_level": 0,
-                "group_id": 1,
-                "module_id": 2,
-            } 
-        }, 
-        {
-            "opt": post,
-            "tab": ModulesPermissions,
-            "que": {
-                "permission_level": 2,
-                "group_id": 2,
-                "module_id": 1,
-            } 
-        }, 
-        {
-            "opt": post,
-            "tab": ModulesPermissions,
-            "que": {
-                "permission_level": 0,
-                "group_id": 2,
-                "module_id": 2,
-            } 
-        }, 
+        #{
+            #"opt": post,
+            #"tab": ModulesPermissions,
+            #"que": {
+                #"permission_level": 1,
+                #"group_id": 1,
+                #"module_id": 1,
+            #} 
+        #}, 
+        #{
+            #"opt": post,
+            #"tab": ModulesPermissions,
+            #"que": {
+                #"permission_level": 0,
+                #"group_id": 1,
+                #"module_id": 2,
+            #} 
+        #}, 
+        #{
+            #"opt": post,
+            #"tab": ModulesPermissions,
+            #"que": {
+                #"permission_level": 2,
+                #"group_id": 2,
+                #"module_id": 1,
+            #} 
+        #}, 
+        #{
+            #"opt": post,
+            #"tab": ModulesPermissions,
+            #"que": {
+                #"permission_level": 0,
+                #"group_id": 2,
+                #"module_id": 2,
+            #} 
+        #}, 
         {
             "opt": post,
             "tab": Users,
@@ -159,7 +171,7 @@ if __name__ == "__main__":
             "opt": get,
             "tab": ModulesPermissions,
             "que": {
-                "group": "Группа1",
+                "group": "Группа2",
                 "module": "Модуль2",
                 "max_nesting": 2,
             }
