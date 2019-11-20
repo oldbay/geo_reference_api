@@ -14,7 +14,6 @@ conf = imp.load_source("conf", os.path.dirname(constant.__file__)+"/service.conf
 
 DeclarativeBase = declarative_base()
 
-
 class Groups(DeclarativeBase):
 
     __tablename__ = 'groups'
@@ -49,7 +48,7 @@ class Users(DeclarativeBase):
     key = Column(Unicode(512))
     group_id = Column(Integer, ForeignKey('groups.id'), nullable=False)
     group = column_property(select([(Groups.name)], group_id == Groups.id))
-    
+
 
 class Modules(DeclarativeBase):
 
