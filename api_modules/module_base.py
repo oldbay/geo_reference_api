@@ -1,20 +1,16 @@
-import os
-import imp
-
-from sqlathanor import declarative_base, Column, relationship, AttributeConfiguration
+from sqlathanor import Column, relationship, AttributeConfiguration
 
 from sqlalchemy import Integer, ForeignKey, Unicode, PickleType, DateTime, Boolean
 from sqlalchemy.orm import column_property
 from sqlalchemy import select
 from sqlalchemy.event import listens_for
 
-import constant
-
-conf = imp.load_source("conf", os.path.dirname(constant.__file__)+"/service.conf")
-
-DeclarativeBase = declarative_base()
+from .modules_factory import DeclarativeBase, api_conf
 
 class Groups(DeclarativeBase):
+    """
+    Ресурс групп
+    """
 
     __tablename__ = 'groups'
 
@@ -27,11 +23,14 @@ class Groups(DeclarativeBase):
 
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(256), nullable=False, unique=True)
-    users = relationship('Users')
+    users = relationship('Users', cascade='all, delete-orphan')
     modules = relationship('ModulesPermissions', cascade='all, delete-orphan')
 
 
 class Users(DeclarativeBase):
+    """
+    Ресурс пользователей
+    """
 
     __tablename__ = 'users'
     
@@ -99,7 +98,7 @@ def insert_groups_permissions(mapper, connection, target):
     for group in group_query:
         connection.execute(
             module_permissions_tab.insert(), 
-            permission_level=conf.DefPermiss, 
+            permission_level=api_conf.DefPermiss, 
             group_id=group['id'], 
             module_id=module_id
         )
@@ -115,7 +114,7 @@ def insert_modules_permissions(mapper, connection, target):
     for module in module_query:
         connection.execute(
             module_permissions_tab.insert(), 
-            permission_level=conf.DefPermiss, 
+            permission_level=api_conf.DefPermiss, 
             group_id=group_id, 
             module_id=module['id']
         )

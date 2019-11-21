@@ -7,17 +7,10 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
 import constant
-
-# loading modules
-# DeclarativeBase is last import
-from api_modules import (
-    module_base, 
-    DeclarativeBase
-)
+from model import DeclarativeBase
 
 def_nesting = 2
-nesting_name = 'api_nesting'
-find_prefix = 'api_find_{}'
+find_prefix = 'find_{}'
 conf = imp.load_source("conf", os.path.dirname(constant.__file__)+"/service.conf")
 
 # create base
@@ -31,13 +24,8 @@ DeclarativeBase.metadata.create_all(engine)
 
 # create api
 api_resources = {}
-api_schema = {}
 for table_class in DeclarativeBase.__subclasses__():
-    api_module = table_class.__module__.split('.')[-1]
-    if api_module not in api_schema.keys():
-        api_schema[api_module] = {}
     res_name = table_class.__tablename__
-    res_doc = table_class.__doc__
     res_get = {}
     res_post = {}
     res_put = {}
@@ -55,18 +43,10 @@ for table_class in DeclarativeBase.__subclasses__():
             res_get.update({col_name: col_type})
             res_put.update({find_prefix.format(col_name): col_type})
             res_delete.update({find_prefix.format(col_name): col_type})
-    if res_get:
-        res_get.update({nesting_name: int})
+
     if res_get or res_post or res_put or res_delete:
         api_resources[res_name] = {
             "obj": table_class,
-            "GET": res_get,
-            "POST": res_post,
-            "PUT": res_put,
-            "DELETE": res_delete,
-        }
-        api_schema[api_module][res_name] = {
-            "doc": res_doc,
             "GET": res_get,
             "POST": res_post,
             "PUT": res_put,
@@ -83,8 +63,8 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 def select(table, qdict):
-    max_nesting = qdict.get(nesting_name, def_nesting)
-    if nesting_name in qdict.keys(): del(qdict[nesting_name])
+    max_nesting = qdict.get('max_nesting', def_nesting)
+    if 'max_nesting'in qdict.keys(): del(qdict['max_nesting'])
     
     table_query = session.query(table)
     find_list = table_query.filter_by(**qdict)
@@ -138,12 +118,14 @@ def delete(table, qdict):
         
     return select(table, find_attrs)
 
+
 api_requsts = {
     "GET": select,
     "POST": insert,
     "PUT": update,
     "DELETE": delete,
 }
+print (api_requsts)
 
 
 # run
@@ -215,17 +197,23 @@ if __name__ == "__main__":
         {
             "req": "GET",
             "res": 'groups',
-            "que": {}
+            "que": {
+                "max_nesting": 2,
+            }
         }, 
         {
             "req": "GET",
             "res": 'modules',
-            "que": {}
+            "que": {
+                "max_nesting": 2,
+            }
         }, 
         {
             "req": "GET",
             "res": 'modules_permissions',
-            "que": {}
+            "que": {
+                "max_nesting": 2,
+            }
         }, 
         {
             "req": "GET",
@@ -233,13 +221,14 @@ if __name__ == "__main__":
             "que": {
                 "group": "Группа2",
                 "module": "Модуль2",
+                "max_nesting": 2,
             }
         }, 
         {
             "req": "PUT",
             "res": 'groups',
             "que": {
-                "api_find_name": "Группа2",
+                "find_name": "Группа2",
                 "name": "Группа Обречённых",
             }
         }, 
@@ -247,31 +236,19 @@ if __name__ == "__main__":
             "req": "GET",
             "res": 'users',
             "que": {
-                "api_nesting": 1,
+                "max_nesting": 1,
             }
         }, 
-        #{
-            #"req": "DELETE",
-            #"res": 'groups',
-            #"que": {
-                #"api_find_name": "Группа Обречённых",
-            #}
-        #}, 
-        #{
-            #"req": "GET",
-            #"res": 'groups',
-            #"que": {}
-        #}, 
         {
             "req": "DELETE",
-            "res": 'users',
+            "res": 'groups',
             "que": {
-                "api_find_group": "Группа1",
+                "find_name": "Группа Обречённых",
             }
         }, 
         {
             "req": "GET",
-            "res": 'users',
+            "res": 'groups',
             "que": {}
         }, 
     ]
