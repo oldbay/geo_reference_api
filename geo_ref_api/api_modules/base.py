@@ -5,9 +5,15 @@ from sqlalchemy.orm import column_property
 from sqlalchemy import select
 from sqlalchemy.event import listens_for
 
-from .modules_factory import DeclarativeBase, api_conf
+from geo_ref_api import DeclarativeBase, ApiModuleConstructor, get_tables_dict, config
 
-class Groups(DeclarativeBase):
+class ApiModule(ApiModuleConstructor):
+    __module_name__ = 'base'
+    __module_depends__ = []
+    __tables_dict__ = get_tables_dict()
+    
+
+class Groups(DeclarativeBase, ApiModule):
     """
     Ресурс групп
     """
@@ -27,7 +33,7 @@ class Groups(DeclarativeBase):
     modules = relationship('ModulesPermissions', cascade='all, delete-orphan')
 
 
-class Users(DeclarativeBase):
+class Users(DeclarativeBase, ApiModule):
     """
     Ресурс пользователей
     """
@@ -49,7 +55,7 @@ class Users(DeclarativeBase):
     group = column_property(select([(Groups.name)], group_id == Groups.id))
 
 
-class Modules(DeclarativeBase):
+class Modules(DeclarativeBase, ApiModule):
 
     __tablename__ = 'modules'
 
@@ -64,13 +70,14 @@ class Modules(DeclarativeBase):
     groups = relationship('ModulesPermissions', cascade='all, delete-orphan')
 
 
-class ModulesPermissions(DeclarativeBase):
+class ModulesPermissions(DeclarativeBase, ApiModule):
 
     __tablename__ = 'modules_permissions'
 
     __serialization__ = [
         AttributeConfiguration(name='id', supports_json=(False, True)), 
         AttributeConfiguration(name='permission_level', supports_json=True), 
+        AttributeConfiguration(name='enable', supports_json=True), 
         AttributeConfiguration(name='group_id', supports_json=False), 
         AttributeConfiguration(name='module_id', supports_json=False), 
         AttributeConfiguration(name='group', supports_json=(False, True)), 
@@ -79,6 +86,8 @@ class ModulesPermissions(DeclarativeBase):
 
     id = Column(Integer, primary_key=True)
     permission_level = Column(Integer, nullable=False)
+    access = Column(Boolean, default=False)
+    enable = Column(Boolean, default=True)
     group_id = Column(Integer, ForeignKey('groups.id'), nullable=False)
     module_id = Column(Integer, ForeignKey('modules.id'), nullable=False)
     group = column_property(select([(Groups.name)], group_id == Groups.id))
@@ -98,7 +107,7 @@ def insert_groups_permissions(mapper, connection, target):
     for group in group_query:
         connection.execute(
             module_permissions_tab.insert(), 
-            permission_level=api_conf.DefPermiss, 
+            permission_level=config.DefPermiss, 
             group_id=group['id'], 
             module_id=module_id
         )
@@ -114,7 +123,7 @@ def insert_modules_permissions(mapper, connection, target):
     for module in module_query:
         connection.execute(
             module_permissions_tab.insert(), 
-            permission_level=api_conf.DefPermiss, 
+            permission_level=config.DefPermiss, 
             group_id=group_id, 
             module_id=module['id']
         )
