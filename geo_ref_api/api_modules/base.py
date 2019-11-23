@@ -8,10 +8,15 @@ from sqlalchemy.event import listens_for
 from geo_ref_api import DeclarativeBase, ApiModuleConstructor, get_tables_dict, config
 
 class ApiModule(ApiModuleConstructor):
+    """
+    Базовый модуль
+    """
+    
     __module_name__ = 'base'
     __module_depends__ = []
+    __module_doc__ = __doc__
     __tables_dict__ = get_tables_dict()
-    
+   
 
 class Groups(DeclarativeBase, ApiModule):
     """

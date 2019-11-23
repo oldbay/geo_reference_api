@@ -116,5 +116,54 @@ if __name__ == "__main__":
             "res": 'users',
             "que": {}
         }, 
+        {
+            "req": "POST",
+            "res": 'table01',
+            "que": {
+                "name": "test01", 
+            } 
+        }, 
+        {
+            "req": "POST",
+            "res": 'table11',
+            "que": {
+                "name": "test11",
+                "table01_id": 1,
+            } 
+        }, 
+        {
+            "req": "POST",
+            "res": 'table12',
+            "que": {
+                "name": "test12",
+                "table01_id": 1,
+            } 
+        }, 
+        {
+            "req": "POST",
+            "res": 'table21',
+            "que": {
+                "name": "test21",
+                "table11_id": 1,
+                "table12_id": 1,
+            } 
+        }, 
+        {
+            "req": "GET",
+            "res": 'table01',
+            "que": {
+                "api_nesting": 4,
+            }
+        }, 
+        {
+            "req": "GET",
+            "res": 'table11',
+            "que": {}
+        }, 
+        {
+            "req": "GET",
+            "res": 'table12',
+            "que": {}
+        }, 
     ]
     qrun(queries)

@@ -38,45 +38,105 @@ session = Session()
 
 # create api
 api_resources = {}
+api_struct = {}
 for table_class in DeclarativeBase.__subclasses__():
     api_module = table_class.__module_name__
+    if api_module not in api_struct:
+        api_struct[api_module] = {
+            "module_depends": table_class.__module_depends__,
+            "module_doc": table_class.__module_doc__,
+        }
     res_name = table_class.__tablename__
-    res_doc = table_class.__doc__
-    #print (res_name)
-    #print (table_class.__tables_dict__) 
-    res_get = {}
-    res_post = {}
-    res_put = {}
-    res_delete = {}
+    api_resources[res_name] = {
+        "obj": table_class,
+        "GET": {},
+        "POST": {},
+        "PUT": {},
+        "DELETE": {},
+    }
+    api_struct[api_module][res_name] = {
+        "resource_doc": table_class.__doc__,
+        "GET": {},
+        "POST": {},
+        "PUT": {},
+        "DELETE": {},
+    }
+    table2resource = False
     for serial_obj in table_class.__serialization__:
         col_name = serial_obj.name
         try:
             col_type = table_class.__dict__[col_name].type.python_type
         except AttributeError:
             col_type = dict
-        if serial_obj.supports_json[0]:
-            res_post.update({col_name: col_type})
-            res_put.update({col_name: col_type})
-        if serial_obj.supports_json[1]:
-            res_get.update({col_name: col_type})
-            res_put.update({find_prefix.format(col_name): col_type})
-            res_delete.update({find_prefix.format(col_name): col_type})
-    if res_get:
-        res_get.update({nesting_name: int})
-    if res_get or res_post or res_put or res_delete:
-        api_resources[res_name] = {
-            "obj": table_class,
-            "module": api_module,
-            "GET": res_get,
-            "POST": res_post,
-            "PUT": res_put,
-            "DELETE": res_delete,
-        }
 
-#print ("*"*10)
-#for name in api_resources:
-    #print (name)
-    #print (api_resources[name])
+        if serial_obj.supports_json[0]:
+            table2resource = True
+            api_resources[res_name]['POST'].update({col_name: col_type})
+            api_struct[api_module][res_name]['POST'].update(
+                {col_name: col_type.__name__}
+            )
+            api_resources[res_name]['PUT'].update({col_name: col_type})
+            api_struct[api_module][res_name]['PUT'].update(
+                {col_name: col_type.__name__}
+            )
+        if serial_obj.supports_json[1]:
+            table2resource = True
+            api_resources[res_name]['GET'].update({col_name: col_type})
+            api_struct[api_module][res_name]['GET'].update(
+                {col_name: col_type.__name__}
+            )
+            if col_type is not dict:
+                api_resources[res_name]['PUT'].update(
+                    {find_prefix.format(col_name): col_type}
+                )
+                api_struct[api_module][res_name]['PUT'].update(
+                    {find_prefix.format(col_name): col_type.__name__}
+                )
+                api_resources[res_name]['DELETE'].update(
+                    {find_prefix.format(col_name): col_type}
+                )
+                api_struct[api_module][res_name]['DELETE'].update(
+                    {find_prefix.format(col_name): col_type.__name__}
+                )
+    if api_resources[res_name]['GET']:
+        api_resources[res_name]['GET'].update({nesting_name: int})
+        api_struct[api_module][res_name]['GET'].update({nesting_name: int.__name__})
+        
+    if not table2resource:
+        del(api_requsts[res_name])
+        del(api_struct[api_module][res_name])
+
+
+# Api struct wiev
+for module in api_struct:
+    print ("module: {} -...".format(module))
+    for mod_key in api_struct[module]:
+        if isinstance(api_struct[module][mod_key], dict):
+            print (
+                "    resource: {} -...".format(mod_key)
+            )
+            for api_key in api_struct[module][mod_key]:
+                if isinstance(api_struct[module][mod_key][api_key], dict):
+                    print (
+                        "        {} -...".format(api_key)
+                    )
+                    for res_var in api_struct[module][mod_key][api_key]:
+                        print (
+                            "            {0}: {1}".format(
+                                res_var, api_struct[module][mod_key][api_key][res_var]
+                            )
+                        )
+                else:
+                    print (
+                        "        {0}: {1}".format(
+                            api_key, api_struct[module][mod_key][api_key]
+                        )
+                    )
+        else:
+            print (
+                "    {0}: {1}".format(mod_key, api_struct[module][mod_key])
+            )
+print ("*"*10)
 
 
 def select(table, qdict):

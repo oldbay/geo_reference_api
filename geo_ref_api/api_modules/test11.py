@@ -34,11 +34,11 @@ class Table11(DeclarativeBase, ApiModule):
 
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(256), nullable=False, unique=True)
-    table01_id = Column(Integer, ForeignKey('table01.id'))
     
+    table01_id = Column(Integer, ForeignKey('table01.id'))
     Table01 = get_table_cls(ApiModule, 'table01')
-    #Table01.__serialization__.append(
-        #AttributeConfiguration(name='table11s', supports_json=(False, True)), 
-    #)
-    #Table01.table11s = relationship('table11')
+    Table01.__serialization__.append(
+        AttributeConfiguration(name='table11s', supports_json=(False, True)), 
+    )
+    Table01.table11s = relationship('Table11')
     table01nams = column_property(select([(Table01.name)], table01_id == Table01.id))

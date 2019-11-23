@@ -15,16 +15,18 @@ get_tables_dict = lambda : {
 ########################################################################
 class ApiModuleConstructor(object):
     """
-    Constructor for inhertance class ApiModule 
-    
-    Reinicializing in your modules:
-        __module_name__ = "Nmae your module"
-        __module_depends__ = ["depends1", "depends2"]
-        __tables_dict__ = get_tables_dict()
+    Constructor for inhertance class ApiModule
     """
+    
+    #Reinicializing in your modules:
+    #    __module_name__ = "Nmae your module"
+    #    __module_depends__ = ["depends1", "depends2"]
+    #    __module_doc__ = __doc__
+    #    __tables_dict__ = get_tables_dict()
     
     __module_name__ = None
     __module_depends__ = []
+    __module_doc__ = __doc__
     __tables_dict__ = get_tables_dict()
 
     #----------------------------------------------------------------------
