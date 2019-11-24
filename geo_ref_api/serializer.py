@@ -1,3 +1,4 @@
+import os
 import json
 import copy
 import imp
@@ -7,30 +8,24 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
 from . import config
-from .modules_factory import ExceptionDependModule
+from .modules_factory import ExceptionDepend
 
 # loading module base
 from .api_modules import base
-
 # loading other modules
-# to next: add load in file!!!
-access_modules = [
-    "geo_ref_api.api_modules.test01", 
-    "geo_ref_api.api_modules.test11", 
-    "geo_ref_api.api_modules.test12", 
-    "geo_ref_api.api_modules.test21", 
-]
-for imp_module in access_modules:
+for imp_module in config.ApiModules:
     try:
-        importlib.import_module(imp_module)
-    except ExceptionDependModule as err:
+        if os.path.isfile(imp_module):
+            imp.load_source("_", imp_module)
+        else:
+            importlib.import_module(imp_module)
+    except ExceptionDepend as err:
         print(
-            "Broken Load module '{0}': '{1}'".format(
+            "Broken Depends for Load module '{0}' : '{1}'".format(
                 imp_module, 
                 err, 
             )
         )
-
 # DeclarativeBase is last import
 from .modules_factory import DeclarativeBase, ApiModuleConstructor
 
@@ -216,14 +211,22 @@ api_requsts = {
     "DELETE": delete,
 }
 
-
-# run
-def qrun(queries):
-    for q in queries:
-        request = api_requsts[q['req']]
-        resource = api_resources[q['res']]['obj']
-        query = q['que']
-        print (
-            request(resource, query)
-        )
-        print ("")
+def serialize_run(query):
+    request = api_requsts[query['req']]
+    resource = api_resources[query['res']]['obj']
+    validate = api_resources[query['res']][query['req']]
+    serial_query = query['que']
+    # type validate
+    for key in serial_query:
+        if not isinstance(serial_query[key], validate[key]):
+            print (
+                "query:'{0}'\n\
+                For key '{1}' type '{2}' not valid, but expected type: '{3}'".format(
+                    query,
+                    key,
+                    type(serial_query[key]).__name__,
+                    validate[key].__name__, 
+                )
+            )
+            return False
+    return request(resource, serial_query)

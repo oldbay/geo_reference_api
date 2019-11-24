@@ -1,4 +1,4 @@
-from geo_ref_api.serializer import qrun
+from geo_ref_api.serializer import serialize_run
 
 if __name__ == "__main__":
     queries = [
@@ -166,4 +166,7 @@ if __name__ == "__main__":
             "que": {}
         }, 
     ]
-    qrun(queries)
+    
+    for query in queries:
+        print (serialize_run(query))
+        print ("")

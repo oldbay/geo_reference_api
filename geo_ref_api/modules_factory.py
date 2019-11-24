@@ -5,7 +5,7 @@ from sqlathanor import declarative_base
 
 
 ########################################################################
-class ExceptionDependModule(Exception):
+class ExceptionDepend(Exception):
     """
     Exception for depends module
     """
@@ -20,6 +20,11 @@ class ExceptionDependModule(Exception):
 DeclarativeBase = declarative_base()
 
 def get_tables_dict(*args):
+    """
+    Load ApiModule.__module_depends__ & ApiModule.__table_dict__
+    and control module depends to error in ExceptionDepend
+    """
+    
     #test depends
     tables_module = [
         my.__module_name__ 
@@ -28,7 +33,7 @@ def get_tables_dict(*args):
     ]
     for depend in args:
         if depend not in tables_module:
-            raise ExceptionDependModule(
+            raise ExceptionDepend(
                 "Depend Module '{}' not found".format(
                     depend, 
                 )
@@ -39,7 +44,7 @@ def get_tables_dict(*args):
         for my 
         in DeclarativeBase.__subclasses__()
     }
-    return tables_dict
+    return list(args), tables_dict
 
 
 ########################################################################
@@ -50,18 +55,28 @@ class ApiModuleConstructor(object):
     
     #Reinicializing in your modules:
     #    __module_name__ = "Nmae your module"
-    #    __module_depends__ = ["depends1", "depends2"]
     #    __module_doc__ = __doc__
-    #    __tables_dict__ = get_tables_dict(*__module_depends__)
+    #    __module_depends__, __tables_dict__ = get_tables_dict(
+    #        "depends1", 
+    #        "depends2"
+    #    )
     
     __module_name__ = None
-    __module_depends__ = []
     __module_doc__ = __doc__
-    __tables_dict__ = get_tables_dict(*__module_depends__)
+    __module_depends__, __tables_dict__ = get_tables_dict()
 
-    #----------------------------------------------------------------------
-    #def __init__(self, *args, **kwargs):
-        #"""Constructor"""
  
+def get_table_cls (module, table_name):
+    """
+    Load depends table from ApiModule.__tables_dict__
+    and control table depends to error in ExceptionDepend
+    """
     
-get_table_cls = lambda module, table_name: module.__tables_dict__[table_name] 
+    if table_name in module.__tables_dict__:
+        return module.__tables_dict__[table_name]
+    else:
+        raise ExceptionDepend(
+            "Depend Table '{}' not found".format(
+                table_name, 
+            )
+        )

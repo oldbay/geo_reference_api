@@ -14,8 +14,10 @@ from geo_ref_api import (
 
 class ApiModule(ApiModuleConstructor):
     __module_name__ = 'test21'
-    __module_depends__ = ['test11', 'test12']
-    __tables_dict__ = get_tables_dict(*__module_depends__)
+    __module_depends__, __tables_dict__ = get_tables_dict(
+        'test11',
+        'test12', 
+    )
     
 
 class Table21(DeclarativeBase, ApiModule):
