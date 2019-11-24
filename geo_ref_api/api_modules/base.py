@@ -15,7 +15,7 @@ class ApiModule(ApiModuleConstructor):
     __module_name__ = 'base'
     __module_depends__ = []
     __module_doc__ = __doc__
-    __tables_dict__ = get_tables_dict()
+    __tables_dict__ = get_tables_dict(*__module_depends__)
    
 
 class Groups(DeclarativeBase, ApiModule):

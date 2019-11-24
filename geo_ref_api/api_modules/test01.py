@@ -7,7 +7,7 @@ from geo_ref_api import DeclarativeBase, ApiModuleConstructor, get_tables_dict, 
 class ApiModule(ApiModuleConstructor):
     __module_name__ = 'test01'
     __module_depends__ = []
-    __tables_dict__ = get_tables_dict()
+    __tables_dict__ = get_tables_dict(*__module_depends__)
     
 
 class Table01(DeclarativeBase, ApiModule):

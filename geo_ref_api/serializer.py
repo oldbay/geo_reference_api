@@ -1,24 +1,38 @@
 import json
 import copy
+import imp
+import importlib
 
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
 from . import config
+from .modules_factory import ExceptionDependModule
 
 # loading module base
 from .api_modules import base
+
 # loading other modules
-from .api_modules import (
-    test01, 
-    test11, 
-    test12, 
-    test21, 
-)
+# to next: add load in file!!!
+access_modules = [
+    "geo_ref_api.api_modules.test01", 
+    "geo_ref_api.api_modules.test11", 
+    "geo_ref_api.api_modules.test12", 
+    "geo_ref_api.api_modules.test21", 
+]
+for imp_module in access_modules:
+    try:
+        importlib.import_module(imp_module)
+    except ExceptionDependModule as err:
+        print(
+            "Broken Load module '{0}': '{1}'".format(
+                imp_module, 
+                err, 
+            )
+        )
+
 # DeclarativeBase is last import
 from .modules_factory import DeclarativeBase, ApiModuleConstructor
-
-#print ({my.__tablename__:my for my in DeclarativeBase.__subclasses__()})
 
 def_nesting = 2
 nesting_name = 'api_nesting'
