@@ -65,12 +65,16 @@ class Modules(DeclarativeBase, ApiModule):
 
     __serialization__ = [
         AttributeConfiguration(name='id', supports_json=(False, True)), 
-        AttributeConfiguration(name='name', supports_json=True), 
+        AttributeConfiguration(name='name', supports_json=(False, True)), 
+        AttributeConfiguration(name='access', supports_json=(False, True)), 
+        AttributeConfiguration(name='enable', supports_json=True), 
         AttributeConfiguration(name='groups', supports_json=(False, True)), 
     ]
 
     id = Column(Integer, primary_key=(False, True))
     name = Column(Unicode(256), nullable=False, unique=True)
+    access = Column(Boolean, default=False)
+    enable = Column(Boolean, default=True)
     groups = relationship('ModulesPermissions', cascade='all, delete-orphan')
 
 
@@ -81,7 +85,6 @@ class ModulesPermissions(DeclarativeBase, ApiModule):
     __serialization__ = [
         AttributeConfiguration(name='id', supports_json=(False, True)), 
         AttributeConfiguration(name='permission_level', supports_json=True), 
-        AttributeConfiguration(name='enable', supports_json=True), 
         AttributeConfiguration(name='group_id', supports_json=False), 
         AttributeConfiguration(name='module_id', supports_json=False), 
         AttributeConfiguration(name='group', supports_json=(False, True)), 
@@ -90,8 +93,6 @@ class ModulesPermissions(DeclarativeBase, ApiModule):
 
     id = Column(Integer, primary_key=True)
     permission_level = Column(Integer, nullable=False)
-    access = Column(Boolean, default=False)
-    enable = Column(Boolean, default=True)
     group_id = Column(Integer, ForeignKey('groups.id'), nullable=False)
     module_id = Column(Integer, ForeignKey('modules.id'), nullable=False)
     group = column_property(select([(Groups.name)], group_id == Groups.id))

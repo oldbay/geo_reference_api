@@ -26,6 +26,9 @@ for imp_module in config.ApiModules:
                 err, 
             )
         )
+    else:
+        # add module name to db.Modules
+        pass
 # DeclarativeBase is last import
 from .modules_factory import DeclarativeBase, ApiModuleConstructor
 
@@ -58,6 +61,7 @@ for table_class in DeclarativeBase.__subclasses__():
     res_name = table_class.__tablename__
     api_resources[res_name] = {
         "obj": table_class,
+        "module": api_module,
         "GET": {},
         "POST": {},
         "PUT": {},
@@ -216,8 +220,18 @@ def serialize_run(query):
     resource = api_resources[query['res']]['obj']
     validate = api_resources[query['res']][query['req']]
     serial_query = query['que']
-    # type validate
+    # tiny validate
     for key in serial_query:
+        if key not in validate:
+            print (
+                "query:'{0}'\n\
+                Key '{1}' not valid for: '{2}'".format(
+                    query,
+                    key,
+                    validate, 
+                )
+            )
+            return False
         if not isinstance(serial_query[key], validate[key]):
             print (
                 "query:'{0}'\n\
