@@ -8,6 +8,7 @@ from geo_ref_api import (
     DeclarativeBase, 
     ApiModuleConstructor, 
     get_tables_dict, 
+    get_serialization, 
     get_table_cls, 
     config
 )
@@ -26,12 +27,12 @@ class Table12(DeclarativeBase, ApiModule):
 
     __tablename__ = 'table12'
 
-    __serialization__ = [
+    __serialization__ = get_serialization(
         AttributeConfiguration(name='id', supports_json=(False, True)), 
         AttributeConfiguration(name='name', supports_json=True), 
         AttributeConfiguration(name='table01_id', supports_json=(True, False)), 
         AttributeConfiguration(name='table01nams', supports_json=(False, True)), 
-    ]
+    )
 
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(256), nullable=False, unique=True)

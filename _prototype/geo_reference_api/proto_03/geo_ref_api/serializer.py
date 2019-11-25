@@ -3,7 +3,6 @@ import json
 import copy
 import imp
 import importlib
-from datetime import datetime
 
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
@@ -14,7 +13,6 @@ from .modules_factory import ExceptionDepend
 # loading module base
 from .api_modules import base
 # loading other modules
-load_modules_name = []
 for imp_module in config.ApiModules:
     try:
         if os.path.isfile(imp_module):
@@ -29,15 +27,13 @@ for imp_module in config.ApiModules:
             )
         )
     else:
-        load_modules_name.append(imp_module)
+        # add module name to db.Modules
+        pass
 # DeclarativeBase is last import
 from .modules_factory import DeclarativeBase, ApiModuleConstructor
 
 def_nesting = 2
 nesting_name = 'api_nesting'
-api_user_name = 'api_user'
-api_time_name = 'api_time'
-modules_table_name = 'modules'
 find_prefix = 'api_find_{}'
 
 # create base
@@ -48,11 +44,9 @@ else:
 engine = create_engine(DBPath, echo=config.DBEcho)
 DeclarativeBase.metadata.create_all(engine)
 
-
 # session
 Session = sessionmaker(bind=engine)
 session = Session()
-
 
 # create api
 api_resources = {}
@@ -122,61 +116,43 @@ for table_class in DeclarativeBase.__subclasses__():
         api_struct[api_module][res_name]['GET'].update({nesting_name: int.__name__})
         
     if not table2resource:
-        del(api_resources[res_name])
+        del(api_requsts[res_name])
         del(api_struct[api_module][res_name])
 
 
-# Create or update modules table
-modules_query = session.query(api_resources[modules_table_name]['obj'])
-for module_row in modules_query.all():
-    print(module_row)
-
-
 # Api struct wiev
-#for module in api_struct:
-    #print ("module: {} -...".format(module))
-    #for mod_key in api_struct[module]:
-        #if isinstance(api_struct[module][mod_key], dict):
-            #print (
-                #"    resource: {} -...".format(mod_key)
-            #)
-            #for api_key in api_struct[module][mod_key]:
-                #if isinstance(api_struct[module][mod_key][api_key], dict):
-                    #print (
-                        #"        {} -...".format(api_key)
-                    #)
-                    #for res_var in api_struct[module][mod_key][api_key]:
-                        #print (
-                            #"            {0}: {1}".format(
-                                #res_var, api_struct[module][mod_key][api_key][res_var]
-                            #)
-                        #)
-                #else:
-                    #print (
-                        #"        {0}: {1}".format(
-                            #api_key, api_struct[module][mod_key][api_key]
-                        #)
-                    #)
-        #else:
-            #print (
-                #"    {0}: {1}".format(mod_key, api_struct[module][mod_key])
-            #)
-#print ("*"*10)
+for module in api_struct:
+    print ("module: {} -...".format(module))
+    for mod_key in api_struct[module]:
+        if isinstance(api_struct[module][mod_key], dict):
+            print (
+                "    resource: {} -...".format(mod_key)
+            )
+            for api_key in api_struct[module][mod_key]:
+                if isinstance(api_struct[module][mod_key][api_key], dict):
+                    print (
+                        "        {} -...".format(api_key)
+                    )
+                    for res_var in api_struct[module][mod_key][api_key]:
+                        print (
+                            "            {0}: {1}".format(
+                                res_var, api_struct[module][mod_key][api_key][res_var]
+                            )
+                        )
+                else:
+                    print (
+                        "        {0}: {1}".format(
+                            api_key, api_struct[module][mod_key][api_key]
+                        )
+                    )
+        else:
+            print (
+                "    {0}: {1}".format(mod_key, api_struct[module][mod_key])
+            )
+print ("*"*10)
 
 
-def find_prefix_attrs(qdict):
-    qdict_attrs = copy.deepcopy(qdict)
-    find_attrs = {}
-    for key in qdict.keys():
-        attrs_test = key.split(find_prefix.format(''))
-        if len(attrs_test) == 2:
-            find_attrs[attrs_test[-1]] = qdict[key]
-            del(qdict_attrs[key]) 
-    find_attrs.update()
-    return find_attrs, qdict_attrs
-
-
-def select(table, qdict, username=None):
+def select(table, qdict):
     max_nesting = qdict.get(nesting_name, def_nesting)
     if nesting_name in qdict.keys(): del(qdict[nesting_name])
     
@@ -192,29 +168,36 @@ def select(table, qdict, username=None):
         )
     return result
 
-def insert(table, qdict, username=None):
+def insert(table, qdict):
     tab_obj = table.new_from_json(json.dumps(qdict))
-    tab_obj.__dict__[api_user_name] = username
-    tab_obj.__dict__[api_time_name] = datetime.now()
     session.add(tab_obj)
     session.commit()
     return select(table, qdict)
 
-def update(table, qdict, username=None):
+def find_prefix_attrs(qdict):
+    qdict_attrs = copy.deepcopy(qdict)
+    find_attrs = {}
+    for key in qdict.keys():
+        attrs_test = key.split(find_prefix.format(''))
+        if len(attrs_test) == 2:
+            find_attrs[attrs_test[-1]] = qdict[key]
+            del(qdict_attrs[key]) 
+    find_attrs.update()
+    return find_attrs, qdict_attrs
+
+def update(table, qdict):
     find_attrs, qdict_attrs = find_prefix_attrs(qdict)
     
     table_query = session.query(table)
     find_list = table_query.filter_by(**find_attrs)
     for tab_obj in find_list:
         tab_obj.update_from_json(json.dumps(qdict_attrs))
-        tab_obj.__dict__[api_user_name] = username
-        tab_obj.__dict__[api_time_name] = datetime.now()
         session.commit()
         
     find_attrs.update(qdict_attrs)
     return select(table, find_attrs)
 
-def delete(table, qdict, username=None):
+def delete(table, qdict):
     find_attrs, qdict_attrs = find_prefix_attrs(qdict)
     
     table_query = session.query(table)
@@ -234,7 +217,6 @@ api_requsts = {
 
 def serialize_run(query):
     request = api_requsts[query['req']]
-    username = query.get('usr', None)
     resource = api_resources[query['res']]['obj']
     validate = api_resources[query['res']][query['req']]
     serial_query = query['que']
@@ -261,4 +243,4 @@ def serialize_run(query):
                 )
             )
             return False
-    return request(resource, serial_query, username)
+    return request(resource, serial_query)

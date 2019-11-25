@@ -2,7 +2,13 @@ from sqlathanor import Column, relationship, AttributeConfiguration
 
 from sqlalchemy import Integer, ForeignKey, Unicode
 
-from geo_ref_api import DeclarativeBase, ApiModuleConstructor, get_tables_dict, config
+from geo_ref_api import (
+    DeclarativeBase,
+    ApiModuleConstructor, 
+    get_tables_dict,
+    get_serialization, 
+    config, 
+)
 
 class ApiModule(ApiModuleConstructor):
     __module_name__ = 'test01'
@@ -17,10 +23,10 @@ class Table01(DeclarativeBase, ApiModule):
 
     __tablename__ = 'table01'
 
-    __serialization__ = [
+    __serialization__ = get_serialization(
         AttributeConfiguration(name='id', supports_json=(False, True)), 
         AttributeConfiguration(name='name', supports_json=True), 
-    ]
+    )
 
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(256), nullable=False, unique=True)

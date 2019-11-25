@@ -1,6 +1,8 @@
 from .modules_factory import (
-    DeclarativeBase, 
+    ExceptionDepend, 
+    DeclarativeBase,
     ApiModuleConstructor, 
-    get_tables_dict, 
+    get_tables_dict,
+    get_serialization, 
     get_table_cls
 )

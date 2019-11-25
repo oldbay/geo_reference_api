@@ -1,9 +1,7 @@
 import os
 import imp
 
-from sqlathanor import Column, AttributeConfiguration, declarative_base, BaseModel
-from sqlalchemy import Integer, Unicode, DateTime
-#from sqlalchemy.ext.declarative import declared_attr
+from sqlathanor import declarative_base
 
 
 ########################################################################
@@ -19,18 +17,16 @@ class ExceptionDepend(Exception):
 
 
 ########################################################################
-TableConstructor = BaseModel
-TableConstructor.__serialization__ = [
-        AttributeConfiguration(name='id', supports_json=(False, True)), 
-        AttributeConfiguration(name='api_user', supports_json=(False, True)), 
-        AttributeConfiguration(name='api_time', supports_json=(False, True)), 
-]
-TableConstructor.id = Column(Integer, primary_key=True) 
-TableConstructor.api_user = Column(Unicode(256)) 
-TableConstructor.api_time = Column(DateTime) 
+DeclarativeBase = declarative_base()
 
+#class ResourceConstructor(DeclarativeBase):
+    
+    #__serialization__ = [
+        #AttributeConfiguration(name='id', supports_json=(False, True)), 
+    #] 
+    
+    #id = Column(Integer, primary_key=True)
 
-DeclarativeBase = declarative_base(cls=TableConstructor)
 
 
 def get_tables_dict(*args):
@@ -59,9 +55,6 @@ def get_tables_dict(*args):
         in DeclarativeBase.__subclasses__()
     }
     return list(args), tables_dict
-
-
-get_serialization = lambda *args: DeclarativeBase.__serialization__ + list(args)  
 
 
 ########################################################################
