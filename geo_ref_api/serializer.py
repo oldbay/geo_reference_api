@@ -129,7 +129,7 @@ for table_class in DeclarativeBase.__subclasses__():
 # Create or update modules table
 modules_query = session.query(api_resources[modules_table_name]['obj'])
 for module_row in modules_query.all():
-    print(module_row)
+    print(module_row.name)
 
 
 # Api struct wiev

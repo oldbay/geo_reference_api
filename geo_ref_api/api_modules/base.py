@@ -3,7 +3,7 @@ from sqlathanor import Column, relationship, AttributeConfiguration
 from sqlalchemy import Integer, ForeignKey, Unicode, PickleType, DateTime, Boolean
 from sqlalchemy.orm import column_property
 from sqlalchemy import select
-from sqlalchemy.event import listens_for, listen
+from sqlalchemy.event import listens_for
 
 from geo_ref_api import (
     DeclarativeBase,
@@ -101,20 +101,34 @@ class ModulesPermissions(DeclarativeBase, ApiModule):
 # Events
 
 # Create initial Data
+@listens_for(Groups.__table__, 'after_create')
 def insert_def_group(target, connection, **kw):
     connection.execute(
         target.insert(), 
         name='admins', 
     )
-listen(Groups.__table__, 'after_create', insert_def_group)
 
+@listens_for(Users.__table__, 'after_create')
 def insert_def_user(target, connection, **kw):
+    group_tab = Groups.__table__
+    group_query = connection.execute(
+        group_tab.select().where(group_tab.c.name=='admins')
+    )
     connection.execute(
         target.insert(), 
         name='admin',
-        group_id=1
+        group_id=list(group_query)[0]['id']
     )
-listen(Users.__table__, 'after_create', insert_def_user)
+    
+# test for add modules, defore delete!!!!
+@listens_for(Modules.__table__, 'after_create')
+def insert_def_group(target, connection, **kw):
+    connection.execute(
+        target.insert(), 
+        name=ApiModule.__module_name__,
+        #access=True, 
+    )
+#!!!
 
 #Triggers
 @listens_for(Modules, 'after_insert')

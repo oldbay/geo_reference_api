@@ -201,6 +201,12 @@ if __name__ == "__main__":
             "usr": "admin",
             "que": {}
         }, 
+        {
+            "req": "GET",
+            "res": 'modules',
+            "usr": "admin",
+            "que": {}
+        }, 
     ]
     
     for query in queries:
