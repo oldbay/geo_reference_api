@@ -5,11 +5,17 @@ import imp
 import importlib
 from datetime import datetime
 
+
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
 from . import config
 from .modules_factory import ExceptionDepend
+
+import logging
+import logging.config
+logging.config.dictConfig(config.Logging)
+logger = logging.getLogger("serializer")
 
 # loading module base
 from .api_modules import base
@@ -23,7 +29,7 @@ for imp_module in config.ApiModules:
         else:
             importlib.import_module(imp_module)
     except ExceptionDepend as err:
-        print(
+        logger.warning(
             "Broken Depends for Load module '{0}' : '{1}'".format(
                 imp_module, 
                 err, 
@@ -75,6 +81,8 @@ class ApiSerializer:
         self.session = self.Session()
         
         self.create_modules_tab()
+        
+        logger.info("Serializer init")
 
     def create_api(self):
         self.api_resources = {}
