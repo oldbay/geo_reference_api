@@ -1,5 +1,4 @@
-from geo_ref_api import ApiSerializer
-import json
+from geo_ref_api.serializer import serialize
 
 if __name__ == "__main__":
     queries = [
@@ -117,42 +116,16 @@ if __name__ == "__main__":
             "usr": "admin",
             "que": {}
         }, 
-        {
-            "req": "DELETE",
-            "res": 'modules',
-            "usr": "admin",
-            "que": {
-                "api_find_name": "test01",
-            }
-        }, 
-        {
-            "req": "DELETE",
-            "res": 'table12',
-            "usr": "admin",
-            "que": {
-                "api_find_name": "test12",
-            }
-        }, 
-        {
-            "req": "GET",
-            "res": 'table21',
-            "usr": "admin",
-            "que": {}
-        }, 
-        {
-            "req": "GET",
-            "res": 'table01',
-            "usr": "admin",
-            "que": {
-                "api_nesting": 4, 
-            }
-        }, 
+        #{
+            #"req": "GET",
+            #"res": 'modules',
+            #"usr": "admin",
+            #"que": {
+                #"api_nesting": 1,
+            #}
+        #}, 
     ]
     
-    api_serial = ApiSerializer()
-    
-    api_serial.print_api_struct()
-     
     for query in queries:
-        print (api_serial.serialize(query))
+        print (serialize(query))
         print ("")

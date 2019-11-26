@@ -16,7 +16,7 @@ from geo_ref_api import (
 
 class ApiModule(ApiModuleConstructor):
     """
-    Module Base
+    Базовый модуль
     """
     
     __module_name__ = 'base'
@@ -26,7 +26,7 @@ class ApiModule(ApiModuleConstructor):
 
 class Groups(DeclarativeBase, ApiModule):
     """
-    Resource Groups
+    Ресурс групп
     """
 
     __tablename__ = 'groups'
@@ -44,7 +44,7 @@ class Groups(DeclarativeBase, ApiModule):
 
 class Users(DeclarativeBase, ApiModule):
     """
-    Resource Users
+    Ресурс пользователей
     """
 
     __tablename__ = 'users'
@@ -63,9 +63,6 @@ class Users(DeclarativeBase, ApiModule):
 
 
 class Modules(DeclarativeBase, ApiModule):
-    """
-    Resource Modules
-    """
 
     __tablename__ = 'modules'
     
@@ -87,9 +84,6 @@ class Modules(DeclarativeBase, ApiModule):
 
 
 class ModulesPermissions(DeclarativeBase, ApiModule):
-    """
-    Resource Modules Permissions
-    """
 
     __tablename__ = 'modules_permissions'
 

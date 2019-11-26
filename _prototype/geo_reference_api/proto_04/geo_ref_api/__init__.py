@@ -6,4 +6,3 @@ from .modules_factory import (
     get_serialization, 
     get_table_cls
 )
-from .serializer import ApiSerializer
