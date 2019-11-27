@@ -8,6 +8,9 @@ from datetime import datetime
 
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
+from sqlalchemy.exc import (
+    IntegrityError as SqlAlchemyIntegrityError,
+)
 
 from . import config
 from .modules_factory import ExceptionDepend
@@ -243,15 +246,19 @@ class ApiSerializer:
                     tab_obj.to_json(max_nesting=max_nesting)
                 )
             )
-        return result
+        return 200, result
     
     def insert(self, table, qdict, username=None):
         tab_obj = table.new_from_json(json.dumps(qdict))
         tab_obj.api_user = username
         tab_obj.api_time = datetime.now()
         self.session.add(tab_obj)
-        self.session.commit()
-        return self.select(table, qdict)
+        try:
+            self.session.commit()
+        except SqlAlchemyIntegrityError as err:
+            self.session.rollback()
+            return 409, {"error": str(err)}
+        return 201, self.select(table, qdict)[-1]
     
     def update(self, table, qdict, username=None):
         find_attrs, qdict_attrs = self.find_prefix_attrs(qdict)
@@ -262,10 +269,14 @@ class ApiSerializer:
             tab_obj.update_from_json(json.dumps(qdict_attrs))
             tab_obj.api_user = username
             tab_obj.api_time = datetime.now()
-            self.session.commit()
+            try:
+                self.session.commit()
+            except SqlAlchemyIntegrityError as err:
+                self.session.rollback()
+                return 409, {"error": err}
             
         find_attrs.update(qdict_attrs)
-        return self.select(table, find_attrs)
+        return 201, self.select(table, find_attrs)[-1]
     
     def delete(self, table, qdict, username=None):
         find_attrs, qdict_attrs = self.find_prefix_attrs(qdict)
@@ -276,7 +287,7 @@ class ApiSerializer:
             self.session.delete(tab_obj)
             self.session.commit()
             
-        return self.select(table, find_attrs)
+        return 204, self.select(table, find_attrs)[-1]
     
     
     def serialize(self, query):
@@ -346,4 +357,4 @@ class ApiSerializer:
                     }
         
         # start serialization: 200
-        return 200, request(resource, serial_query, username)
+        return request(resource, serial_query, username)

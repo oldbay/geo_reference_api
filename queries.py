@@ -53,6 +53,14 @@ if __name__ == "__main__":
         }, 
         {
             "req": "POST",
+            "res": 'table01',
+            "usr": "admin",
+            "que": {
+                "name": "test01", 
+            } 
+        }, 
+        {
+            "req": "POST",
             "res": 'table11',
             "usr": "admin",
             "que": {
