@@ -90,7 +90,6 @@ class ApiSerializer:
     def create_api(self):
         self.api_resources = {}
         self.api_struct = {}
-        #self.api_doc = {}
         for table_class in DeclarativeBase.__subclasses__():
             api_module = table_class.__module_name__
             if api_module not in self.api_struct:

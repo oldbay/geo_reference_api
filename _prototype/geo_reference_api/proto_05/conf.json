@@ -1,0 +1,10 @@
+{
+"DBEcho": false,
+"DefPermiss": 0,
+"ApiModules": [
+    "example_modules.test01", 
+    "example_modules.test11", 
+    "example_modules.test12", 
+    "example_modules/test21.py"
+    ]
+}
