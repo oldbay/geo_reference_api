@@ -8,9 +8,13 @@ if __name__ == "__main__":
             "res": 'modules_permissions',
             "usr": "admin",
             "que": {
-                "api_find_group": "admins",
-                "api_find_module": "test01",
-                "permission_level": 3,
+                "filter": {
+                    "group": "admins",
+                    "module": "test01",
+                },
+                "data": {
+                    "permission_level": 3,
+                },
             }
         }, 
         {
@@ -18,9 +22,13 @@ if __name__ == "__main__":
             "res": 'modules_permissions',
             "usr": "admin",
             "que": {
-                "api_find_group": "admins",
-                "api_find_module": "test11",
-                "permission_level": 3,
+                "filter": {
+                    "group": "admins",
+                    "module": "test11",
+                },
+                "data": {
+                    "permission_level": 3,
+                },
             }
         }, 
         {
@@ -28,9 +36,13 @@ if __name__ == "__main__":
             "res": 'modules_permissions',
             "usr": "admin",
             "que": {
-                "api_find_group": "admins",
-                "api_find_module": "test12",
-                "permission_level": 3,
+                "filter": {
+                    "group": "admins",
+                    "module": "test12",
+                },
+                "data": {
+                    "permission_level": 3,
+                },
             }
         }, 
         {
@@ -38,9 +50,13 @@ if __name__ == "__main__":
             "res": 'modules_permissions',
             "usr": "admin",
             "que": {
-                "api_find_group": "admins",
-                "api_find_module": "test21",
-                "permission_level": 3,
+                "filter": {
+                    "group": "admins",
+                    "module": "test21",
+                },
+                "data": {
+                    "permission_level": 3,
+                },
             }
         }, 
         {
@@ -48,7 +64,9 @@ if __name__ == "__main__":
             "res": 'table01',
             "usr": "admin",
             "que": {
-                "name": "test01", 
+                "data": {
+                    "name": "test01", 
+                },
             } 
         }, 
         {
@@ -56,7 +74,9 @@ if __name__ == "__main__":
             "res": 'table01',
             "usr": "admin",
             "que": {
-                "name": "test01", 
+                "data": {
+                    "name": "test01", 
+                },
             } 
         }, 
         {
@@ -64,8 +84,10 @@ if __name__ == "__main__":
             "res": 'table11',
             "usr": "admin",
             "que": {
-                "name": "test11",
-                "table01_id": 1,
+                "data": {
+                    "name": "test11",
+                    "table01_id": 1,
+                },
             } 
         }, 
         {
@@ -73,8 +95,10 @@ if __name__ == "__main__":
             "res": 'table12',
             "usr": "admin",
             "que": {
-                "name": "test12",
-                "table01_id": 1,
+                "data": {
+                    "name": "test12",
+                    "table01_id": 1,
+                },
             } 
         }, 
         {
@@ -82,9 +106,11 @@ if __name__ == "__main__":
             "res": 'table21',
             "usr": "admin",
             "que": {
-                "name": "test21",
-                "table11_id": 1,
-                "table12_id": 1,
+                "data": {
+                    "name": "test21",
+                    "table11_id": 1,
+                    "table12_id": 1,
+                },
             } 
         }, 
         {
@@ -92,7 +118,9 @@ if __name__ == "__main__":
             "res": 'table01',
             "usr": "admin",
             "que": {
-                "api_nesting": 4,
+                "filter": {
+                    "api_nesting": 4,
+                }
             }
         }, 
         {
@@ -130,7 +158,9 @@ if __name__ == "__main__":
             "res": 'modules',
             "usr": "admin",
             "que": {
-                "api_find_name": "test01",
+                "filter": {
+                    "name": "test01",
+                }
             }
         }, 
         {
@@ -138,7 +168,9 @@ if __name__ == "__main__":
             "res": 'table12',
             "usr": "admin",
             "que": {
-                "api_find_name": "test12",
+                "filter": {
+                    "name": "test12",
+                }
             }
         }, 
         {
@@ -152,14 +184,17 @@ if __name__ == "__main__":
             "res": 'table01',
             "usr": "admin",
             "que": {
-                "api_nesting": 4, 
+                "filtert": {
+                    "api_nesting": 4,
+                }
             }
         }, 
     ]
     
     api_serial = ApiSerializer()
     
-    api_serial.print_api_struct()
+    api_serial.print_api_modules_struct()
+    api_serial.print_api_resources_struct()
      
     for query in queries:
         print (api_serial.serialize(query))
