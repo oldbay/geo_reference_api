@@ -81,10 +81,10 @@ class ApiSerializer:
         """Constructor"""
         
         self.api_requsts = {
-            "GET": self.select,
-            "POST": self.insert,
-            "PUT": self.update,
-            "DELETE": self.delete,
+            "GET": self.http_get,
+            "POST": self.http_post,
+            "PUT": self.http_put,
+            "DELETE": self.http_delete,
         }
         
         # create base
@@ -207,12 +207,12 @@ class ApiSerializer:
             self.api_resources[self.modules_table_name]['obj']
         )
         # access=True old modules
-        for modname in list(set.intersection(modules_db_name, modules_imp_name)):
+        for modname in set.intersection(modules_db_name, modules_imp_name):
             for mod_obj in mod_query.filter_by(name=modname):
                 mod_obj.access = True
                 self.session.commit()
         # acces=False old modules or delite
-        for modname in list(modules_db_name-modules_imp_name):
+        for modname in (modules_db_name-modules_imp_name):
             for mod_obj in mod_query.filter_by(name=modname):
                 if mod_obj.delete == True:
                     self.session.delete(mod_obj)
@@ -223,13 +223,37 @@ class ApiSerializer:
     def get_api_resources(self):
         return self.api_resources
 
-    def get_api_resources_struct(self):
-        return self.api_resources_sruct
+    def get_api_resources_struct(self, username=None):
+        groupname = False
+        if username:
+            user_query = self.session.query(
+                self.api_resources[self.users_table_name]['obj']
+            )
+            for usr_obj in user_query.filter_by(name=username):
+                groupname = usr_obj.group
+        if groupname:
+            out = copy.deepcopy(self.api_resources_sruct)
+            permiss_query = self.session.query(
+                self.api_resources[self.modules_permissions_table_name]['obj']
+            )
+            for key in self.api_resources:
+                modulename = self.api_resources[key]['module']
+                kw = {"group": groupname, "module": modulename}
+                for permiss_obj in permiss_query.filter_by(**kw):
+                    permiss_http = config.AccessMatrix[permiss_obj.permission_level]
+                for http in list(out[key].keys()):
+                    if http not in permiss_http:
+                        del(out[key][http])
+                if not out[key]:
+                    del(out[key])
+            return out
+        else:
+            return self.api_resources_sruct
 
-    def print_api_resources_struct(self):
+    def print_api_resources_struct(self, username=None):
         print (
             json.dumps(
-                self.get_api_resources_struct(),
+                self.get_api_resources_struct(username=username),
                 sort_keys=True, 
                 indent=4,
                 separators=(',', ':'), 
@@ -250,13 +274,31 @@ class ApiSerializer:
                 ensure_ascii=False
             )
         )
-
-    def select(self, table, qdict, username=None):
+    
+    def http_err(self, qdict, met, http):
+        if met not in qdict:
+            return 400, {
+                "error": "For HTTP '{0}' needs Method '{1}'".format(
+                    http, met
+                )
+            }
+        else:
+            out = qdict[met]
+        if not out:
+            return 400, {
+                "error": "For HTTP '{0}' - Method '{1}' cannot by empty".format(
+                    http, met
+                )
+            }
+        else:
+            return 200, out
+    
+    def http_get(self, table, qdict, username=None):
         if not qdict:
             api_filter = {}
         else:
-            #400
             api_filter = qdict['filter']
+            
         max_nesting = api_filter.get(self.nesting_name, config.DefNesting)
         if self.nesting_name in api_filter.keys(): del(api_filter[self.nesting_name])
         
@@ -272,11 +314,14 @@ class ApiSerializer:
             )
         return 200, result
     
-    def insert(self, table, qdict, username=None):
-        # 400
-        api_filter = qdict['data']
+    def http_post(self, table, qdict, username=None):
+        err = self.http_err(qdict, 'data', 'POST')
+        if err[0] == 400:
+            return err
+        else:
+            api_data = err[-1]
         
-        tab_obj = table.new_from_json(json.dumps(api_filter))
+        tab_obj = table.new_from_json(json.dumps(api_data))
         tab_obj.api_user = username
         tab_obj.api_time = datetime.now()
         self.session.add(tab_obj)
@@ -285,12 +330,19 @@ class ApiSerializer:
         except SqlAlchemyIntegrityError as err:
             self.session.rollback()
             return 409, {"error": str(err)}
-        return 201, self.select(table, {"filter": api_filter})[-1]
+        return 201, self.http_get(table, {"filter": api_data})[-1]
     
-    def update(self, table, qdict, username=None):
-        # 400 
-        api_filter = qdict['filter']
-        api_data = qdict['data']
+    def http_put(self, table, qdict, username=None):
+        err = self.http_err(qdict, 'filter', 'PUT')
+        if err[0] == 400:
+            return err
+        else:
+            api_filter = err[-1]
+        err = self.http_err(qdict, 'data', 'PUT')
+        if err[0] == 400:
+            return err
+        else:
+            api_data = err[-1]
         
         table_query = self.session.query(table)
         find_list = table_query.filter_by(**api_filter)
@@ -304,13 +356,20 @@ class ApiSerializer:
                 self.session.rollback()
                 return 409, {"error": err}
         
-        # different keys data to filter (update only different keys)!!!!!    
-        api_filter.update(api_data)
-        return 201, self.select(table, {"filter": api_filter})[-1]
+        data2filter = {
+            key:api_data[key]
+            for key
+            in set.intersection(set(api_filter.keys()), set(api_data.keys()))
+        }
+        api_filter.update(data2filter)
+        return 201, self.http_get(table, {"filter": api_filter})[-1]
     
-    def delete(self, table, qdict, username=None):
-        #400
-        api_filter = qdict['filter']
+    def http_delete(self, table, qdict, username=None):
+        err = self.http_err(qdict, 'filter', 'DELETE')
+        if err[0] == 400:
+            return err
+        else:
+            api_filter = err[-1]
         
         table_query = self.session.query(table)
         find_list = table_query.filter_by(**api_filter)
@@ -318,7 +377,7 @@ class ApiSerializer:
             self.session.delete(tab_obj)
             self.session.commit()
             
-        post_del = self.select(table, {"filter": api_filter})[-1]
+        post_del = self.http_get(table, {"filter": api_filter})[-1]
         if not post_del:
             return 204, []
         else:

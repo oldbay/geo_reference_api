@@ -184,9 +184,72 @@ if __name__ == "__main__":
             "res": 'table01',
             "usr": "admin",
             "que": {
-                "filtert": {
+                "filter": {
                     "api_nesting": 4,
                 }
+            }
+        }, 
+        {
+            "req": "POST",
+            "res": 'groups',
+            "usr": "admin",
+            "que": {
+                "data": {
+                    "name": "guest",
+                }
+            }
+        }, 
+        {
+            "req": "POST",
+            "res": 'users',
+            "usr": "admin",
+            "que": {
+                "data": {
+                    "name": "guest",
+                    "group_id": 2,
+                }
+            }
+        }, 
+        {
+            "req": "PUT",
+            "res": 'modules_permissions',
+            "usr": "admin",
+            "que": {
+                "filter": {
+                    "group": "guest",
+                    "module": "test01",
+                },
+                "data": {
+                    "permission_level": 1,
+                },
+            }
+        }, 
+        {
+            "req": "PUT",
+            "res": 'modules_permissions',
+            "usr": "admin",
+            "que": {
+                "filter": {
+                    "group": "guest",
+                    "module": "test11",
+                },
+                "data": {
+                    "permission_level": 2,
+                },
+            }
+        }, 
+        {
+            "req": "PUT",
+            "res": 'modules_permissions',
+            "usr": "admin",
+            "que": {
+                "filter": {
+                    "group": "guest",
+                    "module": "test12",
+                },
+                "data": {
+                    "permission_level": 3,
+                },
             }
         }, 
     ]
@@ -199,3 +262,5 @@ if __name__ == "__main__":
     for query in queries:
         print (api_serial.serialize(query))
         print ("")
+        
+    api_serial.print_api_resources_struct('guest')
