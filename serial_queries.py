@@ -4,10 +4,10 @@ import json
 if __name__ == "__main__":
     queries = [
         {
-            "req": "PUT",
+            "met": "PUT",
             "res": 'modules_permissions',
             "usr": "admin",
-            "que": {
+            "req": {
                 "filter": {
                     "group": "admins",
                     "module": "test01",
@@ -18,10 +18,10 @@ if __name__ == "__main__":
             }
         }, 
         {
-            "req": "PUT",
+            "met": "PUT",
             "res": 'modules_permissions',
             "usr": "admin",
-            "que": {
+            "req": {
                 "filter": {
                     "group": "admins",
                     "module": "test11",
@@ -32,10 +32,10 @@ if __name__ == "__main__":
             }
         }, 
         {
-            "req": "PUT",
+            "met": "PUT",
             "res": 'modules_permissions',
             "usr": "admin",
-            "que": {
+            "req": {
                 "filter": {
                     "group": "admins",
                     "module": "test12",
@@ -46,10 +46,10 @@ if __name__ == "__main__":
             }
         }, 
         {
-            "req": "PUT",
+            "met": "PUT",
             "res": 'modules_permissions',
             "usr": "admin",
-            "que": {
+            "req": {
                 "filter": {
                     "group": "admins",
                     "module": "test21",
@@ -60,30 +60,30 @@ if __name__ == "__main__":
             }
         }, 
         {
-            "req": "POST",
+            "met": "POST",
             "res": 'table01',
             "usr": "admin",
-            "que": {
+            "req": {
                 "data": {
                     "name": "test01", 
                 },
             } 
         }, 
         {
-            "req": "POST",
+            "met": "POST",
             "res": 'table01',
             "usr": "admin",
-            "que": {
+            "req": {
                 "data": {
                     "name": "test01", 
                 },
             } 
         }, 
         {
-            "req": "POST",
+            "met": "POST",
             "res": 'table11',
             "usr": "admin",
-            "que": {
+            "req": {
                 "data": {
                     "name": "test11",
                     "table01_id": 1,
@@ -91,10 +91,10 @@ if __name__ == "__main__":
             } 
         }, 
         {
-            "req": "POST",
+            "met": "POST",
             "res": 'table12',
             "usr": "admin",
-            "que": {
+            "req": {
                 "data": {
                     "name": "test12",
                     "table01_id": 1,
@@ -102,10 +102,10 @@ if __name__ == "__main__":
             } 
         }, 
         {
-            "req": "POST",
+            "met": "POST",
             "res": 'table21',
             "usr": "admin",
-            "que": {
+            "req": {
                 "data": {
                     "name": "test21",
                     "table11_id": 1,
@@ -114,96 +114,96 @@ if __name__ == "__main__":
             } 
         }, 
         {
-            "req": "GET",
+            "met": "GET",
             "res": 'table01',
             "usr": "admin",
-            "que": {
+            "req": {
                 "filter": {
                     "api_nesting": 4,
                 }
             }
         }, 
         {
-            "req": "GET",
+            "met": "GET",
             "res": 'table11',
             "usr": "admin",
-            "que": {}
+            "req": {}
         }, 
         {
-            "req": "GET",
+            "met": "GET",
             "res": 'table12',
             "usr": "admin",
-            "que": {}
+            "req": {}
         }, 
         {
-            "req": "GET",
+            "met": "GET",
             "res": 'groups',
             "usr": "admin",
-            "que": {}
+            "req": {}
         }, 
         {
-            "req": "GET",
+            "met": "GET",
             "res": 'users',
             "usr": "admin",
-            "que": {}
+            "req": {}
         }, 
         {
-            "req": "GET",
+            "met": "GET",
             "res": 'modules',
             "usr": "admin",
-            "que": {}
+            "req": {}
         }, 
         {
-            "req": "DELETE",
+            "met": "DELETE",
             "res": 'modules',
             "usr": "admin",
-            "que": {
+            "req": {
                 "filter": {
                     "name": "test01",
                 }
             }
         }, 
         {
-            "req": "DELETE",
+            "met": "DELETE",
             "res": 'table12',
             "usr": "admin",
-            "que": {
+            "req": {
                 "filter": {
                     "name": "test12",
                 }
             }
         }, 
         {
-            "req": "GET",
+            "met": "GET",
             "res": 'table21',
             "usr": "admin",
-            "que": {}
+            "req": {}
         }, 
         {
-            "req": "GET",
+            "met": "GET",
             "res": 'table01',
             "usr": "admin",
-            "que": {
+            "req": {
                 "filter": {
                     "api_nesting": 4,
                 }
             }
         }, 
         {
-            "req": "POST",
+            "met": "POST",
             "res": 'groups',
             "usr": "admin",
-            "que": {
+            "req": {
                 "data": {
                     "name": "guest",
                 }
             }
         }, 
         {
-            "req": "POST",
+            "met": "POST",
             "res": 'users',
             "usr": "admin",
-            "que": {
+            "req": {
                 "data": {
                     "name": "guest",
                     "group_id": 2,
@@ -211,10 +211,10 @@ if __name__ == "__main__":
             }
         }, 
         {
-            "req": "PUT",
+            "met": "PUT",
             "res": 'modules_permissions',
             "usr": "admin",
-            "que": {
+            "req": {
                 "filter": {
                     "group": "guest",
                     "module": "test01",
@@ -225,10 +225,10 @@ if __name__ == "__main__":
             }
         }, 
         {
-            "req": "PUT",
+            "met": "PUT",
             "res": 'modules_permissions',
             "usr": "admin",
-            "que": {
+            "req": {
                 "filter": {
                     "group": "guest",
                     "module": "test11",
@@ -239,10 +239,10 @@ if __name__ == "__main__":
             }
         }, 
         {
-            "req": "PUT",
+            "met": "PUT",
             "res": 'modules_permissions',
             "usr": "admin",
-            "que": {
+            "req": {
                 "filter": {
                     "group": "guest",
                     "module": "test12",

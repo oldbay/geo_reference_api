@@ -7,3 +7,4 @@ from .modules_factory import (
     get_table_cls
 )
 from .serializer import ApiSerializer
+from .rest_api import RestApi

@@ -23,6 +23,8 @@ conf_dict = {
     "ApiModules": [],
     #Query options
     "DefNesting": 2,
+    # API authentication
+    "AuthSecretKey": "secret",
     # Logging config
     "Logging": {
         "version":1,

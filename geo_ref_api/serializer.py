@@ -396,12 +396,12 @@ class ApiSerializer:
                 } 
     
         # test http method: 405
-        if query['req'] in self.api_resources[query['res']]:
-            request = self.api_requsts[query['req']]
+        if query['met'] in self.api_resources[query['res']]:
+            request = self.api_requsts[query['met']]
         else:
             return 405, {"error": 
                 "HTTP Method '{0}' not Allowed for Resource '{1}'".format(
-                    query['req'],
+                    query['met'],
                     query['res'], ) 
                 } 
     
@@ -425,26 +425,26 @@ class ApiSerializer:
         permiss_level = config.MinPermiss
         for permiss_obj in permiss_query.filter_by(group=user_group, module=modulename):
             permiss_level = permiss_obj.permission_level
-        if query['req'] not in config.AccessMatrix[permiss_level]:
+        if query['met'] not in config.AccessMatrix[permiss_level]:
             return 403, {"error": 
                 "For User '{0}' forbidden use HTTP:'{1}' for Resource '{2}'".format(
                     query['usr'], 
-                    query['req'], 
+                    query['met'], 
                     query['res'], )
                 }
         
         # tiny validate 400
-        for met in query['que'].keys():
-            serial_query = query['que'][met]
-            if met not in self.api_resources[query['res']][query['req']]:
+        for met in query['req'].keys():
+            serial_query = query['req'][met]
+            if met not in self.api_resources[query['res']][query['met']]:
                 return 400, {"error": 
                     "Method '{0}' not valid for '{1}':'{2}'".format(
                         met, 
-                        query['req'],
+                        query['met'],
                         query['res'], ) 
                     }
             else:
-                validate = self.api_resources[query['res']][query['req']][met]
+                validate = self.api_resources[query['res']][query['met']][met]
             for key in serial_query:
                 if key not in validate:
                     return 400, {"error": 
@@ -463,4 +463,4 @@ class ApiSerializer:
                         }
         
         # start serialization: 200
-        return request(resource, query['que'], username)
+        return request(resource, query['req'], username)

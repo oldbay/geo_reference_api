@@ -1,7 +1,6 @@
 
-from flask import Flask, jsonify, request
+from flask import Flask, json, request
 from flask_restful import Api, Resource
-import copy
 import jwt
 
 app = Flask(__name__)
@@ -13,10 +12,24 @@ def http_met(self):
     ticket = request.headers['ticket']
     print (ticket)
     print (jwt.decode(ticket, secret_key, algorithm='HS256')['user'])
+    print (dir(request))
+    print (request.base_url)
+    print (request.host)
+    print (request.host_url)
+    print (request.url)
+    print (request.path)
+    print (request.url_root)
+    print (request.url_rule)
+    print (request.method)
     json_data = request.get_json(force=True)
     un = json_data["user"]
     pw = json_data["pass"]
-    return jsonify(u=un, p=pw)
+    return app.response_class(
+        response=json.dumps([{"u":un, "p":pw}]),
+        status=200,
+        #status=405,
+        mimetype='application/json'
+    )
 
 api_cont_dict = {
     "hello1": {
