@@ -6,29 +6,34 @@ import jwt
 from .serializer import ApiSerializer 
 from . import config
 
-#api_serial = ApiSerializer()
 
 ########################################################################
-class RestApi:
+class RestApi(object):
     """"""
+
+    user_key = 'username'
+    secret_key = config.AuthSecretKey
+    api_serial = ApiSerializer()
+    app = Flask(__name__)
+    api = Api(app)
+    
+    options_opt = {
+        "OPTIONS": {
+            "filter":{
+                "api_user": str.__name__,
+            }
+        }
+    }
 
     #----------------------------------------------------------------------
     def __init__(self):
         """Constructor"""
-
-        self.user_key = 'username'
-        self.secret_key = config.AuthSecretKey
-        self.api_serial = ApiSerializer()
-        self.app = Flask(__name__)
-        self.api = Api(self.app)
         
         api_cont_dict = self.api_serial.get_api_resources_struct()
         
         for api_key in list(api_cont_dict.keys()):
             res_dict = {
-                'user_key': self.user_key,
-                'secret_key': self.secret_key,
-                'app': self.app,
+                "options": self.http_options,
             }
             res_dict.update(
                 {
@@ -37,7 +42,6 @@ class RestApi:
                     in api_cont_dict[api_key]
                 }
             )
-            #print (res_dict)
             self.api.add_resource(
                 type(
                     '{}'.format(api_key),
@@ -46,7 +50,14 @@ class RestApi:
                 ),
                 '/{}'.format(api_key)
             )
-    @staticmethod
+        self.api.add_resource(
+            type(
+                'root',
+                (Resource,),
+                {"options": self.http_options}
+            ),
+            '/'
+        )
     def http_met(self):
         ticket = request.headers['ticket']
         usrname = jwt.decode(
@@ -56,15 +67,37 @@ class RestApi:
             )[self.user_key]
         serial_req = {
                 "met": request.method,
-                "res": request.path[1:],
+                "res": request.path.split('/')[-1],
                 "usr": usrname,
                 "req": request.get_json(force=True),
             }
-        api_serial = ApiSerializer()
-        serial_resp = api_serial.serialize(serial_req)
+        serial_resp = self.api_serial.serialize(serial_req)
         return self.app.response_class(
             response=json.dumps(serial_resp[-1]),
             status=serial_resp[0],
+            mimetype='application/json'
+        )
+    
+    def http_options(self):
+        res = request.path.split('/')[-1]
+        req = request.get_json(force=True)
+        if 'filter' in req.keys():
+            username = req['filter'].get('api_user', None)
+        else:
+            username = None
+        api_cont_dict = self.api_serial.get_api_resources_struct(username=username)
+        if not res:
+            res_cont_dict = {}
+            res_cont_dict.update(self.options_opt)
+            for key in list(api_cont_dict.keys()):
+                res_cont_dict[key] = api_cont_dict[key]
+                res_cont_dict[key].update(self.options_opt)
+        else:
+            res_cont_dict = api_cont_dict.get(res, {})
+            res_cont_dict.update(self.options_opt)
+        return self.app.response_class(
+            response=json.dumps(res_cont_dict),
+            status=200,
             mimetype='application/json'
         )
     
@@ -77,4 +110,3 @@ class RestApi:
         #for r in self.app.url_map.iter_rules():
             #print (r)
         self.app.run(**kwargs)
-

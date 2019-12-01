@@ -2,8 +2,9 @@ import os, sys
 import json
 
 conf_dict = {
-    #sqlalchemy database path (if default to false)
-    "DBPath": False, 
+    #sqlalchemy database path
+    #"DBPath": 'sqlite:///:memory:', #only serialize test, flask app is not worked 
+    "DBPath": 'sqlite:///db.sqlite', 
     #sqlalcemy echo SQL query
     "DBEcho": True,
     #Group permission for Module

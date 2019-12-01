@@ -88,11 +88,10 @@ class ApiSerializer:
         }
         
         # create base
-        if config.DBPath:
-            DBPath = config.DBPath
-        else:
-            DBPath = 'sqlite:///:memory:'
-        self.engine = create_engine(DBPath, echo=config.DBEcho)
+        self.engine = create_engine(
+            config.DBPath,
+            echo=config.DBEcho
+        )
         DeclarativeBase.metadata.create_all(self.engine)
         
         self.create_api()
@@ -312,7 +311,11 @@ class ApiSerializer:
                     tab_obj.to_json(max_nesting=max_nesting)
                 )
             )
-        return 200, result
+        if not result:
+            exit_code = 204
+        else:
+            exit_code = 200
+        return exit_code, result
     
     def http_post(self, table, qdict, username=None):
         err = self.http_err(qdict, 'data', 'POST')
@@ -377,12 +380,12 @@ class ApiSerializer:
             self.session.delete(tab_obj)
             self.session.commit()
             
-        post_del = self.http_get(table, {"filter": api_filter})[-1]
-        if not post_del:
-            return 204, []
+        post_del = self.http_get(table, {"filter": api_filter})
+        if post_del[0] == 204:
+            return post_del
         else:
             return 409, {"error":
-                "Delete date is not empty: {}".format(str(post_del))
+                "Delete date is not empty: {}".format(str(post_del[-1]))
             }
     
     def serialize(self, query):
