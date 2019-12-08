@@ -55,7 +55,6 @@ class ApiSerializer:
     nesting_name = 'api_nesting'
     modules_table_name = 'modules'
     users_table_name = 'users'
-    users_groups_table_name = 'users_groups'
     #groups_table_name = 'groups'
     modules_permissions_table_name = 'modules_permissions'
     res_struct = {
@@ -224,32 +223,23 @@ class ApiSerializer:
         return self.api_resources
 
     def get_api_resources_struct(self, username=None):
-        user_id = False
+        groupname = False
         if username:
-            users_query = self.session.query(
+            user_query = self.session.query(
                 self.api_resources[self.users_table_name]['obj']
             )
-            for usr_obj in users_query.filter_by(name=username):
-                user_id = usr_obj.id
-        if user_id:
+            for usr_obj in user_query.filter_by(name=username):
+                groupname = usr_obj.group
+        if groupname:
             out = copy.deepcopy(self.api_resources_sruct)
-            users_groups_query = self.session.query(
-                self.api_resources[self.users_groups_table_name]['obj']
-            )
             permiss_query = self.session.query(
                 self.api_resources[self.modules_permissions_table_name]['obj']
             )
             for key in self.api_resources:
                 modulename = self.api_resources[key]['module']
-                permiss_level = config.MinPermiss
-                for users_group_obj in users_groups_query.filter_by(user_id=user_id):
-                    user_group = users_group_obj.group
-                    for permiss_obj in permiss_query.filter_by(group=user_group,
-                                                               module=modulename):
-                        test_permiss = permiss_obj.permission_level
-                        if permiss_level < test_permiss: 
-                            permiss_level = test_permiss
-                permiss_http = config.AccessMatrix[permiss_level]
+                kw = {"group": groupname, "module": modulename}
+                for permiss_obj in permiss_query.filter_by(**kw):
+                    permiss_http = config.AccessMatrix[permiss_obj.permission_level]
                 for http in list(out[key].keys()):
                     if http not in permiss_http:
                         del(out[key][http])
@@ -419,32 +409,25 @@ class ApiSerializer:
                 } 
     
         # test found user: 403
-        users_query = self.session.query(
-            self.api_resources[self.users_table_name]['obj']
-        )
-        user_id = False
-        for usr_obj in users_query.filter_by(name=query['usr']):
-            user_id = usr_obj.id
+        table_query = self.session.query(self.api_resources[self.users_table_name]['obj'])
+        user_group = False
+        for usr_obj in table_query.filter_by(name=query['usr']):
+            user_group = usr_obj.group
        
-        if not user_id: 
+        if user_group: 
+            username = query['usr']
+        else:
             return 403, {"error": 
                 "Forbidden: User '{0}' not found".format(query['usr'])
                 }
          
         # test access user group to resource: 403
-        users_groups_query = self.session.query(
-            self.api_resources[self.users_groups_table_name]['obj']
-        )
         permiss_query = self.session.query(
             self.api_resources[self.modules_permissions_table_name]['obj']
         )
         permiss_level = config.MinPermiss
-        for users_group_obj in users_groups_query.filter_by(user_id=user_id):
-            user_group = users_group_obj.group
-            for permiss_obj in permiss_query.filter_by(group=user_group, module=modulename):
-                test_permiss = permiss_obj.permission_level
-                if permiss_level < test_permiss: 
-                    permiss_level = test_permiss
+        for permiss_obj in permiss_query.filter_by(group=user_group, module=modulename):
+            permiss_level = permiss_obj.permission_level
         if query['met'] not in config.AccessMatrix[permiss_level]:
             return 403, {"error": 
                 "For User '{0}' forbidden use HTTP:'{1}' for Resource '{2}'".format(
@@ -483,4 +466,4 @@ class ApiSerializer:
                         }
         
         # start serialization: 200
-        return request(resource, query['req'], query['usr'])
+        return request(resource, query['req'], username)

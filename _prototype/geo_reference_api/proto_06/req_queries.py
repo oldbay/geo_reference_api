@@ -251,27 +251,7 @@ if __name__ == "__main__":
             "req": {
                 "data": {
                     "name": "guest",
-                }
-            }
-        }, 
-        {
-            "met": "POST",
-            "res": 'users_groups',
-            "usr": "admin",
-            "req": {
-                "data": {
-                    "user_id": 2,
                     "group_id": 2,
-                }
-            }
-        }, 
-        {
-            "met": "GET",
-            "res": 'users',
-            "usr": "admin",
-            "req": {
-                "filter": {
-                    "name": "guest",
                 }
             }
         }, 
@@ -317,62 +297,62 @@ if __name__ == "__main__":
                 },
             }
         }, 
-        #{
-            #"met": "OPTIONS",
-            #"res": 'modules_permissions',
-            #"usr": "admin",
-            #"req": {}
-        #}, 
-        #{
-            #"met": "OPTIONS",
-            #"res": 'modules_permissions',
-            #"usr": "admin",
-            #"req": {
-                #"filter": {
-                    #"api_user": "guest",
-                #},
-            #}
-        #}, 
-        #{
-            #"met": "OPTIONS",
-            #"res": 'table01',
-            #"usr": "admin",
-            #"req": {
-                #"filter": {
-                    #"api_user": "guest",
-                #},
-            #}
-        #}, 
-        #{
-            #"met": "OPTIONS",
-            #"res": 'table12',
-            #"usr": "admin",
-            #"req": {
-                #"filter": {
-                    #"api_user": "guest",
-                #},
-            #}
-        #}, 
-        #{
-            #"met": "OPTIONS",
-            #"res": '',
-            #"usr": "admin",
-            #"req": {
-                #"filter": {
-                    #"api_user": "admin",
-                #},
-            #}
-        #}, 
-        #{
-            #"met": "OPTIONS",
-            #"res": '',
-            #"usr": "admin",
-            #"req": {
-                #"filter": {
-                    #"api_user": "guest",
-                #},
-            #}
-        #}, 
+        {
+            "met": "OPTIONS",
+            "res": 'modules_permissions',
+            "usr": "admin",
+            "req": {}
+        }, 
+        {
+            "met": "OPTIONS",
+            "res": 'modules_permissions',
+            "usr": "admin",
+            "req": {
+                "filter": {
+                    "api_user": "guest",
+                },
+            }
+        }, 
+        {
+            "met": "OPTIONS",
+            "res": 'table01',
+            "usr": "admin",
+            "req": {
+                "filter": {
+                    "api_user": "guest",
+                },
+            }
+        }, 
+        {
+            "met": "OPTIONS",
+            "res": 'table12',
+            "usr": "admin",
+            "req": {
+                "filter": {
+                    "api_user": "guest",
+                },
+            }
+        }, 
+        {
+            "met": "OPTIONS",
+            "res": '',
+            "usr": "admin",
+            "req": {
+                "filter": {
+                    "api_user": "admin",
+                },
+            }
+        }, 
+        {
+            "met": "OPTIONS",
+            "res": '',
+            "usr": "admin",
+            "req": {
+                "filter": {
+                    "api_user": "guest",
+                },
+            }
+        }, 
     ]
     
     req_start(queries)

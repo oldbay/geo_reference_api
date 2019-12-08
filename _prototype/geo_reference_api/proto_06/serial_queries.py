@@ -1,50 +1,5 @@
+from geo_ref_api import ApiSerializer
 import json
-import requests
-import jwt
-
-from geo_ref_api import config
-
-host_url = 'http://127.0.0.1:5444/{}'
-secret_key = config.AuthSecretKey
-req_mets = {
-    "GET": requests.get,
-    "POST": requests.post,
-    "PUT": requests.put,
-    "DELETE": requests.delete,
-    "OPTIONS": requests.options,
-}
-
-def req_start(queries):
-    for req in queries:
-        obj = req_mets[req['met']]
-        url = host_url.format(req['res'])
-        data = req['req']
-        ticket = jwt.encode(
-            {'username': req['usr']},
-            secret_key,
-            algorithm='HS256'
-        )
-        headers = {
-            'Content-Type': 'application/json', 
-            'ticket': ticket,
-        }
-        response = obj(url, data=json.dumps(data), headers=headers)
-        print ()
-        print (req['met'], req['res'], data)
-        if response.status_code == 204:
-            print(response.status_code, response.text)
-        else:
-            print(response.status_code)
-            print (
-                json.dumps(
-                    response.json(),
-                    sort_keys=True, 
-                    indent=4,
-                    separators=(',', ':'), 
-                    ensure_ascii=False
-                )
-            )
-
 
 if __name__ == "__main__":
     queries = [
@@ -251,27 +206,7 @@ if __name__ == "__main__":
             "req": {
                 "data": {
                     "name": "guest",
-                }
-            }
-        }, 
-        {
-            "met": "POST",
-            "res": 'users_groups',
-            "usr": "admin",
-            "req": {
-                "data": {
-                    "user_id": 2,
                     "group_id": 2,
-                }
-            }
-        }, 
-        {
-            "met": "GET",
-            "res": 'users',
-            "usr": "admin",
-            "req": {
-                "filter": {
-                    "name": "guest",
                 }
             }
         }, 
@@ -317,62 +252,15 @@ if __name__ == "__main__":
                 },
             }
         }, 
-        #{
-            #"met": "OPTIONS",
-            #"res": 'modules_permissions',
-            #"usr": "admin",
-            #"req": {}
-        #}, 
-        #{
-            #"met": "OPTIONS",
-            #"res": 'modules_permissions',
-            #"usr": "admin",
-            #"req": {
-                #"filter": {
-                    #"api_user": "guest",
-                #},
-            #}
-        #}, 
-        #{
-            #"met": "OPTIONS",
-            #"res": 'table01',
-            #"usr": "admin",
-            #"req": {
-                #"filter": {
-                    #"api_user": "guest",
-                #},
-            #}
-        #}, 
-        #{
-            #"met": "OPTIONS",
-            #"res": 'table12',
-            #"usr": "admin",
-            #"req": {
-                #"filter": {
-                    #"api_user": "guest",
-                #},
-            #}
-        #}, 
-        #{
-            #"met": "OPTIONS",
-            #"res": '',
-            #"usr": "admin",
-            #"req": {
-                #"filter": {
-                    #"api_user": "admin",
-                #},
-            #}
-        #}, 
-        #{
-            #"met": "OPTIONS",
-            #"res": '',
-            #"usr": "admin",
-            #"req": {
-                #"filter": {
-                    #"api_user": "guest",
-                #},
-            #}
-        #}, 
     ]
     
-    req_start(queries)
+    api_serial = ApiSerializer()
+    
+    api_serial.print_api_modules_struct()
+    api_serial.print_api_resources_struct()
+     
+    for query in queries:
+        print (api_serial.serialize(query))
+        print ("")
+        
+    api_serial.print_api_resources_struct('guest')

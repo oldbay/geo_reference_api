@@ -1,13 +1,6 @@
 from sqlathanor import Column, relationship, AttributeConfiguration
 
-from sqlalchemy import (
-    Integer,
-    ForeignKey,
-    Unicode,
-    DateTime,
-    Boolean,
-    UniqueConstraint, 
-)
+from sqlalchemy import Integer, ForeignKey, Unicode, PickleType, DateTime, Boolean
 from sqlalchemy.orm import column_property
 from sqlalchemy import select
 from sqlalchemy.event import listens_for
@@ -40,14 +33,12 @@ class Groups(DeclarativeBase, ApiModule):
 
     __serialization__ = get_serialization(
         AttributeConfiguration(name='name', supports_json=True), 
-        AttributeConfiguration(name='auth_name', supports_json=True), 
         AttributeConfiguration(name='users', supports_json=(False, True)), 
         AttributeConfiguration(name='modules', supports_json=(False, True)), 
     )
 
     name = Column(Unicode(256), nullable=False, unique=True)
-    auth_name = Column(Unicode(256), unique=True)
-    users = relationship('UsersGroups', cascade='all, delete-orphan')
+    users = relationship('Users', cascade='all, delete-orphan')
     modules = relationship('ModulesPermissions', cascade='all, delete-orphan')
 
 
@@ -60,46 +51,14 @@ class Users(DeclarativeBase, ApiModule):
     
     __serialization__ = get_serialization(
         AttributeConfiguration(name='name', supports_json=True), 
-        AttributeConfiguration(name='auth_name', supports_json=True), 
-        AttributeConfiguration(name='full_name', supports_json=True), 
-        AttributeConfiguration(name='auto_create', supports_json=True), 
-        AttributeConfiguration(name='groups', supports_json=(False, True)), 
+        AttributeConfiguration(name='key', supports_json=(True, False)), 
+        AttributeConfiguration(name='group_id', supports_json=(True, False)), 
+        AttributeConfiguration(name='group', supports_json=(False, True)), 
     )
     
     name = Column(Unicode(256), nullable=False, unique=True)
-    auth_name = Column(Unicode(256), unique=True)
-    full_name = Column(Unicode(1024))
-    auto_create = Column(Boolean(), default=False)
-    groups = relationship('UsersGroups', cascade='all, delete-orphan')
-
-
-class UsersGroups(DeclarativeBase, ApiModule):
-    """
-    Resource Users Groups
-    """
-
-    __tablename__ = 'users_groups'
-    
-    __serialization__ = get_serialization(
-        AttributeConfiguration(name='auto_create', supports_json=True), 
-        AttributeConfiguration(name='user_id', supports_json=(True, False)), 
-        AttributeConfiguration(name='group_id', supports_json=(True, False)), 
-        AttributeConfiguration(name='user', supports_json=(False, True)), 
-        AttributeConfiguration(name='group', supports_json=(False, True)), 
-    )
-
-    __table_args__ = (
-        UniqueConstraint(
-            'user_id',
-            'group_id',
-            name='_users_groups_uc'
-        ),
-    )    
-
-    auto_create = Column(Boolean(), default=False)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    key = Column(Unicode(512))
     group_id = Column(Integer, ForeignKey('groups.id'), nullable=False)
-    user = column_property(select([(Users.name)], user_id == Users.id))
     group = column_property(select([(Groups.name)], group_id == Groups.id))
 
 
@@ -144,14 +103,6 @@ class ModulesPermissions(DeclarativeBase, ApiModule):
         AttributeConfiguration(name='module', supports_json=(False, True)), 
     )
 
-    __table_args__ = (
-        UniqueConstraint(
-            'group_id',
-            'module_id',
-            name='_modules_permissions_uc'
-        ),
-    )    
-
     permission_level = Column(Integer, nullable=False)
     group_id = Column(Integer, ForeignKey('groups.id'), nullable=False)
     module_id = Column(Integer, ForeignKey('modules.id'), nullable=False)
@@ -167,40 +118,26 @@ def insert_def_group(target, connection, **kw):
     connection.execute(
         target.insert(), 
         name=config.BaseAdminGroup, 
-        auth_name=config.BaseAdminGroup, 
     )
 
 @listens_for(Users.__table__, 'after_create')
 def insert_def_user(target, connection, **kw):
-    connection.execute(
-        target.insert(), 
-        name=config.BaseAdminUser,
-        auth_name=config.BaseAdminUser,
-    )
-    
-@listens_for(UsersGroups.__table__, 'after_create')
-def insert_def_users_groups(target, connection, **kw):
-    user_tab = Users.__table__
-    user_query = connection.execute(
-        user_tab.select().where(user_tab.c.name==config.BaseAdminUser)
-    )
     group_tab = Groups.__table__
     group_query = connection.execute(
         group_tab.select().where(group_tab.c.name==config.BaseAdminGroup)
     )
-    for user in user_query:
-        for group in group_query:
-            connection.execute(
-                target.insert(), 
-                user_id=user['id'], 
-                group_id=group['id'], 
-            )
-
+    connection.execute(
+        target.insert(), 
+        name=config.BaseAdminUser,
+        group_id=list(group_query)[0]['id']
+    )
+    
 @listens_for(Modules.__table__, 'after_create')
 def insert_def_group(target, connection, **kw):
     connection.execute(
         target.insert(), 
         name=ApiModule.__module_name__,
+        #access=True, 
     )
 
 @listens_for(ModulesPermissions.__table__, 'after_create')
@@ -224,32 +161,6 @@ def insert_def_groups_permissions(target, connection, **kw):
 
 
 #Triggers
-def create_auth_name(mapper, connection, target):
-    if not target.auth_name:
-        users_tab = target.__class__.__table__
-        connection.execute(
-            users_tab.update().\
-            values(auth_name=target.name).\
-            where(users_tab.c.id==target.id), 
-        )
-
-@listens_for(Groups, 'after_insert')
-def ins_user(*args, **kwargs):
-    return create_auth_name(*args, **kwargs)
-
-@listens_for(Users, 'after_insert')
-def ins_user(*args, **kwargs):
-    return create_auth_name(*args, **kwargs)
-
-@listens_for(Groups, 'after_update')
-def upd_user(*args, **kwargs):
-    return create_auth_name(*args, **kwargs)
-
-@listens_for(Users, 'after_update')
-def upd_user(*args, **kwargs):
-    return create_auth_name(*args, **kwargs)
-
-
 @listens_for(Modules, 'after_insert')
 def insert_groups_permissions(mapper, connection, target):
     group_tab = Groups.__table__
