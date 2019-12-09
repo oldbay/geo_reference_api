@@ -71,8 +71,8 @@ class ApiModuleConstructor(object):
     Constructor for inhertance class ApiModule
     """
     
-    #Reinicializing in your modules:
-    #    __module_name__ = "Nmae your module"
+    #Reinicializing in your API modules:
+    #    __module_name__ = "Name your module"
     #    __module_doc__ = __doc__
     #    __module_depends__, __tables_dict__ = get_tables_dict(
     #        "depends1", 
@@ -98,3 +98,31 @@ def get_table_cls (module, table_name):
                 table_name, 
             )
         )
+    
+    
+########################################################################
+class ApiAuthConstructor(object):
+    """
+    Constructor for inhertance class ApiAuth
+    """
+    
+    #Reinicializing in your Auth modules:
+    #__auth_url__ = URL auth service
+    #__auth_port__ = Port auth service
+
+    __auth_url__ = None
+    __auth_port__ = None
+    
+    def auth(self, username, *args, **kwargs):
+        """
+        Reinicializing:
+        auth method for ApiAuth Class
+        return: 
+            access: list(user groups)
+            reject: False
+        """
+        return False
+    
+    def __call__(self, username, *args, **kwargs):
+        return self.auth(username, *args, **kwargs)
+    

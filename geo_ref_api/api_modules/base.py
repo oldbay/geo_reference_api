@@ -167,7 +167,7 @@ def insert_def_group(target, connection, **kw):
     connection.execute(
         target.insert(), 
         name=config.BaseAdminGroup, 
-        auth_name=config.BaseAdminGroup, 
+        auth_name=config.BaseAdminAuthGroup, 
     )
 
 @listens_for(Users.__table__, 'after_create')
@@ -175,7 +175,7 @@ def insert_def_user(target, connection, **kw):
     connection.execute(
         target.insert(), 
         name=config.BaseAdminUser,
-        auth_name=config.BaseAdminUser,
+        auth_name=config.BaseAdminAuthUser,
     )
     
 @listens_for(UsersGroups.__table__, 'after_create')
@@ -234,19 +234,19 @@ def create_auth_name(mapper, connection, target):
         )
 
 @listens_for(Groups, 'after_insert')
-def ins_user(*args, **kwargs):
+def ins_grp(*args, **kwargs):
     return create_auth_name(*args, **kwargs)
 
 @listens_for(Users, 'after_insert')
-def ins_user(*args, **kwargs):
+def ins_usr(*args, **kwargs):
     return create_auth_name(*args, **kwargs)
 
 @listens_for(Groups, 'after_update')
-def upd_user(*args, **kwargs):
+def upd_grp(*args, **kwargs):
     return create_auth_name(*args, **kwargs)
 
 @listens_for(Users, 'after_update')
-def upd_user(*args, **kwargs):
+def upd_usr(*args, **kwargs):
     return create_auth_name(*args, **kwargs)
 
 

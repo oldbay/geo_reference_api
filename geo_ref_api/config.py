@@ -10,22 +10,48 @@ conf_dict = {
     #Group permission for Module
     "AccessMatrix": { 
         0: [],
-        1: ['GET'],
-        2: ['GET', 'PUT'],
-        3: ['GET', 'POST', 'PUT', 'DELETE'],
+        1: ["GET"],
+        2: ["GET", "PUT"],
+        3: ["GET", "POST", "PUT", "DELETE"],
     }, 
     "MinPermiss": 0, 
     "DefPermiss": 1, 
     "MaxPermiss": 3,
     #Base Users
     "BaseAdminUser": "admin", 
+    "BaseAdminAuthUser": "sysadmin", 
     "BaseAdminGroup": "admins",
-    #Load modules
+    "BaseAdminAuthGroup": "sysadmins",
+    #Load API modules, example:
+    #"ApiModules": [
+        #"example_modules.test01", 
+        #"example_modules.test11", 
+        #"example_modules.test12", 
+        #"example_modules/test21.py"
+    #]
     "ApiModules": [],
-    #Query options
-    "DefNesting": 2,
+    #Load Auth module
+    "AuthModule":{
+        "module": "geo_ref_api.auth_modules.ssh",
+        "args": {
+            "url": "127.0.0.1",
+            "port": 22,
+        },
+    }, 
     # API authentication
     "AuthSecretKey": "secret",
+    "AuthAlgo": "HS256",
+    #Query options
+    "DefNesting": 2,
+    # Defaults names for API Serializer(not cange!)
+    "ApiSerialDefaults": {
+        "nesting_name": "api_nesting", 
+        "modules_table_name": "modules", 
+        "users_table_name": "users", 
+        "users_groups_table_name": "users_groups", 
+        "groups_table_name": "groups", 
+        "modules_permissions_table_name": "modules_permissions", 
+    },
     # Logging config
     "Logging": {
         "version":1,
@@ -43,6 +69,10 @@ conf_dict = {
         },
         "loggers":{
             "serializer":{
+                "handlers":["console"],
+                "level":"INFO",
+            }, 
+            "auth_processing":{
                 "handlers":["console"],
                 "level":"INFO",
             }

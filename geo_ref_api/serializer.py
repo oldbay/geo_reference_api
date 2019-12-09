@@ -47,17 +47,17 @@ from .modules_factory import DeclarativeBase
 
 
 ########################################################################
-class ApiSerializer:
+class ApiSerializer(object):
     """
     Serializer API
     """
 
-    nesting_name = 'api_nesting'
-    modules_table_name = 'modules'
-    users_table_name = 'users'
-    users_groups_table_name = 'users_groups'
-    #groups_table_name = 'groups'
-    modules_permissions_table_name = 'modules_permissions'
+    nesting_name = config.ApiSerialDefaults['nesting_name']
+    modules_table_name = config.ApiSerialDefaults['modules_table_name']
+    users_table_name = config.ApiSerialDefaults['users_table_name']
+    users_groups_table_name = config.ApiSerialDefaults['users_groups_table_name']
+    #groups_table_name = config.ApiSerialDefaults['groups_table_name']
+    modules_permissions_table_name = config.ApiSerialDefaults['modules_permissions_table_name']
     res_struct = {
         "GET": {
             "filter": {},
@@ -231,6 +231,9 @@ class ApiSerializer:
             )
             for usr_obj in users_query.filter_by(name=username):
                 user_id = usr_obj.id
+        else:
+            return self.api_resources_sruct
+       
         if user_id:
             out = copy.deepcopy(self.api_resources_sruct)
             users_groups_query = self.session.query(
@@ -257,7 +260,7 @@ class ApiSerializer:
                     del(out[key])
             return out
         else:
-            return self.api_resources_sruct
+            return {}
 
     def print_api_resources_struct(self, username=None):
         print (

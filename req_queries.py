@@ -240,7 +240,7 @@ if __name__ == "__main__":
             "usr": "admin",
             "req": {
                 "data": {
-                    "name": "guest",
+                    "name": "guests",
                 }
             }
         }, 
@@ -281,7 +281,7 @@ if __name__ == "__main__":
             "usr": "admin",
             "req": {
                 "filter": {
-                    "group": "guest",
+                    "group": "guests",
                     "module": "test01",
                 },
                 "data": {
@@ -295,7 +295,7 @@ if __name__ == "__main__":
             "usr": "admin",
             "req": {
                 "filter": {
-                    "group": "guest",
+                    "group": "guests",
                     "module": "test11",
                 },
                 "data": {
@@ -309,7 +309,7 @@ if __name__ == "__main__":
             "usr": "admin",
             "req": {
                 "filter": {
-                    "group": "guest",
+                    "group": "guests",
                     "module": "test12",
                 },
                 "data": {
@@ -363,16 +363,16 @@ if __name__ == "__main__":
                 #},
             #}
         #}, 
-        #{
-            #"met": "OPTIONS",
-            #"res": '',
-            #"usr": "admin",
-            #"req": {
-                #"filter": {
-                    #"api_user": "guest",
-                #},
-            #}
-        #}, 
+        {
+            "met": "OPTIONS",
+            "res": '',
+            "usr": "admin",
+            "req": {
+                "filter": {
+                    "api_user": "guest",
+                },
+            }
+        }, 
     ]
     
     req_start(queries)
