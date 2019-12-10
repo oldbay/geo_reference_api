@@ -1,6 +1,7 @@
 import os
 import imp
 import importlib
+import datetime
 import jwt
 
 from sqlalchemy.orm import sessionmaker
@@ -49,13 +50,12 @@ class AuthProcessing(object):
         try: 
             result_auth = self.auth_obj(username, *args, **kwargs)
         except Exception as err:
-            logger.warning(
-                "Auth module '{0}' is not worked, error: '{1}'".format(
-                    config.AuthModule['module'], 
-                    err, 
-                )
-            )
-            result_auth = False
+            all_err = "Auth module '{0}' is not worked, error: '{1}'".format(
+                config.AuthModule['module'], 
+                err,
+            ) 
+            logger.error(all_err)
+            return 500, {"error": all_err}
             
         if result_auth:
             users_query = self.session.query(Users)
@@ -70,6 +70,7 @@ class AuthProcessing(object):
             user_groups = []
             for user_obj in users_query.filter_by(auth_name=username):
                 user_id = user_obj.id
+                api_user = user_obj.name
                 for user_grop_obj in user_obj.groups:
                     for group_obj in groups_query.filter_by(id=user_grop_obj.group_id):
                         user_groups.append(group_obj.auth_name)
@@ -82,6 +83,7 @@ class AuthProcessing(object):
                 self.session.commit()
                 for user_obj in users_query.filter_by(auth_name=username):
                     user_id = user_obj.id
+                    api_user = user_obj.name
 
             grp2usr = set(all_groups).intersection(set(user_groups))
             grp2grp = set(all_groups).intersection(set(result_auth))
@@ -107,20 +109,31 @@ class AuthProcessing(object):
             for group_id in group_ids:
                 for user_group_obj in user_groups_query.filter_by(
                                                                   group_id=group_id, 
-                                                                  user_id=user_id): 
+                                                                  user_id=user_id, 
+                                                                  auto_create=True): 
                     self.session.delete(user_group_obj)
                     self.session.commit()
            
-            # create jwt ticket 
+            # create jwt ticket
+            ticket_data = {config.JwtUserKey: api_user}
+            if config.JwtTimeout:
+                #timeout = datetime.datetime.utcnow() + datetime.timedelta(
+                    #seconds=config.JwtTimeout
+                #)
+                timeout = datetime.datetime.now()
+                ticket_data.update({
+                    "exp": int(timeout.timestamp())
+                })
+                
             ticket = jwt.encode(
-                {'username': username},
-                config.AuthSecretKey,
-                algorithm=config.AuthAlgo
+                ticket_data,
+                config.JwtSecretKey,
+                algorithm=config.JwtAlgo
             )
-            return {
+            return 200, {
                 "Content-Type": "application/json", 
                 "ticket": ticket,
             }
         else:
-            return False
+            return 401, {"error": "Authorization field"}
     

@@ -18,13 +18,13 @@ class ApiAuth(ApiAuthConstructor):
             paramiko.AutoAddPolicy()
         )
     
-    def auth(self, username, passwd): 
+    def auth(self, username, password): 
         try:
             self.client.connect(
                 hostname=self.__auth_url__,
                 port=self.__auth_port__, 
                 username=username,
-                password=passwd,
+                password=password,
             )
         except paramiko.ssh_exception.AuthenticationException:
             return False

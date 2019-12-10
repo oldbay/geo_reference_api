@@ -1,11 +1,8 @@
 import json
 import requests
-import jwt
-
-from geo_ref_api import config
+import time
 
 host_url = 'http://127.0.0.1:5444/{}'
-secret_key = config.AuthSecretKey
 req_mets = {
     "GET": requests.get,
     "POST": requests.post,
@@ -14,20 +11,26 @@ req_mets = {
     "OPTIONS": requests.options,
 }
 
-def req_start(queries):
+def auth(username, password):
+    obj = req_mets['GET']
+    url = host_url.format('auth')
+    data = {
+        "username": username,
+        "password": password,
+    }
+    response = obj(
+        url,
+        data=json.dumps(data),
+        headers={'Content-Type': 'application/json'}
+    )
+    return response.status_code, response.json()
+    
+
+def req_start(queries, headers):
     for req in queries:
         obj = req_mets[req['met']]
         url = host_url.format(req['res'])
         data = req['req']
-        ticket = jwt.encode(
-            {'username': req['usr']},
-            secret_key,
-            algorithm='HS256'
-        )
-        headers = {
-            'Content-Type': 'application/json', 
-            'ticket': ticket,
-        }
         response = obj(url, data=json.dumps(data), headers=headers)
         print ()
         print (req['met'], req['res'], data)
@@ -244,27 +247,27 @@ if __name__ == "__main__":
                 }
             }
         }, 
-        {
-            "met": "POST",
-            "res": 'users',
-            "usr": "admin",
-            "req": {
-                "data": {
-                    "name": "guest",
-                }
-            }
-        }, 
-        {
-            "met": "POST",
-            "res": 'users_groups',
-            "usr": "admin",
-            "req": {
-                "data": {
-                    "user_id": 2,
-                    "group_id": 2,
-                }
-            }
-        }, 
+        #{
+            #"met": "POST",
+            #"res": 'users',
+            #"usr": "admin",
+            #"req": {
+                #"data": {
+                    #"name": "guest",
+                #}
+            #}
+        #}, 
+        #{
+            #"met": "POST",
+            #"res": 'users_groups',
+            #"usr": "admin",
+            #"req": {
+                #"data": {
+                    #"user_id": 2,
+                    #"group_id": 2,
+                #}
+            #}
+        #}, 
         {
             "met": "GET",
             "res": 'users',
@@ -375,4 +378,10 @@ if __name__ == "__main__":
         }, 
     ]
     
-    req_start(queries)
+    #time.sleep(10)
+    
+    #resp_auth = auth('sysadmin', 'sysadmin')
+    resp_auth = auth('guest', 'guest')
+    print (resp_auth)
+    if resp_auth[0] == 200:
+        req_start(queries, resp_auth[-1])

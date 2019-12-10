@@ -38,9 +38,13 @@ conf_dict = {
             "port": 22,
         },
     }, 
-    # API authentication
-    "AuthSecretKey": "secret",
-    "AuthAlgo": "HS256",
+    # JWT params
+    "JwtUserKey": "username",
+    "JwtSecretKey": "secret",
+    "JwtAlgo": "HS256",
+    # Time of live JWT ticket in seconds(to future)
+    #"JwtTimeout": 600,
+    "JwtTimeout": None,
     #Query options
     "DefNesting": 2,
     # Defaults names for API Serializer(not cange!)
@@ -69,6 +73,10 @@ conf_dict = {
         },
         "loggers":{
             "serializer":{
+                "handlers":["console"],
+                "level":"INFO",
+            }, 
+            "rest_api":{
                 "handlers":["console"],
                 "level":"INFO",
             }, 
