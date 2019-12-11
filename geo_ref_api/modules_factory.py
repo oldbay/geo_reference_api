@@ -109,11 +109,15 @@ class ApiAuthConstructor(object):
     #Reinicializing in your Auth modules:
     #__auth_url__ = URL auth service
     #__auth_port__ = Port auth service
+    #auth_args = Arguments for audentification (password, key, ticket)
 
     __auth_url__ = None
     __auth_port__ = None
+    auth_args = {
+        "password": str,
+    }
     
-    def auth(self, username, *args, **kwargs):
+    def auth(self, username, **kwargs):
         """
         Reinicializing:
         auth method for ApiAuth Class
@@ -123,6 +127,29 @@ class ApiAuthConstructor(object):
         """
         return False
     
-    def __call__(self, username, *args, **kwargs):
-        return self.auth(username, *args, **kwargs)
+    def __call__(self, username, **kwargs):
+        return self.auth(username, **kwargs)
     
+
+def auth_args_test(method):
+    """
+    Decorator for validation Auth arguments
+    """
+    def wrapper(self, username, **kwargs):
+        for arg in self.auth_args:
+            type_arg = kwargs.get(arg, None)
+            if not type_arg:
+                raise Exception(
+                    "Auth arg '{}' not found".format(
+                        arg
+                    )
+                )
+            if not isinstance(type_arg, self.auth_args[arg]):
+                raise Exception(
+                    "For Auth arg '{0}' wrong type, excepted: '{1}'".format(
+                        arg,
+                        self.auth_args[arg].__name__
+                    )
+                )
+        return method(self, username, **kwargs)
+    return wrapper

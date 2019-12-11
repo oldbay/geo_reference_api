@@ -25,9 +25,9 @@ class AuthProcessing(object):
     #----------------------------------------------------------------------
     def __init__(self):
         """Constructor"""
-        
+
+        # import auth module from config
         imp_module = config.AuthModule['module']
-        
         if os.path.isfile(imp_module):
             self.auth_module = imp.load_source("_", imp_module)
         else:
@@ -36,6 +36,16 @@ class AuthProcessing(object):
         self.auth_obj = self.auth_module.ApiAuth(
             **config.AuthModule['args']
         )
+        
+        # add options args from auth module
+        self.auth_args = {
+            key:self.auth_obj.auth_args[key].__name__
+            for key
+            in self.auth_obj.auth_args
+        }
+        self.auth_args.update({
+            "username": str.__name__,
+        })
         
         # session
         self.engine = create_engine(

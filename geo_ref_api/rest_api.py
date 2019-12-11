@@ -31,10 +31,7 @@ class RestApi(object):
     }
     options_def = {
         "auth": {
-            "GET": {
-                "username": str.__name__,
-                "password": str.__name__,
-            },
+            "GET": auth_proc.auth_args, 
             "OPTIONS": {},
         },
     }
