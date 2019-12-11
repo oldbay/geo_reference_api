@@ -380,8 +380,8 @@ if __name__ == "__main__":
     
     #time.sleep(10)
     
-    #resp_auth = auth('sysadmin', 'sysadmin')
-    resp_auth = auth('guest', 'guest')
+    resp_auth = auth('sysadmin', 'sysadmin')
+    #resp_auth = auth('guest', 'guest')
     print (resp_auth)
     if resp_auth[0] == 200:
         req_start(queries, resp_auth[-1])

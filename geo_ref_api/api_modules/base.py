@@ -21,6 +21,14 @@ from geo_ref_api import (
     config, 
 )
 
+# for Sqlite ForeignKey Event
+from sqlalchemy.engine import Engine
+try:
+    from sqlite3 import Connection as SQLite3Connection
+except ImportError:
+    SQLite3Connection = type('null_connect', (object, ), {})
+
+
 class ApiModule(ApiModuleConstructor):
     """
     Module Base
@@ -281,3 +289,12 @@ def insert_modules_permissions(mapper, connection, target):
             group_id=group_id, 
             module_id=module['id']
         )
+
+ 
+# for Sqlite ForeignKey Event
+@listens_for(Engine, "connect")
+def set_sqlite_pragma(dbapi_connection, connection_record):
+    if isinstance(dbapi_connection, SQLite3Connection):
+        cursor = dbapi_connection.cursor()
+        cursor.execute("PRAGMA foreign_keys=ON")
+        cursor.close()
