@@ -5,9 +5,9 @@ import datetime
 import jwt
 
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
 
 from . import config
+from .modules_factory import create_engine_db
 from .api_modules.base import Users, Groups, UsersGroups
 
 import logging
@@ -48,10 +48,7 @@ class AuthProcessing(object):
         })
         
         # session
-        self.engine = create_engine(
-            config.DBPath,
-            echo=config.DBEcho
-        )
+        self.engine = create_engine_db('ref')
         self.Session = sessionmaker(bind=self.engine)
         self.session = self.Session()
 

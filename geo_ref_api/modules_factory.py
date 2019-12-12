@@ -1,9 +1,22 @@
 import os
 import imp
+import copy
 
+from sqlalchemy import create_engine
 from sqlathanor import Column, AttributeConfiguration, declarative_base, BaseModel
 from sqlalchemy import Integer, Unicode, DateTime
-#from sqlalchemy.ext.declarative import declared_attr
+
+from . import config
+
+
+########################################################################
+def create_engine_db(db_key):
+    """
+    Create engine from DB key in config
+    """
+    db_conf_kwargs = copy.deepcopy(config.DB[db_key])
+    db_conf_arg = db_conf_kwargs.pop('path')
+    return create_engine(db_conf_arg, **db_conf_kwargs)
 
 
 ########################################################################

@@ -8,13 +8,12 @@ from datetime import datetime
 import copy
 
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
 from sqlalchemy.exc import (
     IntegrityError as SqlAlchemyIntegrityError,
 )
 
 from . import config
-from .modules_factory import ExceptionDepend
+from .modules_factory import create_engine_db, ExceptionDepend
 
 import logging
 import logging.config
@@ -89,10 +88,7 @@ class ApiSerializer(object):
         }
         
         # create base
-        self.engine = create_engine(
-            config.DBPath,
-            echo=config.DBEcho
-        )
+        self.engine = create_engine_db('ref')
         DeclarativeBase.metadata.create_all(self.engine)
         
         self.create_api()

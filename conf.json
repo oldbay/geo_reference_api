@@ -1,5 +1,10 @@
 {
-"DBEcho": false,
+"DB":{
+    "ref":{
+        "path": "sqlite:///db.sqlite",
+        "echo": false
+    }
+},
 "DefPermiss": 0,
 "ApiModules": [
     "example_modules.test01", 

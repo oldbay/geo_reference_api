@@ -2,11 +2,21 @@ import os, sys
 import json
 
 conf_dict = {
-    #sqlalchemy database path
-    #"DBPath": 'sqlite:///:memory:', #only serialize test, flask app is not worked 
-    "DBPath": 'sqlite:///db.sqlite', 
-    #sqlalcemy echo SQL query
-    "DBEcho": True,
+    #Database options (need "path"!!)
+    "DB": {
+        #Reference Sqlalchemy database path
+        "ref": {
+            #"path": 'sqlite:///:memory:', #only serialize test, flask app is not worked 
+           "path": "sqlite:///db.sqlite",
+           "echo": True,
+        },
+        #Geospatial Sqlalchemy database path (Postgresql only)
+        "geo": {
+           "path": "postgresql+psycopg2://dbuser@dbhost:5432/dbname",
+            #"connect_args": {'options': '-csearch_path=geo_schema'}, #for use psql scheme 
+           "echo": True,
+        },
+    },
     #Group permission for Module
     "AccessMatrix": { 
         0: [],
