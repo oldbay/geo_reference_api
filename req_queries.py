@@ -33,7 +33,7 @@ def req_start(queries, headers):
         data = req['req']
         response = obj(url, data=json.dumps(data), headers=headers)
         print ()
-        print (req['met'], req['res'], data)
+        print (req['met'], '/{}'.format(req['res']), data)
         if response.status_code == 204:
             print(response.status_code, response.text)
         else:
@@ -51,10 +51,72 @@ def req_start(queries, headers):
 
 if __name__ == "__main__":
     queries = [
+        # посмотрим всю стуктуру ресурсов api
+        {
+            "met": "OPTIONS",
+            "res": '',
+            "req": {}
+        },
+        # посмотрим информацию о распределении ресурсов api по модулям, зависимости, доки
+        {
+            "met": "GET",
+            "res": 'struct_info',
+            "req": {}
+        },
+        # посмотрим структуру ресурса api аудентификация 
+        {
+            "met": "OPTIONS",
+            "res": 'auth',
+            "req": {}
+        },
+        # пройдём аудентификацию, получим заголовок с тикетом для пользователя
+        {
+            "met": "GET",
+            "res": 'auth',
+            "req": {
+                "username": "sysadmin",
+                "password": "sysadmin",
+            }
+        },
+        # посмотрим информацию о аутентифицированном пользователе
+        {
+            "met": "GET",
+            "res": 'user_info',
+            "req": {}
+        },
+        # посмотрим ресурсы api доступные для данного пользователя
+        # пользователь admin дефолтный - у него послный доступ на все ресурсы модуля base
+        # но ему пока недоступны все модули test<номер>
+        {
+            "met": "OPTIONS",
+            "res": '',
+            "req": {
+                "filter": {
+                    "api_user": "admin",
+                },
+            }
+        },
+        # посмотрим права групп(ы) пользователя на модули
+        # права выставляются числовым кодрм 0-4, сейчас
+        #0: [],
+        #1: ["GET"],
+        #2: ["GET", "PUT"],
+        #3: ["GET", "POST", "PUT", "DELETE"]
+        # количество уровней и состав методов http запросов выставляется в конфиге
+        # метод OPTIONS по умолчанию открыт для всех
+        {
+            "met": "GET",
+            "res": 'modules_permissions',
+            "req": {
+                "filter": {
+                    "group": "admins",
+                },
+            }
+        }, 
+        # дадим пользователю через группу полные права на все модули test<номер>
         {
             "met": "PUT",
             "res": 'modules_permissions',
-            "usr": "admin",
             "req": {
                 "filter": {
                     "group": "admins",
@@ -68,7 +130,6 @@ if __name__ == "__main__":
         {
             "met": "PUT",
             "res": 'modules_permissions',
-            "usr": "admin",
             "req": {
                 "filter": {
                     "group": "admins",
@@ -82,7 +143,6 @@ if __name__ == "__main__":
         {
             "met": "PUT",
             "res": 'modules_permissions',
-            "usr": "admin",
             "req": {
                 "filter": {
                     "group": "admins",
@@ -96,7 +156,6 @@ if __name__ == "__main__":
         {
             "met": "PUT",
             "res": 'modules_permissions',
-            "usr": "admin",
             "req": {
                 "filter": {
                     "group": "admins",
@@ -106,21 +165,21 @@ if __name__ == "__main__":
                     "permission_level": 3,
                 },
             }
-        }, 
+        },
+        # теперь работа с ресурсами этих модулей админу доступна, пример:
         {
-            "met": "POST",
+            "met": "OPTIONS",
             "res": 'table01',
-            "usr": "admin",
             "req": {
-                "data": {
-                    "name": "test01", 
+                "filter": {
+                    "api_user": "admin",
                 },
-            } 
-        }, 
+            }
+        },
+        # заполним ресурсы данными: 
         {
             "met": "POST",
             "res": 'table01',
-            "usr": "admin",
             "req": {
                 "data": {
                     "name": "test01", 
@@ -130,7 +189,6 @@ if __name__ == "__main__":
         {
             "met": "POST",
             "res": 'table11',
-            "usr": "admin",
             "req": {
                 "data": {
                     "name": "test11",
@@ -141,7 +199,6 @@ if __name__ == "__main__":
         {
             "met": "POST",
             "res": 'table12',
-            "usr": "admin",
             "req": {
                 "data": {
                     "name": "test12",
@@ -152,7 +209,6 @@ if __name__ == "__main__":
         {
             "met": "POST",
             "res": 'table21',
-            "usr": "admin",
             "req": {
                 "data": {
                     "name": "test21",
@@ -160,128 +216,54 @@ if __name__ == "__main__":
                     "table12_id": 1,
                 },
             } 
-        }, 
-        {
-            "met": "GET",
-            "res": 'table01',
-            "usr": "admin",
-            "req": {
-                "filter": {
-                    "api_nesting": 4,
-                }
-            }
-        }, 
+        },
+        # посмотрим что получилось 
         {
             "met": "GET",
             "res": 'table11',
-            "usr": "admin",
             "req": {}
         }, 
         {
             "met": "GET",
             "res": 'table12',
-            "usr": "admin",
             "req": {}
-        }, 
-        {
-            "met": "GET",
-            "res": 'groups',
-            "usr": "admin",
-            "req": {}
-        }, 
-        {
-            "met": "GET",
-            "res": 'users',
-            "usr": "admin",
-            "req": {}
-        }, 
-        {
-            "met": "GET",
-            "res": 'modules',
-            "usr": "admin",
-            "req": {}
-        }, 
-        {
-            "met": "DELETE",
-            "res": 'modules',
-            "usr": "admin",
-            "req": {
-                "filter": {
-                    "name": "test01",
-                }
-            }
-        }, 
-        {
-            "met": "DELETE",
-            "res": 'table12',
-            "usr": "admin",
-            "req": {
-                "filter": {
-                    "name": "test12",
-                }
-            }
-        }, 
-        {
-            "met": "GET",
-            "res": 'table21',
-            "usr": "admin",
-            "req": {}
-        }, 
+        },
+        # обратим внимание на параметр api_nesting, он показывает на какую глубину 
+        # возсожна рекурсию сериализатора при выполнении запроса
         {
             "met": "GET",
             "res": 'table01',
-            "usr": "admin",
             "req": {
                 "filter": {
                     "api_nesting": 4,
                 }
             }
         }, 
+        # попробуем повторно создать запись с ием же name для ресурса table01 
+        # и вызываем исключение целосности 
+        {
+            "met": "POST",
+            "res": 'table01',
+            "req": {
+                "data": {
+                    "name": "test01", 
+                },
+            } 
+        },
+        # Создадим группу для непривелегированных пользователей 
         {
             "met": "POST",
             "res": 'groups',
-            "usr": "admin",
             "req": {
                 "data": {
                     "name": "guests",
                 }
             }
         }, 
-        #{
-            #"met": "POST",
-            #"res": 'users',
-            #"usr": "admin",
-            #"req": {
-                #"data": {
-                    #"name": "guest",
-                #}
-            #}
-        #}, 
-        #{
-            #"met": "POST",
-            #"res": 'users_groups',
-            #"usr": "admin",
-            #"req": {
-                #"data": {
-                    #"user_id": 2,
-                    #"group_id": 2,
-                #}
-            #}
-        #}, 
-        {
-            "met": "GET",
-            "res": 'users',
-            "usr": "admin",
-            "req": {
-                "filter": {
-                    "name": "guest",
-                }
-            }
-        }, 
+        # и зададим ей права на доступ к модулям
         {
             "met": "PUT",
             "res": 'modules_permissions',
-            "usr": "admin",
             "req": {
                 "filter": {
                     "group": "guests",
@@ -295,7 +277,6 @@ if __name__ == "__main__":
         {
             "met": "PUT",
             "res": 'modules_permissions',
-            "usr": "admin",
             "req": {
                 "filter": {
                     "group": "guests",
@@ -309,7 +290,6 @@ if __name__ == "__main__":
         {
             "met": "PUT",
             "res": 'modules_permissions',
-            "usr": "admin",
             "req": {
                 "filter": {
                     "group": "guests",
@@ -319,17 +299,101 @@ if __name__ == "__main__":
                     "permission_level": 3,
                 },
             }
-        }, 
+        },
+        # посмотрим структуру API для группы guests 
+        {
+            "met": "OPTIONS",
+            "res": '',
+            "req": {
+                "filter": {
+                    "api_group": "guests",
+                },
+            }
+        },
+        
+        #{
+            #"met": "GET",
+            #"res": 'groups',
+            #"req": {}
+        #}, 
+        #{
+            #"met": "GET",
+            #"res": 'users',
+            #"req": {}
+        #}, 
+        #{
+            #"met": "GET",
+            #"res": 'modules',
+            #"req": {}
+        #}, 
+        #{
+            #"met": "DELETE",
+            #"res": 'modules',
+            #"req": {
+                #"filter": {
+                    #"name": "test01",
+                #}
+            #}
+        #}, 
+        #{
+            #"met": "DELETE",
+            #"res": 'table12',
+            #"req": {
+                #"filter": {
+                    #"name": "test12",
+                #}
+            #}
+        #}, 
+        #{
+            #"met": "GET",
+            #"res": 'table21',
+            #"req": {}
+        #}, 
+        #{
+            #"met": "GET",
+            #"res": 'table01',
+            #"req": {
+                #"filter": {
+                    #"api_nesting": 4,
+                #}
+            #}
+        #}, 
+        #{
+            #"met": "POST",
+            #"res": 'users',
+            #"req": {
+                #"data": {
+                    #"name": "guest",
+                #}
+            #}
+        #}, 
+        #{
+            #"met": "POST",
+            #"res": 'users_groups',
+            #"req": {
+                #"data": {
+                    #"user_id": 2,
+                    #"group_id": 2,
+                #}
+            #}
+        #}, 
+        #{
+            #"met": "GET",
+            #"res": 'users',
+            #"req": {
+                #"filter": {
+                    #"name": "guest",
+                #}
+            #}
+        #}, 
         #{
             #"met": "OPTIONS",
             #"res": 'modules_permissions',
-            #"usr": "admin",
             #"req": {}
         #}, 
         #{
             #"met": "OPTIONS",
             #"res": 'modules_permissions',
-            #"usr": "admin",
             #"req": {
                 #"filter": {
                     #"api_user": "guest",
@@ -339,7 +403,6 @@ if __name__ == "__main__":
         #{
             #"met": "OPTIONS",
             #"res": 'table01',
-            #"usr": "admin",
             #"req": {
                 #"filter": {
                     #"api_user": "guest",
@@ -349,7 +412,6 @@ if __name__ == "__main__":
         #{
             #"met": "OPTIONS",
             #"res": 'table12',
-            #"usr": "admin",
             #"req": {
                 #"filter": {
                     #"api_user": "guest",
@@ -359,29 +421,39 @@ if __name__ == "__main__":
         #{
             #"met": "OPTIONS",
             #"res": '',
-            #"usr": "admin",
             #"req": {
                 #"filter": {
-                    #"api_user": "admin",
+                    #"api_user": "guest",
                 #},
             #}
         #}, 
-        {
-            "met": "OPTIONS",
-            "res": '',
-            "usr": "admin",
-            "req": {
-                "filter": {
-                    "api_user": "guest",
-                },
-            }
-        }, 
     ]
     
-    #time.sleep(10)
-    
     resp_auth = auth('sysadmin', 'sysadmin')
-    #resp_auth = auth('guest', 'guest')
-    print (resp_auth)
+    if resp_auth[0] == 200:
+        req_start(queries, resp_auth[-1])
+    
+    queries = [
+        # пройдём аудентификацию новым пользователем
+        {
+            "met": "GET",
+            "res": 'auth',
+            "req": {
+                "username": "sysadmin",
+                "password": "sysadmin",
+            }
+        },
+        # Посмотрим информацию о данном пользователе:
+        # Его раньше не было в базе но в результате аудентификации для него была создана 
+        # запись пользователя и он был включён в заренее созданныую группу guests, 
+        # так как сервис аудентификации вернул системную группу с тем же названием 
+        # для данного пользователя 
+        {
+            "met": "GET",
+            "res": 'user_info',
+            "req": {}
+        },
+    ]
+    resp_auth = auth('guest', 'guest')
     if resp_auth[0] == 200:
         req_start(queries, resp_auth[-1])

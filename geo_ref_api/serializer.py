@@ -55,7 +55,7 @@ class ApiSerializer(object):
     modules_table_name = config.ApiSerialDefaults['modules_table_name']
     users_table_name = config.ApiSerialDefaults['users_table_name']
     users_groups_table_name = config.ApiSerialDefaults['users_groups_table_name']
-    #groups_table_name = config.ApiSerialDefaults['groups_table_name']
+    groups_table_name = config.ApiSerialDefaults['groups_table_name']
     modules_permissions_table_name = config.ApiSerialDefaults['modules_permissions_table_name']
     res_struct = {
         "GET": {
@@ -219,7 +219,7 @@ class ApiSerializer(object):
     def get_api_resources(self):
         return self.api_resources
 
-    def get_api_resources_struct(self, username=None):
+    def get_api_resources_struct(self, username=None, groupname=None):
         user_id = False
         if username:
             users_query = self.session.query(
@@ -227,10 +227,18 @@ class ApiSerializer(object):
             )
             for usr_obj in users_query.filter_by(name=username):
                 user_id = usr_obj.id
-        else:
+
+        group_id = False
+        if groupname:
+            groups_query = self.session.query(
+                self.api_resources[self.groups_table_name]['obj']
+            )
+            print(groups_query)
+            for grp_obj in groups_query.filter_by(name=groupname):
+                group_id = grp_obj.id
+        if not username and not groupname:
             return self.api_resources_sruct
-       
-        if user_id:
+        elif user_id:
             out = copy.deepcopy(self.api_resources_sruct)
             users_groups_query = self.session.query(
                 self.api_resources[self.users_groups_table_name]['obj']
@@ -241,7 +249,14 @@ class ApiSerializer(object):
             for key in self.api_resources:
                 modulename = self.api_resources[key]['module']
                 permiss_level = config.MinPermiss
-                for users_group_obj in users_groups_query.filter_by(user_id=user_id):
+                filter_args = {
+                    'user_id': user_id,
+                }
+                if group_id:
+                    filter_args.update({
+                        'group_id': group_id,
+                    })
+                for users_group_obj in users_groups_query.filter_by(**filter_args):
                     user_group = users_group_obj.group
                     for permiss_obj in permiss_query.filter_by(group=user_group,
                                                                module=modulename):
@@ -255,13 +270,30 @@ class ApiSerializer(object):
                 if not out[key]:
                     del(out[key])
             return out
+        elif group_id:
+            out = copy.deepcopy(self.api_resources_sruct)
+            permiss_query = self.session.query(
+                self.api_resources[self.modules_permissions_table_name]['obj']
+            )
+            for key in self.api_resources:
+                modulename = self.api_resources[key]['module']
+                for permiss_obj in permiss_query.filter_by(group_id=group_id,
+                                                           module=modulename):
+                    permiss_level = permiss_obj.permission_level
+                permiss_http = config.AccessMatrix[permiss_level]
+                for http in list(out[key].keys()):
+                    if http not in permiss_http:
+                        del(out[key][http])
+                if not out[key]:
+                    del(out[key])
+            return out
         else:
             return {}
 
-    def print_api_resources_struct(self, username=None):
+    def print_api_resources_struct(self, username=None, groupname=None):
         print (
             json.dumps(
-                self.get_api_resources_struct(username=username),
+                self.get_api_resources_struct(username=username, groupname=groupname),
                 sort_keys=True, 
                 indent=4,
                 separators=(',', ':'), 

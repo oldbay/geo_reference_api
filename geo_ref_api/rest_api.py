@@ -26,12 +26,21 @@ class RestApi(object):
         "OPTIONS": {
             "filter":{
                 "api_user": str.__name__,
+                "api_group": str.__name__,
             }
         }
     }
     options_def = {
         "auth": {
             "GET": auth_proc.auth_args, 
+            "OPTIONS": {},
+        },
+        "user_info": {
+            "GET": {}, 
+            "OPTIONS": {},
+        },
+        "struct_info": {
+            "GET": {}, 
             "OPTIONS": {},
         },
     }
@@ -43,6 +52,14 @@ class RestApi(object):
         def_res_dict = {
             'auth': {
                 'get': self.auth_http_get,
+                'options': self.def_http_options,
+            },
+            'user_info': {
+                'get': self.user_info_http_get,
+                'options': self.def_http_options,
+            },
+            'struct_info': {
+                'get': self.struct_info_http_get,
                 'options': self.def_http_options,
             },
         }
@@ -98,7 +115,7 @@ class RestApi(object):
             return 401, {"error": "JWT Signature has expired"}
         usrname = ticket_dict.get(config.JwtUserKey, None)
         if not usrname:
-            return 404, {"error": "Header key '{}' not found".format(config.JwtUserKey)}
+            return 404, {"error": "Headers key '{}' not found".format(config.JwtUserKey)}
         else:
             return usrname
             
@@ -128,9 +145,14 @@ class RestApi(object):
         req = request.get_json(force=True)
         if 'filter' in req.keys():
             username = req['filter'].get('api_user', None)
+            groupname = req['filter'].get('api_group', None)
         else:
             username = None
-        api_cont_dict = self.api_serial.get_api_resources_struct(username=username)
+            groupname = None
+        api_cont_dict = self.api_serial.get_api_resources_struct(
+            username=username,
+            groupname=groupname
+        )
         if not res:
             res_cont_dict = {}
             res_cont_dict.update(self.options_opt)
@@ -172,6 +194,29 @@ class RestApi(object):
                 status=resp[0],
                 mimetype='application/json'
             )
+
+    def user_info_http_get(self):
+        ticket = request.headers['ticket']
+        ticket_out = self.ticket_decode(ticket)
+        if isinstance(ticket_out, tuple):
+            resp = ticket_out
+        else:
+            resp = (
+                200,
+                {"api_user": ticket_out}
+            )
+        return self.app.response_class(
+            response=json.dumps(resp[-1]),
+            status=resp[0],
+            mimetype='application/json'
+        )
+
+    def struct_info_http_get(self):
+        return self.app.response_class(
+            response=json.dumps(self.api_serial.get_api_modules_struct()),
+            status=200,
+            mimetype='application/json'
+        )
 
     def run_test_server(self, **kwargs):
         """
