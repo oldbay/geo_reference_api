@@ -444,3 +444,31 @@ if __name__ == "__main__":
     resp_auth = auth('guest', 'guest')
     if resp_auth[0] == 200:
         req_start(queries, resp_auth[-1])
+    
+    queries = [
+        """
+        Приложение:
+        Работа с ресурсом modules
+        """,
+        {
+            "met": "GET",
+            "res": 'modules',
+            "req": {}
+        }, 
+        {
+            "met": "PUT",
+            "res": 'modules',
+            "req": {
+                "filter": {
+                    "name": "test12",
+                },
+                "data": {
+                    "delete": True,
+                }
+            },
+        }, 
+        
+    ]
+    resp_auth = auth('sysadmin', 'sysadmin')
+    if resp_auth[0] == 200:
+        req_start(queries, resp_auth[-1])
