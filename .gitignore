@@ -1,3 +1,4 @@
 *.pyc
 *.sqlite
 *.log
+docs/.~lock.*.fodt#
