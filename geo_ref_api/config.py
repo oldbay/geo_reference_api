@@ -49,7 +49,8 @@ conf_dict = {
         },
     }, 
     # JWT params
-    "JwtUserKey": "username",
+    "JwtUserKey": "api_user",
+    "JwtGroupsKey": "api_groups",
     "JwtSecretKey": "secret",
     "JwtAlgo": "HS256",
     # Time of live JWT ticket in seconds(to future)

@@ -1,7 +1,6 @@
 
 from flask import Flask, json, request
 from flask_restful import Api, Resource
-import jwt
 
 from .serializer import ApiSerializer
 from .auth_processing import AuthProcessing
@@ -102,31 +101,12 @@ class RestApi(object):
             ),
             '/'
         )
-    
-    def ticket_decode(self, ticket):
-        try:
-            ticket_dict = jwt.decode(
-                ticket,
-                config.JwtSecretKey,
-                #leeway=config.JwtTimeout, 
-                algorithm=config.JwtAlgo
-                )
-        except jwt.ExpiredSignatureError:
-            return 401, {"error": "JWT Signature has expired"}
-        usrname = ticket_dict.get(config.JwtUserKey, None)
-        if not usrname:
-            return 404, {"error": "Headers key '{}' not found".format(config.JwtUserKey)}
-        else:
-            return usrname
-            
         
     def serial_http_met(self):
         ticket = request.headers['ticket']
-        ticket_out = self.ticket_decode(ticket)
-        if isinstance(ticket_out, tuple):
-            resp = ticket_out
-        else:
-            usrname = ticket_out
+        ticket_info = self.auth_proc.get_ticket_info(ticket)
+        if ticket_info[0] == 200:
+            usrname = ticket_info[-1][config.JwtUserKey]
             serial_req = {
                     "met": request.method,
                     "res": request.path.split('/')[-1],
@@ -134,6 +114,8 @@ class RestApi(object):
                     "req": request.get_json(force=True),
                 }
             resp = self.api_serial.serialize(serial_req)
+        else:
+            resp = ticket_info
         return self.app.response_class(
             response=json.dumps(resp[-1]),
             status=resp[0],
@@ -197,17 +179,10 @@ class RestApi(object):
 
     def user_info_http_get(self):
         ticket = request.headers['ticket']
-        ticket_out = self.ticket_decode(ticket)
-        if isinstance(ticket_out, tuple):
-            resp = ticket_out
-        else:
-            resp = (
-                200,
-                {"api_user": ticket_out}
-            )
+        ticket_info = self.auth_proc.get_ticket_info(ticket)
         return self.app.response_class(
-            response=json.dumps(resp[-1]),
-            status=resp[0],
+            response=json.dumps(ticket_info[-1]),
+            status=ticket_info[0],
             mimetype='application/json'
         )
 

@@ -143,4 +143,24 @@ class AuthProcessing(object):
             }
         else:
             return 401, {"error": "Authorization field"}
+        
+    def get_ticket_info(self, ticket):
+        try:
+            ticket_dict = jwt.decode(
+                ticket,
+                config.JwtSecretKey,
+                #leeway=config.JwtTimeout, 
+                algorithm=config.JwtAlgo
+                )
+        except jwt.ExpiredSignatureError:
+            return 401, {"error": "JWT Signature has expired"}
+        username = ticket_dict.get(config.JwtUserKey, None)
+        if not username:
+            return 404, {"error": "Headers key '{}' not found".format(config.JwtUserKey)}
+        else:
+            user_groups_query = self.session.query(UsersGroups)
+            groups = []
+            for user_group_obj in user_groups_query.filter_by(user=username):
+                groups.append(user_group_obj.group)
+            return 200, {config.JwtUserKey: username,config.JwtGroupsKey: groups}
     
