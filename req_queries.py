@@ -34,7 +34,17 @@ def req_start(queries, headers):
             data = req['req']
             response = obj(url, data=json.dumps(data), headers=headers)
             print ()
-            print ("REQUEST:", req['met'], '/{}'.format(req['res']), data)
+            print ('{}:'.format(req['met']), '/{}'.format(req['res']))
+            print ("REQUEST:")
+            print (
+                json.dumps(
+                    data,
+                    sort_keys=True, 
+                    indent=4,
+                    separators=(',', ':'), 
+                    ensure_ascii=False
+                )
+            )
             print ("STATUS CODE:", response.status_code)
             if response.status_code != 204:
                 print ("RESPONSE:")
@@ -58,7 +68,7 @@ def req_start(queries, headers):
 if __name__ == "__main__":
     queries = [
         """
-        посмотрим всю стуктуру ресурсов api
+        посмотрим всю структуру ресурсов api
         """,
         {
             "met": "OPTIONS",
@@ -82,7 +92,7 @@ if __name__ == "__main__":
             "req": {}
         },
         """
-        пройдём аудентификацию, получим заголовок с тикетом для пользователя
+        пройдём аутентификацию, получим заголовок с тикетом для пользователя
         """,
         {
             "met": "GET",
