@@ -2,7 +2,17 @@ import json
 import requests
 import time
 
-host_url = 'http://127.0.0.1:5444/{}'
+admin_user = 'sysadmin'
+admin_pass = 'sysadmin'
+admin_group = 'sysadmins'
+
+guest_user = 'guest'
+guest_pass = 'guest'
+guest_group = 'guests'
+
+RPem = './key/rest.pem'
+
+host_url = 'https://localhost:5444/{}'
 req_mets = {
     "GET": requests.get,
     "POST": requests.post,
@@ -20,8 +30,9 @@ def auth(username, password):
     }
     response = obj(
         url,
+        verify=RPem, 
         data=json.dumps(data),
-        headers={'Content-Type': 'application/json'}
+        headers={'Content-Type': 'application/json'}, 
     )
     return response.status_code, response.json()
     
@@ -32,7 +43,12 @@ def req_start(queries, headers):
             obj = req_mets[req['met']]
             url = host_url.format(req['res'])
             data = req['req']
-            response = obj(url, data=json.dumps(data), headers=headers)
+            response = obj(
+                url,
+                verify=RPem, 
+                data=json.dumps(data),
+                headers=headers, 
+            )
             print ()
             print ('{}:'.format(req['met']), '/{}'.format(req['res']))
             print ("REQUEST:")
@@ -98,8 +114,8 @@ if __name__ == "__main__":
             "met": "GET",
             "res": 'auth',
             "req": {
-                "username": "sysadmin",
-                "password": "sysadmin",
+                "username": admin_user,
+                "password": admin_pass,
             }
         },
         """
@@ -301,6 +317,7 @@ if __name__ == "__main__":
             "req": {
                 "data": {
                     "name": "guests",
+                    "auth_name": guest_group,
                 }
             }
         }, 
@@ -360,7 +377,7 @@ if __name__ == "__main__":
         },
     ]
     
-    resp_auth = auth('sysadmin', 'sysadmin')
+    resp_auth = auth(admin_user, admin_pass)
     if resp_auth[0] == 200:
         req_start(queries, resp_auth[-1])
     
@@ -372,8 +389,8 @@ if __name__ == "__main__":
             "met": "GET",
             "res": 'auth',
             "req": {
-                "username": "sysadmin",
-                "password": "sysadmin",
+                "username": guest_user,
+                "password": guest_pass,
             }
         },
         """
@@ -441,7 +458,7 @@ if __name__ == "__main__":
             },
         }, 
     ]
-    resp_auth = auth('guest', 'guest')
+    resp_auth = auth(guest_user, guest_pass)
     if resp_auth[0] == 200:
         req_start(queries, resp_auth[-1])
     
@@ -469,6 +486,6 @@ if __name__ == "__main__":
         }, 
         
     ]
-    resp_auth = auth('sysadmin', 'sysadmin')
+    resp_auth = auth(admin_user, admin_pass)
     if resp_auth[0] == 200:
         req_start(queries, resp_auth[-1])

@@ -2,3 +2,6 @@
 *.sqlite
 *.log
 docs/.~lock.*.fodt#
+*.cert
+*.key
+*.pem
