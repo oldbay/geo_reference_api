@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from geo_ref_api import RestApi
 from geo_ref_api import config
 
