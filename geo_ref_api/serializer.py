@@ -1,5 +1,6 @@
 import os
 import json
+import ast
 import copy
 import imp
 import importlib
@@ -21,7 +22,10 @@ logging.config.dictConfig(config.Logging)
 logger = logging.getLogger("serializer")
 
 # loading module base
-from .api_modules import base
+from .api_modules import (
+    base,
+    geo, 
+)
 
 # loading other modules
 load_modules_name = []
@@ -131,10 +135,13 @@ class ApiSerializer(object):
             
             for serial_obj in table_class.__serialization__:
                 col_name = serial_obj.name
-                try:
+                col_obj = table_class.__dict__[col_name]
+                if hasattr(col_obj, 'python_type'):
+                    col_type = table_class.__dict__[col_name].python_type
+                if hasattr(col_obj, 'type'):
                     col_type = table_class.__dict__[col_name].type.python_type
-                except AttributeError:
-                    col_type = None
+                else:
+                    col_type = dict
         
                 if serial_obj.supports_json[0]:
                     for http in ['POST', 'PUT']:
@@ -146,7 +153,7 @@ class ApiSerializer(object):
                                 {col_name: col_type.__name__}
                             )
                 if serial_obj.supports_json[1]:
-                    if col_type:
+                    if col_type != dict and col_type != list:
                         for http in ['GET', 'PUT', 'DELETE']:
                             if http in table_class.__http__:
                                 self.api_resources[res_name][http]['filter'].update(
@@ -233,7 +240,6 @@ class ApiSerializer(object):
             groups_query = self.session.query(
                 self.api_resources[self.groups_table_name]['obj']
             )
-            print(groups_query)
             for grp_obj in groups_query.filter_by(name=groupname):
                 group_id = grp_obj.id
         if not username and not groupname:
@@ -333,6 +339,12 @@ class ApiSerializer(object):
         else:
             return 200, out
     
+    def fix_filter(self, api_filter):
+        for key in list(api_filter.keys()):
+            if isinstance(api_filter[key], dict):
+                del(api_filter[key])
+        return api_filter
+    
     def http_get(self, table, qdict, username=None):
         if not qdict:
             api_filter = {}
@@ -343,15 +355,24 @@ class ApiSerializer(object):
         if self.nesting_name in api_filter.keys(): del(api_filter[self.nesting_name])
         
         table_query = self.session.query(table)
-        find_list = table_query.filter_by(**api_filter)
+        find_list = table_query.filter_by(**self.fix_filter(api_filter))
     
         result = []
         for tab_obj in find_list:
-            result.append(
-                json.loads(
+            tab_dict = json.loads(
                     tab_obj.to_json(max_nesting=max_nesting)
                 )
-            )
+            for key in tab_dict:
+                if isinstance(tab_dict[key], str):
+                    if tab_dict[key].find('{') != -1 and tab_dict[key].find('}') != -1:
+                        try:
+                            dict_decode = ast.literal_eval(tab_dict[key])
+                        except ValueError:
+                            pass
+                        else:
+                            tab_dict[key] = dict_decode
+            result.append(tab_dict)
+
         if not result:
             exit_code = 204
         else:
@@ -389,7 +410,7 @@ class ApiSerializer(object):
             api_data = err[-1]
         
         table_query = self.session.query(table)
-        find_list = table_query.filter_by(**api_filter)
+        find_list = table_query.filter_by(**self.fix_filter(api_filter))
         for tab_obj in find_list:
             tab_obj.update_from_json(json.dumps(api_data))
             tab_obj.api_user = username
@@ -416,7 +437,7 @@ class ApiSerializer(object):
             api_filter = err[-1]
         
         table_query = self.session.query(table)
-        find_list = table_query.filter_by(**api_filter)
+        find_list = table_query.filter_by(**self.fix_filter(api_filter))
         for tab_obj in find_list:
             self.session.delete(tab_obj)
             self.session.commit()

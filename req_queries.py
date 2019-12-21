@@ -1,6 +1,7 @@
 import json
 import requests
 import time
+import base64
 
 admin_user = 'sysadmin'
 admin_pass = 'sysadmin'
@@ -64,15 +65,18 @@ def req_start(queries, headers):
             print ("STATUS CODE:", response.status_code)
             if response.status_code != 204:
                 print ("RESPONSE:")
-                print (
-                    json.dumps(
-                        response.json(),
-                        sort_keys=True, 
-                        indent=4,
-                        separators=(',', ':'), 
-                        ensure_ascii=False
+                try:
+                    print (
+                        json.dumps(
+                            response.json(),
+                            sort_keys=True, 
+                            indent=4,
+                            separators=(',', ':'), 
+                            ensure_ascii=False
+                        )
                     )
-                )
+                except:
+                    print (response.text)
         else:
             for _ in range(3): print ()
             print ("DESCRIPTION:")
@@ -377,9 +381,9 @@ if __name__ == "__main__":
         },
     ]
     
-    resp_auth = auth(admin_user, admin_pass)
-    if resp_auth[0] == 200:
-        req_start(queries, resp_auth[-1])
+    #resp_auth = auth(admin_user, admin_pass)
+    #if resp_auth[0] == 200:
+        #req_start(queries, resp_auth[-1])
     
     queries = [
         """
@@ -458,9 +462,9 @@ if __name__ == "__main__":
             },
         }, 
     ]
-    resp_auth = auth(guest_user, guest_pass)
-    if resp_auth[0] == 200:
-        req_start(queries, resp_auth[-1])
+    #resp_auth = auth(guest_user, guest_pass)
+    #if resp_auth[0] == 200:
+        #req_start(queries, resp_auth[-1])
     
     queries = [
         """
@@ -486,6 +490,78 @@ if __name__ == "__main__":
         }, 
         
     ]
+    #resp_auth = auth(admin_user, admin_pass)
+    #if resp_auth[0] == 200:
+        #req_start(queries, resp_auth[-1])
+    
+    with open('test.svg', "rb") as file_:
+        svg_bin = file_.read()
+    svg_bin64 = base64.b16encode(svg_bin)
+
+    queries = [
+        {
+            "met": "PUT",
+            "res": 'modules_permissions',
+            "req": {
+                "filter": {
+                    "group": "admins",
+                    "module": "geo",
+                },
+                "data": {
+                    "permission_level": 3,
+                },
+            }
+        }, 
+        {
+            "met": "OPTIONS",
+            "res": 'geoms',
+            "req": {
+                "filter": {
+                    "api_user": "admin",
+                },
+            }
+        },
+        {
+            "met": "POST",
+            "res": 'geoms',
+            "req": {
+                "data": {
+                    "name": "polygon",
+                    "properties": {"a": 1,"b": 2, },
+                },
+            }
+        }, 
+        {
+            "met": "GET",
+            "res": 'geoms',
+            "req": {
+                "filter": {
+                    "name": "polygon",
+                },
+            }
+        }, 
+        {
+            "met": "OPTIONS",
+            "res": 'layers',
+            "req": {
+                "filter": {
+                    "api_user": "admin",
+                },
+            }
+        },
+        {
+            "met": "POST",
+            "res": 'layers',
+            "req": {
+                "data": {
+                    "name": "test",
+                    "symbol": svg_bin64.decode('UTF-8'),
+                    "properties": {"z": 1,"x": 2, },
+                },
+            }
+        }, 
+    ]
+
     resp_auth = auth(admin_user, admin_pass)
     if resp_auth[0] == 200:
         req_start(queries, resp_auth[-1])
