@@ -235,8 +235,8 @@ def create_auth_name(mapper, connection, target):
     if not target.auth_name:
         users_tab = target.__class__.__table__
         connection.execute(
-            users_tab.update().\
-            values(auth_name=target.name).\
+            users_tab.update().
+            values(auth_name=target.name).
             where(users_tab.c.id==target.id), 
         )
 

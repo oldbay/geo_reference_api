@@ -532,15 +532,6 @@ if __name__ == "__main__":
             }
         }, 
         {
-            "met": "GET",
-            "res": 'geoms',
-            "req": {
-                "filter": {
-                    "name": "polygon",
-                },
-            }
-        }, 
-        {
             "met": "OPTIONS",
             "res": 'layers',
             "req": {
@@ -557,6 +548,31 @@ if __name__ == "__main__":
                     "name": "test",
                     "symbol": svg_bin64.decode('UTF-8'),
                     "properties": {"z": 1,"x": 2, },
+                    "geom_id": 1,
+                },
+            }
+        }, 
+        {
+            "met": "PUT",
+            "res": 'geoms',
+            "req": {
+                "filter": {
+                    "name": "polygon",
+                },
+                "data": {
+                    "properties": {"hh": 12,"b": 2, },
+                },
+            }
+        }, 
+        {
+            "met": "PUT",
+            "res": 'layers',
+            "req": {
+                "filter": {
+                    "name": "test",
+                },
+                "data": {
+                    "properties": {"z": 1,"x": 2, "gll": 3},
                 },
             }
         }, 
