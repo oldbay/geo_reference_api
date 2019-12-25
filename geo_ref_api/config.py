@@ -67,6 +67,8 @@ conf_dict = {
         "groups_table_name": "groups", 
         "modules_permissions_table_name": "modules_permissions", 
     },
+    # Geo Options
+    "EpsgCode": 3857,
     # Logging config
     "Logging": {
         "version":1,

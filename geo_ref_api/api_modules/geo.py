@@ -19,7 +19,7 @@ from geo_ref_api import (
     config, 
 )
 from geo_ref_api.custom_types import JsonType
-
+from .geo_module import GeoTable
 
 # for Sqlite ForeignKey Event
 from sqlalchemy.engine import Engine
@@ -126,19 +126,24 @@ def geo_compare(layer_create, mapper, connection, target):
         # test update properties 
         if new_all_layer_props != all_layer_props:
             
+            if not layer_create:
+                # test & alter old layer table
+                gt = GeoTable(layer_obj.name)
+                gt.upate_table(new_all_layer_props)
+                print ("UPDATE LAYER")
+        
+            # update all_properties for layer
             layer_tab = Layers.__table__
             connection.execute(
                 layer_tab.update().
                 values(all_properties=str(new_all_layer_props)).
                 where(layer_tab.c.id==layer_obj.id), 
             )
-            
-            if not layer_create:
-                # test & alter old layer table
-                print ("UPDATE LAYER")
-        
+
         if layer_create:
             # test & create new later table
+            gt = GeoTable(layer_obj.name)
+            gt.create_table(geom_obj.name, new_all_layer_props)
             print("CREATE NEW LAYER")
         
 @listens_for(Layers, 'after_insert')

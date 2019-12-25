@@ -3,6 +3,11 @@
     "ref":{
         "path": "sqlite:///db.sqlite",
         "echo": false
+    },
+    "geo":{
+        "path": "postgresql+psycopg2://gis@localhost:5432/geo_ref_api",
+        "connect_args": {"options": "-csearch_path=geo"},
+        "echo": false
     }
 },
 "DefPermiss": 0,
