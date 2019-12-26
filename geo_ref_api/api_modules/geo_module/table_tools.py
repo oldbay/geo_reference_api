@@ -14,6 +14,7 @@ class GeoTable(object):
         "float": "float4",
         "str": "text",
         "bool": "bool",
+        "dict": "json", 
     }
 
     tabs_cols_sql = '''
@@ -29,24 +30,20 @@ class GeoTable(object):
             where table_name = find_tab.table_name
         ) as typs
     from information_schema.columns as find_tab
-    where find_tab.column_name = '{geom_table}'
+    --where find_tab.column_name = '{geom_table}'
     '''
     schema_temp = '''
     CREATE TABLE "{tablename}" (
         "id" serial NOT NULL PRIMARY KEY,
         {sql_columns}
-        "map_id" INTEGER REFERENCES maps(id)
+        "{geom_table}" geometry({geom_type},{epsg_code})
     );
-    {sql_index}
-    '''
-    geom_schema_str = '        "{geom_table}" geometry({geom_type},{epsg_code}),'
-    prop_schema_str = '        "{prop_key}" {prop_item},'
-    geom_index_temp = '''
     CREATE INDEX {tablename}_geom_idx
         ON "{tablename}"
         USING gist
-        (geom);
+        ({geom_table});
     '''
+    prop_schema_str = '        "{prop_key}" {prop_item},'
 
     #----------------------------------------------------------------------
     def __init__(self, layer_name):
@@ -60,7 +57,7 @@ class GeoTable(object):
     
     def get_tabs_cols(self):
         self.tabs_cols = {}
-        tabs_cols_sql = self.tabs_cols_sql.format(geom_table=self.geom_table)
+        tabs_cols_sql = self.tabs_cols_sql.format(geom_table=config.GeomTablename)
         for tab in self.connect.execute(tabs_cols_sql).fetchall():
             arg_list = []
             for index in range(len(tab[1])):
@@ -80,8 +77,53 @@ class GeoTable(object):
         else:
             return self.pytype2pgtype.get(type(data).__name__, None)
     
+    def prop2pg(self, properties):
+        pg_props = {}
+        for key in properties.keys():
+            if not properties[key]:
+                return None
+            elif isinstance(properties[key], (list, tuple)):
+                pg_type = self.pytype2pgtype.get(properties[key][0], None)
+                if pg_type:
+                    pg_type = '_{}'.format(pg_type)
+                else:
+                    return None
+            else:
+                pg_type = self.pytype2pgtype.get(properties[key], None)
+                if not pg_type:
+                    return None
+            pg_props[key] = pg_type
+        return pg_props
+    
     def create_table(self, geom, properties):
-        print(geom, properties)
+        if self.layer_name in self.tabs_cols:
+            raise Exception(
+                "Layer '{}' alredy created!".format(self.layer_name)
+            )
+        
+        pg_props = self.prop2pg(properties)
+        sql_columns = []
+        for prop_key in pg_props.keys():
+            sql_columns.append(
+                self.prop_schema_str.format(
+                    prop_key=prop_key,
+                    prop_item=pg_props[prop_key], 
+                )
+            )
+        sql_schema = self.schema_temp.format(
+            tablename=self.layer_name,
+            geom_table=config.GeomTablename, 
+            geom_type=geom, 
+            epsg_code=config.EpsgCode, 
+            sql_columns='\n'.join(sql_columns),
+        )
+        self.connect.execute(sql_schema)
+
+        self.get_tabs_cols()
+            
+        
+        
+        print(geom, self.prop2pg(properties))
 
     def upate_table(self, properties):
-        print(properties)
+        print(self.prop2pg(properties))

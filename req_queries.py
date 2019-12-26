@@ -527,7 +527,7 @@ if __name__ == "__main__":
             "req": {
                 "data": {
                     "name": "polygon",
-                    "properties": {"a": 1,"b": 2, },
+                    "properties": {"a": 'int',"b": ['float'], },
                 },
             }
         }, 
@@ -547,7 +547,7 @@ if __name__ == "__main__":
                 "data": {
                     "name": "test",
                     "symbol": svg_bin64.decode('UTF-8'),
-                    "properties": {"z": 1,"x": 2, },
+                    "properties": {"z": 'str',"x": ['str'], },
                     "geom_id": 1,
                 },
             }
@@ -560,7 +560,7 @@ if __name__ == "__main__":
                     "name": "polygon",
                 },
                 "data": {
-                    "properties": {"hh": 12,"b": 2, },
+                    "properties": {"hh": 'str', "b": ['int'], },
                 },
             }
         }, 
@@ -572,7 +572,7 @@ if __name__ == "__main__":
                     "name": "test",
                 },
                 "data": {
-                    "properties": {"z": 1,"x": 2, "gll": 3},
+                    "properties": {"z": 'str',"x": 'int', "gll": ['int']},
                 },
             }
         }, 

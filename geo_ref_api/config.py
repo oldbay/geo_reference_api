@@ -68,6 +68,7 @@ conf_dict = {
         "modules_permissions_table_name": "modules_permissions", 
     },
     # Geo Options
+    "GeomTablename": "geom",
     "EpsgCode": 3857,
     # Logging config
     "Logging": {
