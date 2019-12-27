@@ -6,7 +6,7 @@ from sqlalchemy import (
     Unicode,
     Boolean,
 )
-from sqlalchemy.orm import column_property
+from sqlalchemy.orm import column_property, object_session
 from sqlalchemy import select
 from sqlalchemy.event import listens_for
 
@@ -82,7 +82,7 @@ class Layers(DeclarativeBase, ApiModule):
 # Events
 
 # Triggers
-def geo_compare(layer_create, mapper, connection, target):
+def geo_compare(mapper, connection, target, layer_create, layer_before):
     if target.__tablename__ == 'geoms':
         geom_obj = target
         layer_tab = Layers.__table__
@@ -122,49 +122,87 @@ def geo_compare(layer_create, mapper, connection, target):
         new_all_layer_props = {}
         new_all_layer_props.update(layer_props)
         new_all_layer_props.update(geom_props)
-      
+    
         # test update properties 
         if new_all_layer_props != all_layer_props:
             
-            if not layer_create:
+            if not layer_create and layer_before:
                 # test & alter old layer table
                 gt = GeoTable(layer_obj.name)
                 out = gt.upate_table(new_all_layer_props)
                 if not out[0]:
                     print(out[-1])
+                    #connection.close()
+                    
                     # find old_properties = all_properties - geom.properties
                     # update propperties to old_properties
-                else:
-                    # update all_properties for layer
-                    layer_tab = Layers.__table__
-                    connection.execute(
-                        layer_tab.update().
-                        values(all_properties=str(new_all_layer_props)).
-                        where(layer_tab.c.id==layer_obj.id), 
-                    )
+            elif not layer_before:
+                # update all_properties for layer
+                layer_tab = Layers.__table__
+                connection.execute(
+                    layer_tab.update().
+                    values(all_properties=str(new_all_layer_props)).
+                    where(layer_tab.c.id==layer_obj.id), 
+                )
 
-        if layer_create:
+        if layer_create and layer_before:
             # test & create new later table
             gt = GeoTable(layer_obj.name)
             out = gt.create_table(geom_obj.name, new_all_layer_props)
             if not out[0]:
                 print(out[-1])
+                print(dir(object_session(target).transaction))
+                #object_session(target).transaction.close()
+               
                 # delete row for layer_obj.id
         
+@listens_for(Layers, 'before_insert')
+def ins_layer(*args, **kwargs):
+    kwargs.update({
+        "layer_create": True, 
+        "layer_before": True, 
+    })
+
+    return geo_compare(*args, **kwargs)
 @listens_for(Layers, 'after_insert')
 def ins_layer(*args, **kwargs):
-    layer_create = True
-    return geo_compare(layer_create, *args, **kwargs)
+    kwargs.update({
+        "layer_create": True, 
+        "layer_before": False, 
+    })
+    return geo_compare(*args, **kwargs)
+
+@listens_for(Geoms, 'before_update')
+def upd_geom(*args, **kwargs):
+    kwargs.update({
+        "layer_create": False, 
+        "layer_before": True, 
+    })
+    return geo_compare(*args, **kwargs)
 
 @listens_for(Geoms, 'after_update')
 def upd_geom(*args, **kwargs):
-    layer_create = False
-    return geo_compare(layer_create, *args, **kwargs)
+    kwargs.update({
+        "layer_create": False, 
+        "layer_before": False, 
+    })
+    return geo_compare(*args, **kwargs)
+
+@listens_for(Layers, 'before_update')
+def upd_layer(*args, **kwargs):
+    kwargs.update({
+        "layer_create": False, 
+        "layer_before": True, 
+    })
+    return geo_compare(*args, **kwargs)
 
 @listens_for(Layers, 'after_update')
 def upd_layer(*args, **kwargs):
-    layer_create = False
-    return geo_compare(layer_create, *args, **kwargs)
+    kwargs.update({
+        "layer_create": False, 
+        "layer_before": False, 
+    })
+    return geo_compare(*args, **kwargs)
 
 #@listens_for(Layers, 'after_delete')
 #def ins_geom(mapper, connection, target):

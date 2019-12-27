@@ -546,7 +546,8 @@ if __name__ == "__main__":
             "req": {
                 "data": {
                     "name": "test",
-                    "symbol": svg_bin64.decode('UTF-8'),
+                    #"symbol": svg_bin64.decode('UTF-8'),
+                    "symbol": "/path/to/symbol",
                     "properties": {"z": 'str',"x": ['str'], },
                     "geom_id": 1,
                 },
