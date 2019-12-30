@@ -130,12 +130,11 @@ def geo_compare(mapper, connection, target, layer_create, layer_before):
                 # test & alter old layer table
                 gt = GeoTable(layer_obj.name)
                 out = gt.upate_table(new_all_layer_props)
-                if not out[0]:
-                    print(out[-1])
-                    #connection.close()
+                if out[0] != 200:
+                    session = object_session(layer_obj)
+                    session.event_req = out
+                    session.close()
                     
-                    # find old_properties = all_properties - geom.properties
-                    # update propperties to old_properties
             elif not layer_before:
                 # update all_properties for layer
                 layer_tab = Layers.__table__
@@ -149,12 +148,10 @@ def geo_compare(mapper, connection, target, layer_create, layer_before):
             # test & create new later table
             gt = GeoTable(layer_obj.name)
             out = gt.create_table(geom_obj.name, new_all_layer_props)
-            if not out[0]:
-                print(out[-1])
-                print(dir(object_session(target).transaction))
-                #object_session(target).transaction.close()
-               
-                # delete row for layer_obj.id
+            if out[0] != 200:
+                session = object_session(layer_obj)
+                session.event_req = out
+                session.close()
         
 @listens_for(Layers, 'before_insert')
 def ins_layer(*args, **kwargs):

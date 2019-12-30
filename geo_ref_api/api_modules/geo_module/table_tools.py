@@ -97,7 +97,9 @@ class GeoTable(object):
     
     def create_table(self, geom, properties):
         if self.layer_name in self.tabs_cols:
-            return False, "Layer Table '{}' alredy created!".format(self.layer_name)
+            return 409, {
+                "error": "Layer Table '{}' alredy created!".format(self.layer_name)
+            }
         
         pg_props = self.prop2pg(properties)
         sql_columns = []
@@ -117,8 +119,8 @@ class GeoTable(object):
         )
         self.connect.execute(sql_schema)
         self.get_tabs_cols()
-        return True, ""
+        return 200, {}
 
     def upate_table(self, properties):
         print(self.prop2pg(properties))
-        return True, ""
+        return 200, {}

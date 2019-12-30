@@ -11,6 +11,7 @@ import copy
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import (
     IntegrityError as SqlAlchemyIntegrityError,
+    ResourceClosedError as SqlAlchemyResourceClosedError, 
 )
 
 from . import config
@@ -345,6 +346,34 @@ class ApiSerializer(object):
                 del(api_filter[key])
         return api_filter
     
+    def commiter(self):
+        """
+        commit method:
+        return sqlalcemy extension
+        and replace this extension to event model messages!
+        """
+        exit_code = 200
+        result = {}
+       
+        # message is not found!!!!! to do test!!! 
+        #if hasattr(self.session, 'event_req'):
+            #exit_code = self.session.event_req[0]
+            #result = self.session.event_req[-1]
+            
+        if exit_code == 200: 
+            try:
+                self.session.commit()
+            except SqlAlchemyIntegrityError as err:
+                self.session.rollback()
+                exit_code = 409
+                result = {"error": str(err)}
+            except SqlAlchemyResourceClosedError as err:
+                self.session.rollback()
+                exit_code = 409
+                result = {"error": str(err)}
+            
+        return exit_code, result
+
     def http_get(self, table, qdict, username=None):
         if not qdict:
             api_filter = {}
@@ -390,12 +419,11 @@ class ApiSerializer(object):
         tab_obj.api_user = username
         tab_obj.api_time = datetime.now()
         self.session.add(tab_obj)
-        try:
-            self.session.commit()
-        except SqlAlchemyIntegrityError as err:
-            self.session.rollback()
-            return 409, {"error": str(err)}
-        return 201, self.http_get(table, {"filter": api_data})[-1]
+        res_commit = self.commiter()
+        if res_commit[-1]:
+            return res_commit
+        else:    
+            return 201, self.http_get(table, {"filter": api_data})[-1]
     
     def http_put(self, table, qdict, username=None):
         err = self.http_err(qdict, 'filter', 'PUT')
@@ -411,23 +439,27 @@ class ApiSerializer(object):
         
         table_query = self.session.query(table)
         find_list = table_query.filter_by(**self.fix_filter(api_filter))
+        commit_msgs = []
         for tab_obj in find_list:
             tab_obj.update_from_json(json.dumps(api_data))
             tab_obj.api_user = username
             tab_obj.api_time = datetime.now()
-            try:
-                self.session.commit()
-            except SqlAlchemyIntegrityError as err:
-                self.session.rollback()
-                return 409, {"error": err}
+            res_commit = self.commiter()
+            if res_commit[0] > 400:
+                return res_commit
+            elif res_commit[-1]:
+                commit_msgs.append(res_commit[-1])
         
-        data2filter = {
-            key:api_data[key]
-            for key
-            in set.intersection(set(api_filter.keys()), set(api_data.keys()))
-        }
-        api_filter.update(data2filter)
-        return 201, self.http_get(table, {"filter": api_filter})[-1]
+        if commit_msgs:
+            return 201, commit_msgs
+        else:
+            data2filter = {
+                key:api_data[key]
+                for key
+                in set.intersection(set(api_filter.keys()), set(api_data.keys()))
+            }
+            api_filter.update(data2filter)
+            return 201, self.http_get(table, {"filter": api_filter})[-1]
     
     def http_delete(self, table, qdict, username=None):
         err = self.http_err(qdict, 'filter', 'DELETE')
@@ -440,7 +472,9 @@ class ApiSerializer(object):
         find_list = table_query.filter_by(**self.fix_filter(api_filter))
         for tab_obj in find_list:
             self.session.delete(tab_obj)
-            self.session.commit()
+            res_commit = self.commiter()
+            if res_commit[0] > 400:
+                return res_commit
             
         post_del = self.http_get(table, {"filter": api_filter})
         if post_del[0] == 204:
